@@ -1,0 +1,108 @@
+package com.example.top_culinary.login;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.top_culinary.MainActivity;
+import com.example.top_culinary.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+public class LoginActivity extends AppCompatActivity {
+    // Widgets
+    ImageView imageViewFondo;
+    ImageView imageViewTitulo;
+    TextView textViewIniciarSesion;
+    TextView textViewEmail;
+    TextView textViewContrasenia;
+    EditText editTextEmail;
+    EditText editTextContrasenia;
+    Button buttonIniciarSesion;
+    TextView textViewRegistro;
+    Button buttonRegistro;
+    TextView textViewIniciarCon;
+    ImageButton imageButtonGoogle;
+    ImageButton imageButtonFacebook;
+
+    // Variables
+    private FirebaseAuth firebaseAuth;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        // Inicializacion del Firebase
+        firebaseAuth = FirebaseAuth.getInstance();
+        // Inicializacion de los widgets
+        imageViewFondo = findViewById(R.id.imgFondo);
+        imageViewTitulo = findViewById(R.id.imgTituloFondo);
+        textViewIniciarSesion = findViewById(R.id.txvIniciarSesion);
+        textViewEmail = findViewById(R.id.txvEmail);
+        editTextEmail = findViewById(R.id.edtEmail);
+        textViewContrasenia = findViewById(R.id.txvContrasenia);
+        editTextContrasenia = findViewById(R.id.edtContrasenia);
+        buttonIniciarSesion = findViewById(R.id.btnIniciarSesion);
+        textViewRegistro = findViewById(R.id.txvRegistro);
+        buttonRegistro = findViewById(R.id.btnRegistro);
+        textViewIniciarCon = findViewById(R.id.txvIniciarSesionCon);
+        imageButtonGoogle = findViewById(R.id.iBtnGoogle);
+        imageButtonFacebook = findViewById(R.id.iBtnFacebook);
+        // Listener de los botones
+        buttonIniciarSesion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = editTextEmail.getText().toString().trim();
+                String contrasenia = editTextContrasenia.getText().toString().trim();
+                if(email.isEmpty()){
+                    editTextEmail.setError("Por favor, introduce el correo electrónico.");
+                }
+                if (contrasenia.isEmpty() || contrasenia.length() <= 8){
+                    editTextContrasenia.setError("Por favor, introduce tu contraseña.");
+                } else {
+                    iniciarSesion(email, contrasenia);
+                }
+            }
+        });
+
+        /*buttonRegistro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this,RegistroActivity.class);
+                startActivity(intent);
+            }
+        });*/
+    }
+    // Metodo para iniciar sesion
+    public void iniciarSesion(String email, String contrasenia){
+        firebaseAuth.signInWithEmailAndPassword(email,contrasenia)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()){
+                            // Si el inicio de sesion ha sido correcto actualizamos con la informacion del usuario
+                            Log.w("Sesion","signInUserGmailAndPassword:success");
+                            FirebaseUser usuarioActual = firebaseAuth.getCurrentUser();
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
+                        } else {
+                            Log.w("Sesion","signInUserGmailAndPassword:failed");
+                            Toast.makeText(LoginActivity.this, "Inicio de Sesion erroneo.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+}

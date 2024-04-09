@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1070547082757",
+    "project_id": "top-culinary",
+    "storage_bucket": "top-culinary.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1070547082757:android:ecbc2d011d83fa8d23c66c",
+        "android_client_info": {
+          "package_name": "com.example.top_culinary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1070547082757-n8682qghcs80padttdm22mtro80vithq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUQgGAcbbzLq7WTFyyDajXpoLc9gqrkiU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1070547082757-n8682qghcs80padttdm22mtro80vithq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

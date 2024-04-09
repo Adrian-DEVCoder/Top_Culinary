@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Top_Culinary</string>
+    <string name="app_name">Top Culinary</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>
