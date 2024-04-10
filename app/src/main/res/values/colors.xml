@@ -1,10 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Colores Defecto -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Colores Principales -->
     <color name="naranja">#FFFF9800</color>
     <color name="rojo">#FFBA5348</color>
     <color name="azul">#FF1489F4</color>
     <color name="marron">#FF8D6E63</color>
     <color name="verde">#FF74EC83</color>
+
+    <!-- Marrones -->
+    <color name="marron_light">#FFCFBFA6</color>
+    <color name="marron_less">#FFBDAD95</color>
+    <color name="marron_normal">#FFAB9C84</color>
+    <color name="marron_more">#FF988A72</color>
+    <color name="marron_dark">#FF867861</color>
+
+    <!-- Azules -->
+    <color name="azul_light">#FF85BDFC</color>
+    <color name="azul_less">#FF71ABE9</color>
+    <color name="azul_normal">#FF5D9AD6</color>
+    <color name="azul_more">#FF4888C3</color>
+    <color name="azul_dark">#FF3476B0</color>
+
+    <!-- Naranjas -->
+    <color name="naranja_light">#FFFFE4C1</color>
+    <color name="naranja_less">#FFFFCBA9</color>
+    <color name="naranja_normal">#FFFFB292</color>
+    <color name="naranja_more">#FFFE987A</color>
+    <color name="naranja_dark">#FFFE7F62</color>
+
+    <!-- Verdes -->
+    <color name="verde_light">#FFF6FFFF</color>
+    <color name="verde_less">#FFDDEEE6</color>
+    <color name="verde_normal">#FFC4DECE</color>
+    <color name="verde_more">#FFABCDB5</color>
+    <color name="verde_dark">#FF92BC9C</color>
+
+    <!-- Rojos -->
+    <color name="rojo_light">#FFFFFAF2</color>
+    <color name="rojo_less">#FFF7E1D9</color>
+    <color name="rojo_normal">#FFEEC8C1</color>
+    <color name="rojo_more">#FFE6AFA8</color>
+    <color name="rojo_dark">#FFDD968F</color>
+
 </resources>

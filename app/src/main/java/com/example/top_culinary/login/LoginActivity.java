@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.top_culinary.MainActivity;
 import com.example.top_culinary.R;
+import com.example.top_culinary.registro.RegistroActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -60,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
         textViewIniciarCon = findViewById(R.id.txvIniciarSesionCon);
         imageButtonGoogle = findViewById(R.id.iBtnGoogle);
         imageButtonFacebook = findViewById(R.id.iBtnFacebook);
-        // Listener de los botones
+        // Listener del boton para iniciar sesion
         buttonIniciarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,23 +71,28 @@ public class LoginActivity extends AppCompatActivity {
                     editTextEmail.setError("Por favor, introduce el correo electrónico.");
                 }
                 if (contrasenia.isEmpty() || contrasenia.length() <= 8){
-                    editTextContrasenia.setError("Por favor, introduce tu contraseña.");
+                    editTextContrasenia.setError("Por favor, introduce la contraseña.");
                 } else {
                     iniciarSesion(email, contrasenia);
                 }
             }
         });
 
-        /*buttonRegistro.setOnClickListener(new View.OnClickListener() {
+        // Listener del boton para redirigir al registro
+        buttonRegistro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this,RegistroActivity.class);
-                startActivity(intent);
+                registro();
             }
-        });*/
+        });
     }
-    // Metodo para iniciar sesion
-    public void iniciarSesion(String email, String contrasenia){
+
+    /**
+     * Iniciamos sesion con el usuario indicado
+     * @param email del usuario
+     * @param contrasenia del usuario
+     */
+    private void iniciarSesion(String email, String contrasenia){
         firebaseAuth.signInWithEmailAndPassword(email,contrasenia)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -104,5 +110,13 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    /**
+     * Redirigimos al registro al usuario
+      */
+    private void registro(){
+        Intent intent = new Intent(LoginActivity.this, RegistroActivity.class);
+        startActivity(intent);
     }
 }
