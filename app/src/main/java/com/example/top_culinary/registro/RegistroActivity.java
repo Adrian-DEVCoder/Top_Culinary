@@ -22,6 +22,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.regex.Pattern;
+
 public class RegistroActivity extends AppCompatActivity {
     /**
      * Widgets
@@ -48,6 +50,10 @@ public class RegistroActivity extends AppCompatActivity {
      * Variables
      */
     private FirebaseAuth firebaseAuth;
+    /**
+     * Constantes
+     */
+    private static final Pattern passwordPattern = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,14 +86,19 @@ public class RegistroActivity extends AppCompatActivity {
 
                 String email = editTextEmail.getText().toString().trim();
                 String password = editTextContrasenia.getText().toString().trim();
-
-                if(firebaseAuth.getCurrentUser().isEmailVerified() || !email.contains("@")){
+                if(email.isEmpty() && password.isEmpty()) {
+                    editTextEmail.setError("Por favor, introduce las credenciales.");
+                } else if(!email.contains("@")){
                     editTextEmail.setError("El email introducido no es valido.");
-                }
-                if(password.length() <= 8){
-                    editTextContrasenia.setError("La contraseña debe contener mas de 8 caracteres.");
+                    editTextEmail.requestFocus();
+                } else if(password.length() <= 8){
+                    editTextContrasenia.setError("La contraseña debe contener mas de 8 caracteres. Además, debe incluir mayúsculas, minúsculas y números.");
+                    editTextContrasenia.requestFocus();
+                } else if(!comprobarContrasenia(password)){
+                    editTextContrasenia.setError("La contraseña debe contener mas de 8 caracteres. Además, debe incluir mayúsculas, minúsculas y números.");
+                    editTextContrasenia.requestFocus();
                 } else {
-                    registro(email,password);
+                    registro(email, password);
                 }
 
             }
@@ -130,5 +141,15 @@ public class RegistroActivity extends AppCompatActivity {
     private void inicioSesion(){
         Intent intent = new Intent(RegistroActivity.this, LoginActivity.class);
         startActivity(intent);
+        super.finish();
+    }
+
+    /**
+     * Comprobamos la contraseña introducida por el usuario
+     * @param pass del usuario
+     * @return true o false dependiendo si la contraseña pasa el pattern
+     */
+    private boolean comprobarContrasenia(String pass){
+        return passwordPattern.matcher(pass).matches();
     }
 }

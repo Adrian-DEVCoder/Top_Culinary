@@ -47,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         // Inicializacion del Firebase
         firebaseAuth = FirebaseAuth.getInstance();
+
         // Inicializacion de los widgets
         imageViewFondo = findViewById(R.id.imgFondo);
         imageViewTitulo = findViewById(R.id.imgTituloFondo);
@@ -61,17 +62,22 @@ public class LoginActivity extends AppCompatActivity {
         textViewIniciarCon = findViewById(R.id.txvIniciarSesionCon);
         imageButtonGoogle = findViewById(R.id.iBtnGoogle);
         imageButtonFacebook = findViewById(R.id.iBtnFacebook);
+        
         // Listener del boton para iniciar sesion
         buttonIniciarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String email = editTextEmail.getText().toString().trim();
                 String contrasenia = editTextContrasenia.getText().toString().trim();
-                if(email.isEmpty()){
-                    editTextEmail.setError("Por favor, introduce el correo electrónico.");
-                }
-                if (contrasenia.isEmpty() || contrasenia.length() <= 8){
-                    editTextContrasenia.setError("Por favor, introduce la contraseña.");
+                if(email.isEmpty() && contrasenia.isEmpty()){
+                    editTextEmail.setError("Por favor, introduzca sus credenciales.");
+                    editTextEmail.requestFocus();
+                } else if (!email.contains("@")){
+                    editTextEmail.setError("Por favor, introduzca un correo electrónico valido.");
+                    editTextEmail.requestFocus();
+                } else if (contrasenia.length() <= 8){
+                    editTextContrasenia.setError("Por favor, introduzca su contraseña.");
+                    editTextContrasenia.requestFocus();
                 } else {
                     iniciarSesion(email, contrasenia);
                 }
