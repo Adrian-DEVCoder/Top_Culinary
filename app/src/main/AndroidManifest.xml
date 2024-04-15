@@ -30,7 +30,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".cocina.CocinaActivity"
             android:exported="true"></activity>
 
         <meta-data

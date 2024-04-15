@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.icu.number.IntegerWidth;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,10 +14,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.top_culinary.MainActivity;
+import com.example.top_culinary.cocina.CocinaActivity;
 import com.example.top_culinary.R;
 import com.example.top_culinary.registro.RegistroActivity;
-import com.google.android.gms.auth.api.identity.SignInCredential;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -137,7 +135,7 @@ public class LoginActivity extends AppCompatActivity {
                             // Si el inicio de sesion ha sido correcto actualizamos con la informacion del usuario
                             Log.w("Sesion","signInUserGmailAndPassword:success");
                             FirebaseUser usuarioActual = firebaseAuth.getCurrentUser();
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            Intent intent = new Intent(LoginActivity.this, CocinaActivity.class);
                             startActivity(intent);
                         } else {
                             Log.w("Sesion","signInUserGmailAndPassword:failed");
@@ -188,7 +186,7 @@ public class LoginActivity extends AppCompatActivity {
                         if(task.isSuccessful()){
                             FirebaseUser currentUser = firebaseAuth.getCurrentUser();
                             mostrarToast("Inicio de Sesion satisfactorio con Google");
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            startActivity(new Intent(LoginActivity.this, CocinaActivity.class));
                             finish();
                         } else {
                             mostrarToast("Error en el Inicio de Sesion con Google");
