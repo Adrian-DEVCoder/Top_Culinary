@@ -29,6 +29,10 @@ public class AdapterReceta extends RecyclerView.Adapter<AdapterReceta.ItemViewHo
         this.recetaList = recetaList;
     }
 
+    public void setListaRecetasFiltradas(List<Receta> listaRecetas){
+        this.recetaList = listaRecetas;
+        notifyDataSetChanged();
+    }
 
     @NonNull
     @Override
