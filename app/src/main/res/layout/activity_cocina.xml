@@ -73,7 +73,7 @@
         android:id="@+id/llBuscador"
         android:layout_width="374dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="60dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -121,14 +121,73 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewRecetas"
         android:layout_width="match_parent"
-        android:layout_height="632dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="560dp"
+        android:layout_marginTop="40dp"
+        app:layout_constraintBottom_toTopOf="@id/linearLayoutBotoneraInferior"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/llBuscador"
         app:layout_constraintVertical_bias="0.0"
         tools:listitem="@layout/receta" />
+
+    <!-- Botonera inferior para moverse -->
+    <LinearLayout
+        android:id="@+id/linearLayoutBotoneraInferior"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/white"
+        android:layout_marginBottom="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewRecetas">
+        <!-- Actividad de Mis Recetas -->
+        <ImageButton
+            android:id="@+id/imgBRecetas"
+            android:layout_width="82dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/anadir"
+            android:scaleType="center"
+            android:background="#0FFF"
+            app:tint="@color/naranja_normal" />
+        <!-- Actividad de Cesta -->
+        <ImageButton
+            android:id="@+id/imgBCesta"
+            android:layout_width="82dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/carrito"
+            android:scaleType="center"
+            android:background="#0FFF"
+            app:tint="@color/naranja_normal" />
+        <!-- Actividad de Cocina -->
+        <ImageButton
+            android:id="@+id/imgBCocina"
+            android:layout_width="82dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/olla"
+            android:scaleType="center"
+            android:background="#0FFF"
+            app:tint="@color/naranja_normal" />
+        <!-- Actividad de Foro -->
+        <ImageButton
+            android:id="@+id/imgBForo"
+            android:layout_width="82dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/usuario"
+            android:scaleType="center"
+            android:background="#0FFF"
+            app:tint="@color/naranja_normal" />
+        <!-- Actividad de Perfil de Usuario -->
+        <ImageButton
+            android:id="@+id/imgBPerfil"
+            android:layout_width="82dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/usuario"
+            android:scaleType="center"
+            android:background="#0FFF"
+            app:tint="@color/naranja_normal" />
+    </LinearLayout>
 
     <!-- FINAL PAGINA -->
 </androidx.constraintlayout.widget.ConstraintLayout>

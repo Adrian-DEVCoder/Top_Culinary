@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/azul_less"
+    tools:context=".recetas.AniadirRecetasActivity">
+
+    <!-- Botonera inferior para moverse -->
+    <LinearLayout
+        android:id="@+id/linearLayoutBotoneraInferior"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/white"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+        <!-- Actividad de Mis Recetas -->
+        <ImageButton
+            android:id="@+id/imgBRecetas"
+            android:layout_width="82dp"
+            android:layout_height="match_parent"
+            android:background="#0FFF"
+            android:scaleType="center"
+            android:src="@drawable/anadir"
+            app:tint="@color/naranja_normal" />
+        <!-- Actividad de Cesta -->
+        <ImageButton
+            android:id="@+id/imgBCesta"
+            android:layout_width="82dp"
+            android:layout_height="match_parent"
+            android:background="#0FFF"
+            android:scaleType="center"
+            android:src="@drawable/carrito"
+            app:tint="@color/naranja_normal" />
+        <!-- Actividad de Cocina -->
+        <ImageButton
+            android:id="@+id/imgBCocina"
+            android:layout_width="82dp"
+            android:layout_height="match_parent"
+            android:background="#0FFF"
+            android:scaleType="center"
+            android:src="@drawable/olla"
+            app:tint="@color/naranja_normal" />
+        <!-- Actividad de Foro -->
+        <ImageButton
+            android:id="@+id/imgBForo"
+            android:layout_width="82dp"
+            android:layout_height="match_parent"
+            android:background="#0FFF"
+            android:scaleType="center"
+            android:src="@drawable/usuario"
+            app:tint="@color/naranja_normal" />
+        <!-- Actividad de Perfil de Usuario -->
+        <ImageButton
+            android:id="@+id/imgBPerfil"
+            android:layout_width="82dp"
+            android:layout_height="match_parent"
+            android:background="#0FFF"
+            android:scaleType="center"
+            android:src="@drawable/usuario"
+            app:tint="@color/naranja_normal" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
