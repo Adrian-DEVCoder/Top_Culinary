@@ -23,7 +23,9 @@
             android:layout_width="82dp"
             android:layout_height="match_parent"
             android:background="#0FFF"
-            android:scaleType="center"
+            android:scaleType="centerCrop"
+            android:scaleX="0.6"
+            android:scaleY="0.6"
             android:src="@drawable/anadir"
             app:tint="@color/naranja_normal" />
         <!-- Actividad de Cesta -->
@@ -32,7 +34,9 @@
             android:layout_width="82dp"
             android:layout_height="match_parent"
             android:background="#0FFF"
-            android:scaleType="center"
+            android:scaleType="centerCrop"
+            android:scaleX="0.6"
+            android:scaleY="0.6"
             android:src="@drawable/carrito"
             app:tint="@color/naranja_normal" />
         <!-- Actividad de Cocina -->
@@ -41,8 +45,10 @@
             android:layout_width="82dp"
             android:layout_height="match_parent"
             android:background="#0FFF"
-            android:scaleType="center"
-            android:src="@drawable/olla"
+            android:scaleType="centerCrop"
+            android:scaleX="0.6"
+            android:scaleY="0.6"
+            android:src="@drawable/cocina"
             app:tint="@color/naranja_normal" />
         <!-- Actividad de Foro -->
         <ImageButton
@@ -50,8 +56,10 @@
             android:layout_width="82dp"
             android:layout_height="match_parent"
             android:background="#0FFF"
-            android:scaleType="center"
-            android:src="@drawable/usuario"
+            android:scaleType="centerCrop"
+            android:scaleX="0.6"
+            android:scaleY="0.6"
+            android:src="@drawable/usuarios"
             app:tint="@color/naranja_normal" />
         <!-- Actividad de Perfil de Usuario -->
         <ImageButton
@@ -59,7 +67,9 @@
             android:layout_width="82dp"
             android:layout_height="match_parent"
             android:background="#0FFF"
-            android:scaleType="center"
+            android:scaleType="centerCrop"
+            android:scaleX="0.6"
+            android:scaleY="0.6"
             android:src="@drawable/usuario"
             app:tint="@color/naranja_normal" />
     </LinearLayout>
