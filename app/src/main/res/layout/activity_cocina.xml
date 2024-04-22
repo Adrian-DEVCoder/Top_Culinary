@@ -63,66 +63,54 @@
             android:src="@drawable/usuario" />
     </LinearLayout>
 
-    <ScrollView
-        android:id="@+id/scrollView2"
+    <!-- Cardview para el buscador-->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvBuscador"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayoutBotoneraInferior"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/naranja_normal"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        app:cardCornerRadius="30dp"
         app:layout_constraintTop_toBottomOf="@+id/llSuperior">
-        <!-- Linear layout del buscador -->
-        <LinearLayout
-            android:id="@+id/llBuscador"
+        <!-- Textview del proximo descubrimiento -->
+        <TextView
+            android:id="@+id/txvDescubrir"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="32dp"
+            android:fontFamily="@font/alegreya_sc"
+            android:text="¿ Cuál será tu próximo descubrimiento ?"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-            <!-- Cardview para el buscador-->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cvBuscador"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:backgroundTint="@color/naranja_normal"
-                app:cardCornerRadius="30dp">
-                <!-- Textview del proximo descubrimiento -->
-                <TextView
-                    android:id="@+id/txvDescubrir"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginTop="25dp"
-                    android:layout_marginEnd="32dp"
-                    android:fontFamily="@font/alegreya_sc"
-                    android:text="¿ Cuál será tu próximo descubrimiento ?"
-                    android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+        <!-- Searchview para el buscador -->
+        <SearchView
+            android:id="@+id/searchViewIngRec"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="96dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/buscador" />
 
-                <!-- Searchview para el buscador -->
-                <SearchView
-                    android:id="@+id/searchViewIngRec"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="96dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="8dp"
-                    android:background="@drawable/buscador" />
+    </androidx.cardview.widget.CardView>
 
-            </androidx.cardview.widget.CardView>
-
-            <!-- Recycler view para visualizar las recetas -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewRecetas"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                tools:listitem="@layout/receta" />
-        </LinearLayout>
-    </ScrollView>
+    <!-- Recycler view para visualizar las recetas -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewRecetas"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/cvBuscador"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayoutBotoneraInferior"
+        tools:listitem="@layout/receta" />
 
     <!-- Botonera inferior para moverse -->
     <LinearLayout
@@ -133,7 +121,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView2">
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewRecetas">
         <!-- Actividad de Mis Recetas -->
         <ImageButton
             android:id="@+id/imgBRecetas"
@@ -141,8 +129,8 @@
             android:layout_height="match_parent"
             android:background="#0FFF"
             android:scaleType="centerCrop"
-            android:scaleX="0.6"
-            android:scaleY="0.6"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
             android:src="@drawable/anadir"
             app:tint="@color/naranja_normal" />
         <!-- Actividad de Cesta -->
@@ -152,8 +140,8 @@
             android:layout_height="match_parent"
             android:background="#0FFF"
             android:scaleType="centerCrop"
-            android:scaleX="0.6"
-            android:scaleY="0.6"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
             android:src="@drawable/carrito"
             app:tint="@color/naranja_normal" />
         <!-- Actividad de Cocina -->
@@ -163,8 +151,8 @@
             android:layout_height="match_parent"
             android:background="#0FFF"
             android:scaleType="centerCrop"
-            android:scaleX="0.6"
-            android:scaleY="0.6"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
             android:src="@drawable/cocina"
             app:tint="@color/naranja_normal" />
         <!-- Actividad de Foro -->
@@ -174,8 +162,8 @@
             android:layout_height="match_parent"
             android:background="#0FFF"
             android:scaleType="centerCrop"
-            android:scaleX="0.6"
-            android:scaleY="0.6"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
             android:src="@drawable/usuarios"
             app:tint="@color/naranja_normal" />
         <!-- Actividad de Perfil de Usuario -->
@@ -185,8 +173,8 @@
             android:layout_height="match_parent"
             android:background="#0FFF"
             android:scaleType="centerCrop"
-            android:scaleX="0.6"
-            android:scaleY="0.6"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
             android:src="@drawable/usuario"
             app:tint="@color/naranja_normal" />
     </LinearLayout>

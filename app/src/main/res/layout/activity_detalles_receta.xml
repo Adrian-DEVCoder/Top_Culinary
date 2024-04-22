@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".cocina.DetallesRecetaActivity">
+
+    <ImageView
+        android:id="@+id/imageViewReceta"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:scaleType="centerCrop"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/macarrones" />
+
+    <ImageButton
+        android:id="@+id/imageButtonBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/botones_redondos"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewReceta"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageViewReceta"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/atras"
+        app:tint="@color/naranja_more" />
+
+    <ImageButton
+        android:id="@+id/imageButtonFavorito"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/botones_redondos"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageViewReceta"
+        app:srcCompat="@drawable/sin_favorito" />
+
+    <ScrollView
+        android:id="@+id/scrollViewDetalles"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewReceta">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Textview para el titulo de la receta -->
+            <TextView
+                android:id="@+id/textviewTituloReceta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/alegreya_sc"
+                android:text="Macarrones con Tomate"
+                android:textAlignment="center"
+                android:textColor="@color/naranja_more"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <!-- Textview para la descripcion de la receta -->
+            <TextView
+                android:id="@+id/textviewDescripcion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/alegreya_sc"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                 Sed augue lorem, luctus id nisi sed, fermentum ultrices arcu.
+                 Aenean venenatis euismod augue, quis ornare augue pretium eget."
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <!-- Textview para los ingredientes de la receta -->
+            <TextView
+                android:id="@+id/textviewIngredientes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/alegreya_sc"
+                android:text="Ingredientes"
+                android:textAlignment="center"
+                android:textColor="@color/naranja_more"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <!-- Textview para la lista de los ingredientes de la receta -->
+            <TextView
+                android:id="@+id/textviewListaIngredientes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/alegreya_sc"
+                android:text="- Macarrones\n- Tomate"
+                android:textAlignment="viewStart"
+                android:textColor="@color/black"
+                android:textSize="17dp"
+                android:textStyle="bold" />
+
+            <!-- Textview para el equipamiento recomendado/necesario -->
+            <TextView
+                android:id="@+id/textviewEquipamiento"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/alegreya_sc"
+                android:text="Equipamiento"
+                android:textAlignment="center"
+                android:textColor="@color/naranja_more"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <!-- Textview para la lista del equipamiento para la receta -->
+            <TextView
+                android:id="@+id/textviewListaEquipamiento"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/alegreya_sc"
+                android:text="Sartén\nCuchillo"
+                android:textAlignment="viewStart"
+                android:textColor="@color/black"
+                android:textSize="17dp"
+                android:textStyle="bold" />
+
+            <!-- Textview para los pasos a realizar -->
+            <TextView
+                android:id="@+id/textviewPasos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/alegreya_sc"
+                android:text="Pasos"
+                android:textAlignment="center"
+                android:textColor="@color/naranja_more"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <!-- Textview para la lista de los pasos a realizar-->
+            <TextView
+                android:id="@+id/textviewListaPasos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/alegreya_sc"
+                android:text="1. Cocer los Macarrones\n2. Comer los Macarrones"
+                android:textAlignment="viewStart"
+                android:textColor="@color/black"
+                android:textSize="17dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

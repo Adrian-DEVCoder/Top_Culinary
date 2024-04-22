@@ -156,7 +156,7 @@ public class CocinaActivity extends AppCompatActivity {
     private void filtrarRecetasIngredientes(String filtro){
         List<Receta> recetasFiltradas = new ArrayList<>();
         for(Receta receta : recetaList){
-            if(receta.getNombre().toLowerCase().contains(filtro.toLowerCase())){
+            if(receta.getTitulo().toLowerCase().contains(filtro.toLowerCase())){
                 recetasFiltradas.add(receta);
             }
         }

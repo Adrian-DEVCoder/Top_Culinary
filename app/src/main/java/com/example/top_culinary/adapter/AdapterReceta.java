@@ -1,11 +1,13 @@
 package com.example.top_culinary.adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -13,6 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.top_culinary.R;
+import com.example.top_culinary.cocina.CocinaActivity;
+import com.example.top_culinary.cocina.DetallesRecetaActivity;
+import com.example.top_culinary.database.DBHandler;
 import com.example.top_culinary.model.Receta;
 
 import java.util.List;
@@ -48,10 +53,9 @@ public class AdapterReceta extends RecyclerView.Adapter<AdapterReceta.ItemViewHo
         Glide.with(holder.itemView.getContext())
                 .load(urlImagen)
                 .into(holder.imageViewReceta);
-        holder.textViewNombre.setText(receta.getNombre());
-        holder.textViewTiempo.setText(receta.getTiempo());
+        holder.textViewNombre.setText(receta.getTitulo());
+        holder.textViewTiempo.setText(receta.getTiempoTotal());
         holder.textViewTipoPlato.setText(receta.getTipoPlato());
-        holder.textViewKalorias.setText(receta.getKalorias());
     }
 
     /**
@@ -63,7 +67,9 @@ public class AdapterReceta extends RecyclerView.Adapter<AdapterReceta.ItemViewHo
         return recetaList.size();
     }
 
-    public static class ItemViewHolder extends RecyclerView.ViewHolder {
+    public static class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        // Declaracion de las variables
+        private DBHandler dbHandler;
         // Declaracion de los widgets
         CardView cardViewReceta;
         LinearLayout linearLayoutReceta;
@@ -71,11 +77,9 @@ public class AdapterReceta extends RecyclerView.Adapter<AdapterReceta.ItemViewHo
         LinearLayout linearLayoutDetalles;
         LinearLayout linearLayoutTiempo;
         LinearLayout linearLayoutTipoPlato;
-        LinearLayout linearLayoutKalorias;
         ImageView imageViewReceta;
         ImageView imageViewTiempo;
         ImageView imageViewTipoPlato;
-        ImageView imageViewKalorias;
         TextView textViewNombre;
         TextView textViewTiempo;
         TextView textViewTipoPlato;
@@ -89,15 +93,29 @@ public class AdapterReceta extends RecyclerView.Adapter<AdapterReceta.ItemViewHo
             linearLayoutDetallesGeneral = itemView.findViewById(R.id.llDetallesGeneral);
             linearLayoutTiempo = itemView.findViewById(R.id.llTiempo);
             linearLayoutTipoPlato = itemView.findViewById(R.id.llTipoPlato);
-            linearLayoutKalorias = itemView.findViewById(R.id.llKalorias);
             imageViewReceta = itemView.findViewById(R.id.imgReceta);
             imageViewTiempo = itemView.findViewById(R.id.imgTiempo);
             imageViewTipoPlato = itemView.findViewById(R.id.imgTipoPlato);
-            imageViewKalorias = itemView.findViewById(R.id.imgKalorias);
             textViewNombre = itemView.findViewById(R.id.txvNombreReceta);
             textViewTiempo = itemView.findViewById(R.id.txvTiempo);
             textViewTipoPlato = itemView.findViewById(R.id.txvTipoPlato);
-            textViewKalorias = itemView.findViewById(R.id.txvKalorias);
+            dbHandler = new DBHandler(itemView.getContext());
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int pos = getAdapterPosition();
+            if(pos != RecyclerView.NO_POSITION){
+                String nomReceta = textViewNombre.getText().toString();
+                obtenerReceta(nomReceta);
+            }
+        }
+
+        private void obtenerReceta(String nombreReceta) {
+            Intent intent = new Intent(itemView.getContext(), DetallesRecetaActivity.class);
+            intent.putExtra("nombreReceta",nombreReceta);
+            itemView.getContext().startActivity(intent);
         }
     }
 }

@@ -64,16 +64,15 @@
         android:id="@+id/edtEmail"
         android:layout_width="278dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="90dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
         android:fontFamily="@font/alegreya_sc"
-        android:textColorHint="@color/black"
-        android:textAlignment="center"
         android:hint="prueba.prueba@prueba.com"
+        android:textAlignment="center"
+        android:textColorHint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txvEmail"
         app:layout_constraintTop_toBottomOf="@+id/txvNuevoChef" />
     <!-- Textview de Contraseña -->
     <TextView
@@ -96,17 +95,16 @@
         android:id="@+id/edtContrasenia"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="90dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
         android:fontFamily="@font/alegreya_sc"
-        android:textColorHint="@color/black"
-        android:textAlignment="center"
         android:inputType="textPassword"
+        android:textAlignment="center"
+        android:textColorHint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtEmail"/>
+        app:layout_constraintStart_toEndOf="@+id/txvContrasenia"
+        app:layout_constraintTop_toBottomOf="@+id/edtEmail" />
 
     <!-- Textview de Elige un Tema -->
     <TextView

@@ -1,21 +1,45 @@
 package com.example.top_culinary.model;
 
+import java.util.List;
+
 public class Receta {
     private String imagen;
-    private String nombre;
+    private String titulo;
+    private String descripcion;
+    private String tiempoTotal;
     private String tipoPlato;
-    private String tiempo;
     private String kalorias;
+    private List<String> ingredientes;
+    private String url;
+    private List<String> detallesNutricion;
+    private String numPersonas;
+    private String tiempoPreparacion;
+    private List<String> equipamiento;
+    private String tipoCocina;
+    private List<String> pasos;
+    private String notas;
 
     public Receta() {
     }
 
-    public Receta(String imagen, String nombre, String tipoPlato, String tiempo, String kalorias) {
+    public Receta(String imagen, String titulo, String descripcion, String tiempoTotal, String tipoPlato, String kalorias,
+                  List<String> ingredientes, String url, List<String> detallesNutricion, String numPersonas, String tiempoPreparacion,
+                  List<String> equipamiento, String tipoCocina, List<String> pasos, String notas) {
         this.imagen = imagen;
-        this.nombre = nombre;
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.tiempoTotal = tiempoTotal;
         this.tipoPlato = tipoPlato;
-        this.tiempo = tiempo;
         this.kalorias = kalorias;
+        this.ingredientes = ingredientes;
+        this.url = url;
+        this.detallesNutricion = detallesNutricion;
+        this.numPersonas = numPersonas;
+        this.tiempoPreparacion = tiempoPreparacion;
+        this.equipamiento = equipamiento;
+        this.tipoCocina = tipoCocina;
+        this.pasos = pasos;
+        this.notas = notas;
     }
 
     public String getImagen() {
@@ -26,12 +50,28 @@ public class Receta {
         this.imagen = imagen;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getTitulo() {
+        return titulo;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public String getTiempoTotal() {
+        return tiempoTotal;
+    }
+
+    public void setTiempoTotal(String tiempoTotal) {
+        this.tiempoTotal = tiempoTotal;
     }
 
     public String getTipoPlato() {
@@ -42,14 +82,6 @@ public class Receta {
         this.tipoPlato = tipoPlato;
     }
 
-    public String getTiempo() {
-        return tiempo;
-    }
-
-    public void setTiempo(String tiempo) {
-        this.tiempo = tiempo;
-    }
-
     public String getKalorias() {
         return kalorias;
     }
@@ -58,14 +90,96 @@ public class Receta {
         this.kalorias = kalorias;
     }
 
+    public List<String> getIngredientes() {
+        return ingredientes;
+    }
+
+    public void setIngredientes(List<String> ingredientes) {
+        this.ingredientes = ingredientes;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public List<String> getDetallesNutricion() {
+        return detallesNutricion;
+    }
+
+    public void setDetallesNutricion(List<String> detallesNutricion) {
+        this.detallesNutricion = detallesNutricion;
+    }
+
+    public String getNumPersonas() {
+        return numPersonas;
+    }
+
+    public void setNumPersonas(String numPersonas) {
+        this.numPersonas = numPersonas;
+    }
+
+    public String getTiempoPreparacion() {
+        return tiempoPreparacion;
+    }
+
+    public void setTiempoPreparacion(String tiempoPreparacion) {
+        this.tiempoPreparacion = tiempoPreparacion;
+    }
+
+    public List<String> getEquipamiento() {
+        return equipamiento;
+    }
+
+    public void setEquipamiento(List<String> equipamiento) {
+        this.equipamiento = equipamiento;
+    }
+
+    public String getTipoCocina() {
+        return tipoCocina;
+    }
+
+    public void setTipoCocina(String tipoCocina) {
+        this.tipoCocina = tipoCocina;
+    }
+
+    public List<String> getPasos() {
+        return pasos;
+    }
+
+    public void setPasos(List<String> pasos) {
+        this.pasos = pasos;
+    }
+
+    public String getNotas() {
+        return notas;
+    }
+
+    public void setNotas(String notas) {
+        this.notas = notas;
+    }
+
     @Override
     public String toString() {
         return "Receta{" +
                 "imagen='" + imagen + '\'' +
-                ", nombre='" + nombre + '\'' +
-                ", dificultad='" + tipoPlato + '\'' +
-                ", tiempo='" + tiempo + '\'' +
+                ", titulo='" + titulo + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", tiempoTotal='" + tiempoTotal + '\'' +
+                ", tipoPlato='" + tipoPlato + '\'' +
                 ", kalorias='" + kalorias + '\'' +
+                ", ingredientes=" + ingredientes +
+                ", url='" + url + '\'' +
+                ", detallesNutricion='" + detallesNutricion + '\'' +
+                ", numPersonas='" + numPersonas + '\'' +
+                ", tiempoPreparacion='" + tiempoPreparacion + '\'' +
+                ", equipamiento=" + equipamiento +
+                ", tipoCocina='" + tipoCocina + '\'' +
+                ", pasos=" + pasos +
+                ", notas='" + notas + '\'' +
                 '}';
     }
 }
