@@ -62,10 +62,11 @@
     <!-- Campo editable del Email -->
     <EditText
         android:id="@+id/edtEmail"
-        android:layout_width="278dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
+        android:layout_marginStart="10dp"
         android:fontFamily="@font/alegreya_sc"
         android:hint="prueba.prueba@prueba.com"
         android:textAlignment="center"
@@ -73,7 +74,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/txvEmail"
-        app:layout_constraintTop_toBottomOf="@+id/txvNuevoChef" />
+        app:layout_constraintTop_toBottomOf="@+id/txvNuevoChef"
+        app:layout_constraintWidth_default="spread"
+        app:layout_constraintHeight_default="wrap"/>
     <!-- Textview de Contraseña -->
     <TextView
         android:id="@+id/txvContrasenia"
@@ -93,10 +96,11 @@
     <!-- Campo editable de la Contraseña -->
     <EditText
         android:id="@+id/edtContrasenia"
-        android:layout_width="250dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
+        android:layout_marginStart="10dp"
         android:fontFamily="@font/alegreya_sc"
         android:inputType="textPassword"
         android:textAlignment="center"
@@ -104,7 +108,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/txvContrasenia"
-        app:layout_constraintTop_toBottomOf="@+id/edtEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/edtEmail"
+        app:layout_constraintWidth_default="spread"
+        app:layout_constraintHeight_default="wrap"/>
 
     <!-- Textview de Elige un Tema -->
     <TextView

@@ -3,11 +3,15 @@ package com.example.top_culinary.cocina;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import android.animation.ObjectAnimator;
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ScrollView;
@@ -34,6 +38,7 @@ public class DetallesRecetaActivity extends AppCompatActivity {
     TextView textViewListaEquipamiento;
     TextView textViewPasos;
     TextView textViewListaPasos;
+    Button buttonComenzarReceta;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +59,10 @@ public class DetallesRecetaActivity extends AppCompatActivity {
         textViewListaEquipamiento = findViewById(R.id.textviewListaEquipamiento);
         textViewPasos = findViewById(R.id.textviewPasos);
         textViewListaPasos = findViewById(R.id.textviewListaPasos);
+        // Boton para comenzar a realizar la receta con una animacion
+        buttonComenzarReceta = findViewById(R.id.buttonComenzarReceta);
+        Animation pulseAnimation = AnimationUtils.loadAnimation(this, R.anim.pulse_animation);
+        buttonComenzarReceta.startAnimation(pulseAnimation);
 
         // Listener para el boton de volver atras
         imageButtonAtras.setOnClickListener(new View.OnClickListener() {
@@ -99,6 +108,17 @@ public class DetallesRecetaActivity extends AppCompatActivity {
             stbPasos.append(receta.getPasos().get(i)+"\n");
         }
         textViewListaPasos.setText(stbPasos.toString());
+
+        // Listener para el boton de comenzar recetas
+        buttonComenzarReceta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DetallesRecetaActivity.this, RecetacionActivity.class);
+                intent.putExtra("nombreReceta",receta.getTitulo());
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     private void toggleFavorito(ImageButton imageButton) {

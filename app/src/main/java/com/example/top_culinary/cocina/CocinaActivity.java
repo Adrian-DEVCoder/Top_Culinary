@@ -107,6 +107,12 @@ public class CocinaActivity extends AppCompatActivity {
                 iniciarPerfil();
             }
         });
+        imageViewPerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                iniciarPerfil();
+            }
+        });
     }
 
     /**
