@@ -25,6 +25,18 @@
         android:fontFamily="@font/alegreya_sc"/>
 
     <!-- Barra de Progreso de la Receta -->
+    <ImageButton
+        android:id="@+id/buttonSiguiente"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:background="@drawable/botones_redondos"
+        app:layout_constraintBottom_toBottomOf="@+id/progressBar"
+        app:layout_constraintEnd_toEndOf="@+id/progressBar"
+        app:layout_constraintStart_toStartOf="@+id/progressBar"
+        app:layout_constraintTop_toTopOf="@+id/progressBar"
+        app:srcCompat="@drawable/flecha_derecha"
+        app:tint="@color/naranja_more" />
+
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
@@ -39,16 +51,5 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <!-- Boton para siguiente -->
-    <ImageButton
-        android:id="@+id/buttonSiguiente"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:background="@drawable/botones_redondos"
-        app:layout_constraintBottom_toBottomOf="@+id/progressBar"
-        app:layout_constraintEnd_toEndOf="@+id/progressBar"
-        app:layout_constraintStart_toStartOf="@+id/progressBar"
-        app:layout_constraintTop_toTopOf="@+id/progressBar"
-        app:srcCompat="@drawable/flecha_derecha"
-        app:tint="@color/naranja_more" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

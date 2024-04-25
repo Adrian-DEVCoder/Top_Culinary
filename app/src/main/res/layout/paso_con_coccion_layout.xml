@@ -25,6 +25,18 @@
         android:fontFamily="@font/alegreya_sc"/>
 
     <!-- Barra de Progreso de la Receta -->
+    <ImageButton
+        android:id="@+id/buttonSiguiente"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:background="@drawable/botones_redondos"
+        app:layout_constraintBottom_toBottomOf="@+id/progressBar"
+        app:layout_constraintEnd_toEndOf="@+id/progressBar"
+        app:layout_constraintStart_toStartOf="@+id/progressBar"
+        app:layout_constraintTop_toTopOf="@+id/progressBar"
+        app:srcCompat="@drawable/flecha_derecha"
+        app:tint="@color/naranja_more" />
+
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
@@ -37,13 +49,13 @@
         app:layout_constraintTop_toBottomOf="@+id/buttonPausaComenzar"
         app:layout_constraintVertical_bias="0.418" />
 
-    <!-- Cronometro para marcar tiempos de coccion -->
-    <Chronometer
-        android:id="@+id/cronometroCoccion"
+    <!-- TextView para mostrar el tiempo restante -->
+    <TextView
+        android:id="@+id/textViewTiempoRestante"
+        style="@style/ContadorStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="44dp"
-        android:textSize="40sp"
         android:textColor="@color/black"
         android:fontFamily="@font/alegreya_sc"
         android:textStyle="bold"
@@ -61,21 +73,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cronometroCoccion"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTiempoRestante"
         app:srcCompat="@drawable/siguiente"
         app:tint="@color/naranja_more" />
 
     <!-- Boton para siguiente -->
-    <ImageButton
-        android:id="@+id/buttonSiguiente"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:background="@drawable/botones_redondos"
-        app:layout_constraintBottom_toBottomOf="@+id/progressBar"
-        app:layout_constraintEnd_toEndOf="@+id/progressBar"
-        app:layout_constraintStart_toStartOf="@+id/progressBar"
-        app:layout_constraintTop_toTopOf="@+id/progressBar"
-        app:srcCompat="@drawable/flecha_derecha"
-        app:tint="@color/naranja_more" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
