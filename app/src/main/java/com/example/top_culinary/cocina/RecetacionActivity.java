@@ -2,6 +2,7 @@ package com.example.top_culinary.cocina;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
@@ -24,100 +26,120 @@ import java.util.List;
 
 public class RecetacionActivity extends AppCompatActivity {
     // Declaracion de los widgets
-    private ViewFlipper viewFlipperPasos;
-    private List<String> pasos;
+    private TextView textViewPaso;
+    private TextView textViewTiempoRestante;
     private CountDownTimer countDownTimer;
+    private ProgressBar progressBarPasos;
+    private ImageButton buttonSiguiente;
+    private ImageButton buttonPlayPausa;
+
+    // Declaracion de las variables
+    private List<String> pasos;
     private DBHandler dbHandler;
     private long tiempoRestante = 0;
     private boolean enPausa = false;
     private boolean comienzo = false;
+    private int progresoActual = 0;
+    private double progresoSumar = 0;
+    private int pasoActual = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recetacion);
+        // Obtencion de los datos de la receta
         dbHandler = new DBHandler(this);
         Intent intent = getIntent();
         String nombreReceta = intent.getStringExtra("nombreReceta");
         Receta receta = null;
         receta = dbHandler.obtenerRecetaPorNombre(nombreReceta);
-        viewFlipperPasos = findViewById(R.id.viewFlipperPasos);
+        // Inicializacion de los componentes
+        textViewPaso = findViewById(R.id.textViewPaso);
+        textViewTiempoRestante = findViewById(R.id.textViewTiempoRestante);
+        buttonPlayPausa = findViewById(R.id.buttonPausaComenzar);
+        buttonSiguiente = findViewById(R.id.buttonSiguiente);
+        progressBarPasos = findViewById(R.id.progressBarPasos);
         pasos = obtenerPasos(receta);
+        progresoSumar = 100 / pasos.size();
 
-        // Recorremos la lista de pasos a realizar
-        // Dentro del bucle for que recorre los pasos
-        for(String paso : pasos){
-            LayoutInflater inflater = getLayoutInflater();
-            View pasoView;
-            // Verificamos si el paso contiene minutos u horas
-            if(paso.contains("minutos") || paso.contains("hora")){
-                // Si contiene, inflamos el layout para pasos con cocción
-                pasoView = inflater.inflate(R.layout.paso_con_coccion_layout, null);
-            } else {
-                // Si no contiene, inflamos el layout para pasos sin cocción
-                pasoView = inflater.inflate(R.layout.paso_sin_coccion_layout, null);
+        actualizarPaso(pasoActual);
+
+        buttonSiguiente.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (pasoActual < pasos.size() - 1) {
+                    pasoActual++;
+                    actualizarPaso(pasoActual);
+                } else {
+                    // Navegación a la siguiente actividad
+                    Intent intent = new Intent(RecetacionActivity.this, DetallesRecetaActivity.class);
+                    intent.putExtra("nombreReceta", nombreReceta);
+                    startActivity(intent);
+                }
             }
-            viewFlipperPasos.addView(pasoView);
+        });
+    }
 
-            // Configuramos el textview del paso a realizar
-            TextView textViewPaso = pasoView.findViewById(R.id.textViewPaso);
-            textViewPaso.setText(paso);
+    /**
+     * Metodo para actualizar pasos de las recetas
+     */
+    private void actualizarPaso (int pasoActual) {
+        // Restablecer progresoActual al inicio de cada paso
+        progresoActual = 0;
 
-            // Configuramos el boton de siguiente
-            ImageButton buttonSiguiente = pasoView.findViewById(R.id.buttonSiguiente);
-            buttonSiguiente.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (viewFlipperPasos.getDisplayedChild() == pasos.size() - 1) {
-                        Intent intent = new Intent(RecetacionActivity.this, DetallesRecetaActivity.class);
-                        intent.putExtra("nombreReceta",nombreReceta);
-                        startActivity(intent);
-                    } else {
-                        viewFlipperPasos.showNext();
-                        if(!enPausa){
+        String paso = pasos.get(pasoActual);
+        textViewPaso.setText(paso);
+        // Verificamos si el paso contiene minutos u horas
+        if(paso.contains("minutos") || paso.contains("hora")){
+            textViewTiempoRestante.setVisibility(View.VISIBLE);
+            buttonPlayPausa.setVisibility(View.VISIBLE);
+            actualizarBarraDeProgreso();
+        } else {
+            // Si no contiene, inflamos el layout para pasos sin cocción
+            textViewTiempoRestante.setVisibility(View.GONE);
+            buttonPlayPausa.setVisibility(View.GONE);
+            actualizarBarraDeProgreso();
+        }
+        // Ajustamos el cronometro si el paso contiene minutos o horas
+        if(paso.contains("minutos") || paso.contains("hora")){
+            String[] partesPaso = paso.split(" ");
+            String retorno = "";
+            for (String p : partesPaso){
+                if(p.matches("\\d+")){
+                    retorno = p;
+                }
+            }
+
+            int tiempo = Integer.parseInt(retorno);
+            if (tiempo > 0) {
+                // Convertimos los minutos en milisegundos
+                // Ajuste aquí: si el paso contiene "hora", multiplicamos por 60 para convertir horas en minutos
+                tiempoRestante = (paso.contains("hora") ? tiempo * 60 : tiempo) * 60 * 1000;
+                // Buscamos el TextView dentro del View inflado
+                textViewTiempoRestante.setText(formatearTiempo(tiempoRestante));
+                buttonPlayPausa.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!comienzo) {
+                            iniciarContador(tiempoRestante);
+                            comienzo = true;
+                            buttonPlayPausa.setImageResource(R.drawable.pausa);
+                        } else if (enPausa) {
+                            reanudarContador();
+                            buttonPlayPausa.setImageResource(R.drawable.pausa);
+                        } else {
                             pausarContador();
+                            buttonPlayPausa.setImageResource(R.drawable.siguiente);
                         }
                     }
-                }
-            });
-
-            // Ajustamos el cronometro si el paso contiene minutos o horas
-            if(paso.contains("minutos") || paso.contains("hora")){
-                String[] partesPaso = paso.split(" ");
-                String retorno = "";
-                for (String p : partesPaso){
-                    if(p.matches("\\d+")){
-                        retorno = p;
-                    }
-                }
-
-                int tiempo = Integer.parseInt(retorno);
-                if (tiempo > 0){
-                    // Convertimos los minutos en milisegundos
-                    tiempoRestante = tiempo * 60 * 1000;
-                    // Buscamos el TextView dentro del View inflado
-                    TextView textViewTiempoRestante = pasoView.findViewById(R.id.textViewTiempoRestante);
-                    textViewTiempoRestante.setText(formatearTiempo(tiempoRestante));
-                    ImageButton buttonPausaPlay = pasoView.findViewById(R.id.buttonPausaComenzar);
-                    buttonPausaPlay.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if(!comienzo){
-                                iniciarContador(tiempoRestante);
-                                comienzo = true;
-                                buttonPausaPlay.setImageResource(R.drawable.pausa);
-                            } else if (enPausa){
-                                reanudarContador();
-                                buttonPausaPlay.setImageResource(R.drawable.pausa);
-                            } else {
-                                pausarContador();
-                                buttonPausaPlay.setImageResource(R.drawable.siguiente);
-                            }
-                        }
-                    });
-                }
+                });
             }
         }
+        // Actualizamos el progreso basado en el paso actual
+        progresoActual = (int) (progresoSumar * (pasoActual + 1));
+        progressBarPasos.setProgress(progresoActual);
+        // Llamamos a animacionBarraDeProgreso con solo el valor final y la duración
+        animacionBarraDeProgreso(progresoActual, 1000);
     }
 
     /**
@@ -152,7 +174,7 @@ public class RecetacionActivity extends AppCompatActivity {
     }
 
     /**
-     * Metodo para pausar el contador
+     * Metodo para reanudar el contador
      */
     private void reanudarContador(){
         if(enPausa) {
@@ -189,5 +211,27 @@ public class RecetacionActivity extends AppCompatActivity {
         }
         return pasosFormateados;
     }
+
+    // Metodo para actualizar la barra de progreso
+    private void actualizarBarraDeProgreso() {
+        // Actualizamos el progreso actual y la barra de progreso
+        progresoActual += progresoSumar;
+        int valorInicial = progresoActual;
+        progressBarPasos.setProgress(progresoActual);
+        int valorFinal = progresoActual;
+        int duracion = 1000;
+        animacionBarraDeProgreso(valorFinal,duracion);
+    }
+
+    private void animacionBarraDeProgreso(int valorFinal, int duracion) {
+        // Obtiene el valor actual de la barra de progreso
+        int valorInicial = progressBarPasos.getProgress();
+        // Crea la animación
+        ObjectAnimator animation = ObjectAnimator.ofInt(progressBarPasos, "progress", valorInicial, valorFinal);
+        animation.setDuration(duracion);
+        // Inicia la animación
+        animation.start();
+    }
+
 
 }

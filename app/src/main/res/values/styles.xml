@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Estilo para el contador dentro de las realizacion de las recetas-->
     <style name="ContadorStyle">
         <item name="android:textSize">60sp</item>
         <item name="android:textColor">@color/black</item>
