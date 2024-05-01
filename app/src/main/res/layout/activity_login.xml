@@ -180,31 +180,18 @@
     <!-- Boton Inicio Sesion de Google-->
     <ImageButton
         android:id="@+id/iBtnGoogle"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="14dp"
-        android:backgroundTint="#FFF"
-        android:scaleType="fitCenter"
-        android:src="@drawable/google"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:backgroundTint="#00FFFFFF"
+        android:scaleType="centerCrop"
+        android:src="@drawable/common_google_signin_btn_icon_light"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.341"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txvIniciarSesionCon" />
 
     <!-- Boton Inicio Sesion de Facebook -->
-    <ImageButton
-        android:id="@+id/iBtnFacebook"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="12dp"
-
-        android:backgroundTint="#FFF"
-        android:scaleType="fitCenter"
-        android:src="@drawable/facebook"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.298"
-        app:layout_constraintStart_toEndOf="@id/iBtnGoogle"
-        app:layout_constraintTop_toBottomOf="@+id/txvIniciarSesionCon" />
 
     <!-- FIN PAGINA -->
 </androidx.constraintlayout.widget.ConstraintLayout>

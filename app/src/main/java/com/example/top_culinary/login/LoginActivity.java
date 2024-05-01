@@ -74,7 +74,6 @@ public class LoginActivity extends AppCompatActivity {
         buttonRegistro = findViewById(R.id.btnRegistro);
         textViewIniciarCon = findViewById(R.id.txvIniciarSesionCon);
         imageButtonGoogle = findViewById(R.id.iBtnGoogle);
-        imageButtonFacebook = findViewById(R.id.iBtnFacebook);
 
         // Listener del boton para iniciar sesion
         buttonIniciarSesion.setOnClickListener(new View.OnClickListener() {
