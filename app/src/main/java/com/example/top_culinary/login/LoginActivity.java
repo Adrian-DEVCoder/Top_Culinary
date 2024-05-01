@@ -185,7 +185,10 @@ public class LoginActivity extends AppCompatActivity {
                         if(task.isSuccessful()){
                             FirebaseUser currentUser = firebaseAuth.getCurrentUser();
                             mostrarToast("Inicio de Sesion satisfactorio con Google");
-                            startActivity(new Intent(LoginActivity.this, CocinaActivity.class));
+                            Intent intent = new Intent(LoginActivity.this, CocinaActivity.class);
+                            String nombreFormateado = currentUser.getDisplayName().split(" ")[0];
+                            intent.putExtra("nombreFormateado",nombreFormateado);
+                            startActivity(intent);
                             finish();
                         } else {
                             mostrarToast("Error en el Inicio de Sesion con Google");

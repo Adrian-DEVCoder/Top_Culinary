@@ -49,9 +49,15 @@ public class CocinaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cocina);
+        // Inicializacion de la BD Local
         dbHandler = new DBHandler(this);
+        // Obtenemos el nombre de usuario del intent
+        Intent intent = getIntent();
+        String nombreFormateado = intent.getStringExtra("nombreFormateado");
+        // Inicializacion de los widgets
         textViewHola = findViewById(R.id.txvHola);
         textViewNSaludo = findViewById(R.id.txvNombreUsuario);
+        textViewNSaludo.setText(nombreFormateado);
         imageViewPerfil = findViewById(R.id.imgPerfil);
         cardViewBuscador = findViewById(R.id.cvBuscador);
         textViewMensaje = findViewById(R.id.txvDescubrir);
@@ -86,31 +92,31 @@ public class CocinaActivity extends AppCompatActivity {
         buttonAniadirRecetas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iniciarAniadirRecetas();
+                iniciarAniadirRecetas(nombreFormateado);
             }
         });
         buttonCesta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iniciarCesta();
+                iniciarCesta(nombreFormateado);
             }
         });
         buttonForo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iniciarForo();
+                iniciarForo(nombreFormateado);
             }
         });
         buttonPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iniciarPerfil();
+                iniciarPerfil(nombreFormateado);
             }
         });
         imageViewPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iniciarPerfil();
+                iniciarPerfil(nombreFormateado);
             }
         });
     }
@@ -118,8 +124,9 @@ public class CocinaActivity extends AppCompatActivity {
     /**
      * Inicia la actividad de Añadir Recetas
      */
-    private void iniciarAniadirRecetas(){
+    private void iniciarAniadirRecetas(String nombreFormateado){
         Intent intent = new Intent(CocinaActivity.this, AniadirRecetasActivity.class);
+        intent.putExtra("nombreFormateado",nombreFormateado);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
         finish();
@@ -128,8 +135,9 @@ public class CocinaActivity extends AppCompatActivity {
     /**
      * Inicia la actividad de Cesta
      */
-    private void iniciarCesta(){
+    private void iniciarCesta(String nombreFormateado){
         Intent intent = new Intent(CocinaActivity.this, CestaActivity.class);
+        intent.putExtra("nombreFormateado",nombreFormateado);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
         finish();
@@ -138,8 +146,9 @@ public class CocinaActivity extends AppCompatActivity {
     /**
      * Inicia la actividad de Foro
      */
-    private void iniciarForo(){
+    private void iniciarForo(String nombreFormateado){
         Intent intent = new Intent(CocinaActivity.this, ForoActivity.class);
+        intent.putExtra("nombreFormateado",nombreFormateado);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
         finish();
@@ -148,8 +157,9 @@ public class CocinaActivity extends AppCompatActivity {
     /**
      * Inicia la actividad de Perfil
      */
-    private void iniciarPerfil(){
+    private void iniciarPerfil(String nombreFormateado){
         Intent intent = new Intent(CocinaActivity.this, PerfilActivity.class);
+        intent.putExtra("nombreFormateado",nombreFormateado);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
         finish();

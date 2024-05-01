@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.top_culinary.R;
-import com.example.top_culinary.cocina.CocinaActivity;
 import com.example.top_culinary.cocina.DetallesRecetaActivity;
 import com.example.top_culinary.database.DBHandler;
 import com.example.top_culinary.model.Receta;
@@ -25,7 +24,6 @@ import java.util.List;
 public class AdapterReceta extends RecyclerView.Adapter<AdapterReceta.ItemViewHolder> {
     // Inicializamos las variables
     private List<Receta> recetaList;
-
     /**
      * Constructor
      * @param recetaList lista de las recetas
@@ -83,7 +81,6 @@ public class AdapterReceta extends RecyclerView.Adapter<AdapterReceta.ItemViewHo
         TextView textViewNombre;
         TextView textViewTiempo;
         TextView textViewTipoPlato;
-        TextView textViewKalorias;
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);

@@ -46,6 +46,7 @@ public class DetallesRecetaActivity extends AppCompatActivity {
         // Obtenemos el nombre de la receta a traves del intent
         Intent intent = getIntent();
         String nombreReceta = intent.getStringExtra("nombreReceta");
+        String nombreFormateado = intent.getStringExtra("nombreFormateado");
         dbHandler = new DBHandler(this);
         scrollViewReceta = findViewById(R.id.scrollViewDetalles);
         imageButtonAtras = findViewById(R.id.imageButtonBack);
@@ -68,7 +69,9 @@ public class DetallesRecetaActivity extends AppCompatActivity {
         imageButtonAtras.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(DetallesRecetaActivity.this, CocinaActivity.class));
+                Intent intent = new Intent(DetallesRecetaActivity.this, CocinaActivity.class);
+                intent.putExtra("nombreFormateado",nombreFormateado);
+                startActivity(intent);
                 finish();
             }
         });

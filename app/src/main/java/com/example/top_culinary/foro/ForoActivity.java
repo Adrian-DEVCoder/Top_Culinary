@@ -23,6 +23,9 @@ public class ForoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_foro);
+        // Obtencion del nombre del intent
+        Intent intent = getIntent();
+        String nombreFormateado = intent.getStringExtra("nombreFormateado");
         // Botones de la botonera inferior
         buttonAniadirRecetas = findViewById(R.id.imgBRecetas);
         buttonCesta = findViewById(R.id.imgBCesta);
@@ -32,25 +35,25 @@ public class ForoActivity extends AppCompatActivity {
         buttonAniadirRecetas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iniciarAniadirRecetas();
+                iniciarAniadirRecetas(nombreFormateado);
             }
         });
         buttonCesta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iniciarCesta();
+                iniciarCesta(nombreFormateado);
             }
         });
         buttonCocina.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iniciarCocina();
+                iniciarCocina(nombreFormateado);
             }
         });
         buttonPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iniciarPerfil();
+                iniciarPerfil(nombreFormateado);
             }
         });
     }
@@ -58,8 +61,9 @@ public class ForoActivity extends AppCompatActivity {
     /**
      * Inicia la actividad de Añadir Recetas
      */
-    private void iniciarAniadirRecetas(){
+    private void iniciarAniadirRecetas(String nombreFormateado){
         Intent intent = new Intent(this, AniadirRecetasActivity.class);
+        intent.putExtra("nombreFormateado",nombreFormateado);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
         finish();
@@ -68,8 +72,9 @@ public class ForoActivity extends AppCompatActivity {
     /**
      * Inicia la actividad de Cesta
      */
-    private void iniciarCesta(){
+    private void iniciarCesta(String nombreFormateado){
         Intent intent = new Intent(this, CestaActivity.class);
+        intent.putExtra("nombreFormateado",nombreFormateado);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
         finish();
@@ -78,8 +83,9 @@ public class ForoActivity extends AppCompatActivity {
     /**
      * Inicia la actividad de Foro
      */
-    private void iniciarCocina(){
+    private void iniciarCocina(String nombreFormateado){
         Intent intent = new Intent(this, CocinaActivity.class);
+        intent.putExtra("nombreFormateado",nombreFormateado);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
         finish();
@@ -88,8 +94,9 @@ public class ForoActivity extends AppCompatActivity {
     /**
      * Inicia la actividad de Perfil
      */
-    private void iniciarPerfil(){
+    private void iniciarPerfil(String nombreFormateado){
         Intent intent = new Intent(this, PerfilActivity.class);
+        intent.putExtra("nombreFormateado",nombreFormateado);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
         finish();

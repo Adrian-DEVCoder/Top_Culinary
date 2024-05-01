@@ -38,8 +38,12 @@ public class PerfilActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
+        // Obtenemos el nombre del usuario del intent
+        Intent intent = getIntent();
+        String nombreFormateado = intent.getStringExtra("nombreFormateado");
         // Botones de la botonera inferior
         textViewNomUsuario = findViewById(R.id.textViewNomUsuario);
+        textViewNomUsuario.setText(nombreFormateado);
         imageViewAvatar = findViewById(R.id.imageViewAvatar);
         imageViewAvatar.setImageResource(R.drawable.avatar);
         textViewSeguidores = findViewById(R.id.textViewSeguidores);
@@ -59,25 +63,25 @@ public class PerfilActivity extends AppCompatActivity {
         buttonAniadirRecetas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iniciarAniadirRecetas();
+                iniciarAniadirRecetas(nombreFormateado);
             }
         });
         buttonCesta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iniciarCesta();
+                iniciarCesta(nombreFormateado);
             }
         });
         buttonCocina.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iniciarCocina();
+                iniciarCocina(nombreFormateado);
             }
         });
         buttonForo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iniciarForo();
+                iniciarForo(nombreFormateado);
             }
         });
     }
@@ -85,8 +89,9 @@ public class PerfilActivity extends AppCompatActivity {
     /**
      * Inicia la actividad de Añadir Recetas
      */
-    private void iniciarAniadirRecetas(){
+    private void iniciarAniadirRecetas(String nombreFormateado){
         Intent intent = new Intent(this, AniadirRecetasActivity.class);
+        intent.putExtra("nombreFormateado",nombreFormateado);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
         finish();
@@ -95,8 +100,9 @@ public class PerfilActivity extends AppCompatActivity {
     /**
      * Inicia la actividad de Cesta
      */
-    private void iniciarCesta(){
+    private void iniciarCesta(String nombreFormateado){
         Intent intent = new Intent(this, CestaActivity.class);
+        intent.putExtra("nombreFormateado",nombreFormateado);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
         finish();
@@ -105,8 +111,9 @@ public class PerfilActivity extends AppCompatActivity {
     /**
      * Inicia la actividad de Foro
      */
-    private void iniciarCocina(){
+    private void iniciarCocina(String nombreFormateado){
         Intent intent = new Intent(this, CocinaActivity.class);
+        intent.putExtra("nombreFormateado",nombreFormateado);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
         finish();
@@ -115,8 +122,9 @@ public class PerfilActivity extends AppCompatActivity {
     /**
      * Inicia la actividad de Perfil
      */
-    private void iniciarForo(){
+    private void iniciarForo(String nombreFormateado){
         Intent intent = new Intent(this, ForoActivity.class);
+        intent.putExtra("nombreFormateado",nombreFormateado);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
         finish();
