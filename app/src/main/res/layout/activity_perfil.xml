@@ -4,16 +4,146 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/verde"
+    android:background="@color/naranja_more"
     tools:context=".perfil.PerfilActivity">
 
+    <!-- Textview para el nombre de usuario -->
+    <TextView
+        android:id="@+id/textViewRecetas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="96dp"
+        android:fontFamily="@font/alegreya_sc"
+        android:text="Recetas Publicadas"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.545"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewLineaDivisora" />
+
+    <TextView
+        android:id="@+id/textViewNumRecetas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="96dp"
+        android:fontFamily="@font/alegreya_sc"
+        android:text="50"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/textViewRecetas"
+        app:layout_constraintHorizontal_bias="0.917"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewLineaDivisora" />
+
+    <TextView
+        android:id="@+id/textViewNomUsuario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:fontFamily="@font/alegreya_sc"
+        android:text="XXPEPEXX"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <!-- Imageview para el avatar del usuario -->
+    <ImageView
+        android:id="@+id/imageViewAvatar"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="34dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewNomUsuario"
+        tools:srcCompat="@drawable/avatar" />
+    <!-- Seguidores -->
+    <TextView
+        android:id="@+id/textViewSeguidores"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="58dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/alegreya_sc"
+        android:text="SEGUIDORES"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/viewLineaDivisora"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewAvatar" />
+
+    <TextView
+        android:id="@+id/textViewNumSeguidores"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="58dp"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/alegreya_sc"
+        android:text="100"
+        android:textColor="#000000"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/viewLineaDivisora"
+        app:layout_constraintHorizontal_bias="0.257"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSeguidores" />
+    <!-- Linea divisora entre seguidores y seguidos -->
+    <View
+        android:id="@+id/viewLineaDivisora"
+        android:layout_width="5dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="24dp"
+        android:background="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewAvatar" />
+    <!-- Seguidos -->
+    <TextView
+        android:id="@+id/textViewSeguidos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/alegreya_sc"
+        android:text="SEGUIDOS"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.014"
+        app:layout_constraintStart_toEndOf="@+id/viewLineaDivisora"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewAvatar" />
+
+    <TextView
+        android:id="@+id/textViewNumSeguidos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/alegreya_sc"
+        android:text="50"
+        android:textColor="#000000"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.224"
+        app:layout_constraintStart_toEndOf="@+id/viewLineaDivisora"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSeguidos" />
     <!-- Botonera inferior para moverse -->
+
     <LinearLayout
         android:id="@+id/linearLayoutBotoneraInferior"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:background="@color/white"
         android:layout_marginBottom="0dp"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -73,5 +203,31 @@
             android:src="@drawable/usuario"
             app:tint="@color/naranja_normal" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonSeguir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/naranja_less"
+        android:fontFamily="@font/alegreya_sc"
+        android:text="Seguir"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:icon="@drawable/seguir"
+        app:iconTint="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewLineaDivisora" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="409dp"
+        android:layout_height="348dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayoutBotoneraInferior"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewRecetas" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
