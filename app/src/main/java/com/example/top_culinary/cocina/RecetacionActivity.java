@@ -189,11 +189,12 @@ public class RecetacionActivity extends AppCompatActivity {
      * @return tiempo formateado
      */
     private String formatearTiempo(long millis) {
-        String output = "00:00";
+        String output = "00:00:00";
         long totalSegundos = millis / 1000;
-        long minutos = totalSegundos / 60;
+        long horas = totalSegundos / 3600;
+        long minutos = (totalSegundos%3600) / 60;
         long segundos = totalSegundos % 60;
-        output = String.format("%02d:%02d",minutos,segundos);
+        output = String.format("%02d:%02d:%02d",horas,minutos,segundos);
         return output;
     }
 
@@ -206,7 +207,7 @@ public class RecetacionActivity extends AppCompatActivity {
         List<String> pasosReceta = receta.getPasos();
         List<String> pasosFormateados = new ArrayList<>();
         for(String pasoReceta : pasosReceta){
-            String pasoFormateado = pasoReceta.substring(2);
+            String pasoFormateado = pasoReceta.substring(3);
             pasosFormateados.add(pasoFormateado);
         }
         return pasosFormateados;
