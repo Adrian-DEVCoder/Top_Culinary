@@ -212,11 +212,11 @@
         android:backgroundTint="@color/naranja_less"
         android:fontFamily="@font/alegreya_sc"
         android:text="Seguir"
-        android:textColor="#FFFFFF"
+        android:textColor="#000000"
         android:textSize="16sp"
         android:textStyle="bold"
         app:icon="@drawable/seguir"
-        app:iconTint="#FFFFFF"
+        app:iconTint="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/viewLineaDivisora" />
@@ -229,5 +229,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewRecetas" />
+
+    <ImageButton
+        android:id="@+id/imageButtonAjustes"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="#00FFFFFF"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/textViewNomUsuario"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ajustes" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

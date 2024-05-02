@@ -16,6 +16,9 @@
         android:theme="@style/Theme.Top_Culinary"
         tools:targetApi="tiramisu">
         <activity
+            android:name=".perfil.AjustesActivity"
+            android:exported="false" />
+        <activity
             android:name=".cocina.RecetacionActivity"
             android:exported="false" />
         <activity

@@ -20,6 +20,7 @@ import com.example.top_culinary.recetas.AniadirRecetasActivity;
 public class PerfilActivity extends AppCompatActivity {
     // Declaracion de los widgets
     TextView textViewNomUsuario;
+    ImageButton buttonAjustes;
     ImageView imageViewAvatar;
     TextView textViewSeguidores;
     TextView textViewNumSeguidores;
@@ -43,6 +44,7 @@ public class PerfilActivity extends AppCompatActivity {
         String nombreFormateado = intent.getStringExtra("nombreFormateado");
         // Botones de la botonera inferior
         textViewNomUsuario = findViewById(R.id.textViewNomUsuario);
+        buttonAjustes = findViewById(R.id.imageButtonAjustes);
         textViewNomUsuario.setText(nombreFormateado);
         imageViewAvatar = findViewById(R.id.imageViewAvatar);
         imageViewAvatar.setImageResource(R.drawable.avatar);
@@ -60,6 +62,12 @@ public class PerfilActivity extends AppCompatActivity {
         buttonForo = findViewById(R.id.imgBForo);
         linearLayoutBotoneraInferior = findViewById(R.id.linearLayoutBotoneraInferior);
         // Listener de los botones inferiores
+        buttonAjustes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                iniciarAjustes(nombreFormateado);
+            }
+        });
         buttonAniadirRecetas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,6 +97,13 @@ public class PerfilActivity extends AppCompatActivity {
     /**
      * Inicia la actividad de Añadir Recetas
      */
+    private void iniciarAjustes(String nombreFormateado) {
+        Intent intent = new Intent(this, AjustesActivity.class);
+        intent.putExtra("nombreFormateado", nombreFormateado);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+        finish();
+    }
     private void iniciarAniadirRecetas(String nombreFormateado){
         Intent intent = new Intent(this, AniadirRecetasActivity.class);
         intent.putExtra("nombreFormateado",nombreFormateado);
