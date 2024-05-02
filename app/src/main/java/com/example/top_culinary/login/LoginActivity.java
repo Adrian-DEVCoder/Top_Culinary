@@ -24,11 +24,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Firebase;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LoginActivity extends AppCompatActivity {
     // Widgets
@@ -44,7 +47,6 @@ public class LoginActivity extends AppCompatActivity {
     Button buttonRegistro;
     TextView textViewIniciarCon;
     ImageButton imageButtonGoogle;
-    ImageButton imageButtonFacebook;
 
     // Variables
     private FirebaseAuth firebaseAuth;
@@ -62,8 +64,6 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
         if(currentUser != null) {
             Intent intent = new Intent(this, CocinaActivity.class);
-            String nombreFormateado = currentUser.getDisplayName().split(" ")[0];
-            intent.putExtra("nombreFormateado",nombreFormateado);
             startActivity(intent);
             finish();
         }
@@ -138,14 +138,36 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             // Si el inicio de sesion ha sido correcto actualizamos con la informacion del usuario
-                            Log.w("Sesion","signInUserGmailAndPassword:success");
-                            FirebaseUser usuarioActual = firebaseAuth.getCurrentUser();
-                            Intent intent = new Intent(LoginActivity.this, CocinaActivity.class);
-                            startActivity(intent);
+                            FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+                            FirebaseFirestore firestoreDB = FirebaseFirestore.getInstance();
+                            firestoreDB.collection("usuarios")
+                                    .document(currentUser.getUid())
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                            if(task.isSuccessful()){
+                                                DocumentSnapshot document = task.getResult();
+                                                if(document.exists()){
+                                                    // Si el usuario ya tiene datos en la database, redirigimos a cocina
+                                                    Intent intent = new Intent(LoginActivity.this, CocinaActivity.class);
+                                                    startActivity(intent);
+                                                    finish();
+                                                } else {
+                                                    // Si el usuario no tiene datos en la database, redirigimos a nombreusuario
+                                                    Intent intent = new Intent(LoginActivity.this,NombreUsuarioActivity.class);
+                                                    String inicioDeSesion = "Custom";
+                                                    intent.putExtra("inicioDeSesion",inicioDeSesion);
+                                                    startActivity(intent);
+                                                    finish();
+                                                }
+                                            } else {
+                                                Log.d("Firestore","Error al verificar el documento del usuario", task.getException());
+                                            }
+                                        }
+                                    });
                         } else {
-                            Log.w("Sesion","signInUserGmailAndPassword:failed");
-                            Toast.makeText(LoginActivity.this, "Inicio de Sesion erroneo.",
-                                    Toast.LENGTH_SHORT).show();
+                            mostrarToast("Inicio de Sesion erroneo");
                         }
                     }
                 });
@@ -190,12 +212,32 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-                            mostrarToast("Inicio de Sesion satisfactorio con Google");
-                            Intent intent = new Intent(LoginActivity.this, CocinaActivity.class);
-                            String nombreFormateado = currentUser.getDisplayName().split(" ")[0];
-                            intent.putExtra("nombreFormateado",nombreFormateado);
-                            startActivity(intent);
-                            finish();
+                            FirebaseFirestore firestoreDB = FirebaseFirestore.getInstance();
+                            firestoreDB.collection("usuarios")
+                                    .document(currentUser.getUid())
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                            if(task.isSuccessful()){
+                                                DocumentSnapshot document = task.getResult();
+                                                if(document.exists()){
+                                                    // Si el usuario ya tiene datos en la database, redirigimos a cocina
+                                                    mostrarToast("Inicio de Sesion satisfactorio con Google");
+                                                    Intent intent = new Intent(LoginActivity.this, CocinaActivity.class);
+                                                    startActivity(intent);
+                                                    finish();
+                                                } else {
+                                                    // Si el usuario no tiene datos en la database, redirigimos a nombreusuario
+                                                    Intent intent = new Intent(LoginActivity.this,NombreUsuarioActivity.class);
+                                                    startActivity(intent);
+                                                    finish();
+                                                }
+                                            } else {
+                                                Log.d("Firestore","Error al verificar el documento del usuario.",task.getException());
+                                            }
+                                        }
+                                    });
                         } else {
                             mostrarToast("Error en el Inicio de Sesion con Google");
                         }

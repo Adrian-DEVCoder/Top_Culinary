@@ -1,5 +1,6 @@
 package com.example.top_culinary.cocina;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -7,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -22,13 +24,24 @@ import com.example.top_culinary.foro.ForoActivity;
 import com.example.top_culinary.model.Receta;
 import com.example.top_culinary.perfil.PerfilActivity;
 import com.example.top_culinary.recetas.AniadirRecetasActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CocinaActivity extends AppCompatActivity {
     // Declaracion de las variables
     private DBHandler dbHandler;
+    private FirebaseFirestore firestoreDB;
     private List<Receta> recetaList;
     private AdapterReceta adapterReceta;
     // Declaracion de los widgets
@@ -51,13 +64,38 @@ public class CocinaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cocina);
         // Inicializacion de la BD Local
         dbHandler = new DBHandler(this);
-        // Obtenemos el nombre de usuario del intent
-        Intent intent = getIntent();
-        String nombreFormateado = intent.getStringExtra("nombreFormateado");
+        // Inicializacion de la BD Online
+        firestoreDB = FirebaseFirestore.getInstance();
+        // Obtenemos los datos del usuario
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = currentUser.getUid(); // Obtenemos el uid del usuario actualmente autenticado
+        // Consulta para obtener el documento del usuario
+        firestoreDB.collection("usuarios").document(uid)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                // El documento existe, extraemos el nombre de usuario
+                                String nombreUsuario = document.getString("display_name");
+                                // Inicializacion de los widgets
+                                textViewHola = findViewById(R.id.txvHola);
+                                textViewNSaludo = findViewById(R.id.txvNombreUsuario);
+                                textViewNSaludo.setText(nombreUsuario); // Establecemos el nombre de usuario
+                                // El resto de tu código de inicialización de widgets...
+                            } else {
+                                Log.d("Firestore", "No se encontró el documento del usuario");
+                                // Manejar el caso en que el documento no se encuentra
+                            }
+                        } else {
+                            Log.d("Firestore", "Error al obtener el documento del usuario", task.getException());
+                            // Manejar el error
+                        }
+                    }
+                });
         // Inicializacion de los widgets
-        textViewHola = findViewById(R.id.txvHola);
-        textViewNSaludo = findViewById(R.id.txvNombreUsuario);
-        textViewNSaludo.setText(nombreFormateado);
         imageViewPerfil = findViewById(R.id.imgPerfil);
         cardViewBuscador = findViewById(R.id.cvBuscador);
         textViewMensaje = findViewById(R.id.txvDescubrir);
@@ -92,31 +130,31 @@ public class CocinaActivity extends AppCompatActivity {
         buttonAniadirRecetas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iniciarAniadirRecetas(nombreFormateado);
+                iniciarAniadirRecetas(textViewNSaludo.getText().toString());
             }
         });
         buttonCesta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iniciarCesta(nombreFormateado);
+                iniciarCesta(textViewNSaludo.getText().toString());
             }
         });
         buttonForo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iniciarForo(nombreFormateado);
+                iniciarForo(textViewNSaludo.getText().toString());
             }
         });
         buttonPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iniciarPerfil(nombreFormateado);
+                iniciarPerfil(textViewNSaludo.getText().toString());
             }
         });
         imageViewPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iniciarPerfil(nombreFormateado);
+                iniciarPerfil(textViewNSaludo.getText().toString());
             }
         });
     }

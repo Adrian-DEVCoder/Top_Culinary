@@ -124,10 +124,12 @@ public class RegistroActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             Log.d("REGISTRO","Registro Satisfactorio");
-                            FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+                            // Reinicia la sesión de usuario
+                            firebaseAuth.signOut();
+                            // Luego, inicia la actividad de inicio de sesión
                             Intent intent = new Intent(RegistroActivity.this, LoginActivity.class);
-                            intent.putExtra("nombre",currentUser.getDisplayName());
                             startActivity(intent);
+                            finish();
                         } else {
                             Log.w("REGISTRO","Registro Incorrecto");
                             Toast.makeText(RegistroActivity.this,"Registro Erroneo",Toast.LENGTH_SHORT).show();
@@ -135,6 +137,7 @@ public class RegistroActivity extends AppCompatActivity {
                     }
                 });
     }
+
     /**
      * Redirigimos al usuario al inicio de sesion
      */
