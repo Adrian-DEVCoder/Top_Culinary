@@ -58,9 +58,15 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         // Inicializacion del Firebase
         firebaseAuth = FirebaseAuth.getInstance();
-
         // Implementar el que compruebe si el usuario actual ya ha iniciado sesion a traves del token
-
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        if(currentUser != null) {
+            Intent intent = new Intent(this, CocinaActivity.class);
+            String nombreFormateado = currentUser.getDisplayName().split(" ")[0];
+            intent.putExtra("nombreFormateado",nombreFormateado);
+            startActivity(intent);
+            finish();
+        }
         // Inicializacion de los widgets
         imageViewFondo = findViewById(R.id.imgFondo);
         imageViewTitulo = findViewById(R.id.imgTituloFondo);
