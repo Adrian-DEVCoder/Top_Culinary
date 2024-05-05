@@ -1,5 +1,6 @@
 package com.example.top_culinary.perfil;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -12,9 +13,17 @@ import android.widget.Toast;
 
 import com.example.top_culinary.R;
 import com.example.top_culinary.login.LoginActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class AjustesActivity extends AppCompatActivity {
+    // Declaracion de las variables
+    private FirebaseFirestore firestoreDB;
+    private String tipoInicioSesion;
     // Declaracion de los widgets
     ImageButton buttonAtras;
     TextView textViewAjustes;
@@ -25,6 +34,14 @@ public class AjustesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ajustes);
+        // Inicializacion de Firestore
+        firestoreDB = FirebaseFirestore.getInstance();
+        // Obtencion del usuario actual
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = auth.getCurrentUser();
+        String uidUsuario = currentUser.getUid();
+        // Comprobamos el tipo de inicio de sesion
+        comprobarInicioSesion(uidUsuario);
         // Obtencion del nombre del intent
         Intent intent = getIntent();
         String nombreFormateado = intent.getStringExtra("nombreFormateado");
@@ -34,6 +51,7 @@ public class AjustesActivity extends AppCompatActivity {
         buttonCambiarNombre = findViewById(R.id.buttonCambiarNombre);
         buttonCambiarContrasena = findViewById(R.id.buttonCambiarContrasena);
         buttonCerrarSesion = findViewById(R.id.buttonCerrarSesion);
+        // Listener de los diferentes botones
         buttonAtras.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,6 +77,41 @@ public class AjustesActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Devuelve el tipo de inicio de sesion
+     */
+    private void comprobarInicioSesion(String uidUsuario) {
+        firestoreDB.collection("usuarios")
+                .document(uidUsuario)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if(document.exists()){
+                                tipoInicioSesion = (String) document.get("tipo_inicio_de_sesion");
+                                actualizarUI();
+                            }
+                        }
+                    }
+                });
+    }
+
+    private void actualizarUI() {
+        // Dependiendo del tipo de inicio de sesion mostramos un contenido u otro
+        if(tipoInicioSesion != null) {
+            if(tipoInicioSesion.equalsIgnoreCase("Google")){
+                buttonCambiarContrasena.setVisibility(View.GONE);
+                buttonCambiarNombre.setVisibility(View.VISIBLE);
+            } else {
+                buttonCambiarContrasena.setVisibility(View.VISIBLE);
+                buttonCambiarNombre.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
     // Inicia el perfil del usuario actual
     private void iniciarPerfil(String nombreFormateado) {
         Intent intent = new Intent(this, PerfilActivity.class);
@@ -69,15 +122,17 @@ public class AjustesActivity extends AppCompatActivity {
     }
     // Modifica el nombre de usuario del usuario actual
     private void iniciarCambiarNombre(String nombreFormateado) {
-        mostrarToast("Implementar la funcionalidad de cambio de nombre");
+        Intent intent = new Intent(AjustesActivity.this, ModificacionNombreActivity.class);
+        intent.putExtra("nombreFormateado",nombreFormateado);
+        startActivity(intent);
+        finish();
     }
     // Cambia la contraseña del usuario actual
     private void iniciarCambiarContrasena(String nombreFormateado) {
-        mostrarToast("Implementar la funcionalidad de cambio de contraseña");
-    }
-    // Muestra un toast con un mensaje introducido por parametro
-    private void mostrarToast(String mensaje) {
-        Toast.makeText(this,mensaje,Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(AjustesActivity.this, ModificacionContrasenaActivity.class);
+        intent.putExtra("nombreFormateado",nombreFormateado);
+        startActivity(intent);
+        finish();
     }
     // Cierra la sesion del usuario actual y nos redirige al inicio de sesion
     private void cerrarSesion() {
@@ -86,5 +141,9 @@ public class AjustesActivity extends AppCompatActivity {
         Intent intent = new Intent(AjustesActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
+    }
+    // Muestra un toast con un mensaje introducido por parametro
+    private void mostrarToast(String mensaje) {
+        Toast.makeText(this,mensaje,Toast.LENGTH_SHORT).show();
     }
 }

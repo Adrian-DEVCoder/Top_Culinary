@@ -187,11 +187,16 @@ public class PerfilActivity extends AppCompatActivity {
                     @Override
                     public String then(@NonNull Task<QuerySnapshot> task) throws Exception {
                         if (task.isSuccessful()) {
-                            for (DocumentSnapshot document : task.getResult()) {
+                            QuerySnapshot querySnapshot = task.getResult();
+                            if (!querySnapshot.isEmpty()) {
+                                DocumentSnapshot document = querySnapshot.getDocuments().get(0);
                                 return document.getId();
+                            } else {
+                                return null;
                             }
+                        } else {
+                            throw new Exception("Error al obtener el uid del usuario");
                         }
-                        return null;
                     }
                 });
     }

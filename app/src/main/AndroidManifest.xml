@@ -16,6 +16,12 @@
         android:theme="@style/Theme.Top_Culinary"
         tools:targetApi="tiramisu">
         <activity
+            android:name=".perfil.ModificacionContrasenaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".perfil.ModificacionNombreActivity"
+            android:exported="false" />
+        <activity
             android:name=".login.NombreUsuarioActivity"
             android:exported="false" />
         <activity
