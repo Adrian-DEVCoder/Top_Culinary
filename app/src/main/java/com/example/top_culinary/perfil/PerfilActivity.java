@@ -1,9 +1,11 @@
 package com.example.top_culinary.perfil;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -16,8 +18,27 @@ import com.example.top_culinary.cesta.CestaActivity;
 import com.example.top_culinary.cocina.CocinaActivity;
 import com.example.top_culinary.foro.ForoActivity;
 import com.example.top_culinary.recetas.AniadirRecetasActivity;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.HashMap;
+import java.util.List;
 
 public class PerfilActivity extends AppCompatActivity {
+    // Declaracion de las variables
+    private FirebaseFirestore firestoreDB = FirebaseFirestore.getInstance();
+    private boolean esUsuarioActual = true;
+    private String uidUsuarioActividad;
+    private String uidUsuarioSesion;
     // Declaracion de los widgets
     TextView textViewNomUsuario;
     ImageButton buttonAjustes;
@@ -39,9 +60,34 @@ public class PerfilActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
+        // Obtencion del usuario actualmente en la sesion
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = auth.getCurrentUser();
+        uidUsuarioSesion = currentUser.getUid();
         // Obtenemos el nombre del usuario del intent
         Intent intent = getIntent();
         String nombreFormateado = intent.getStringExtra("nombreFormateado");
+        // Obtencion del uid del usuario actual
+        obtenerUidActividad(nombreFormateado)
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (task.isSuccessful()) {
+                            uidUsuarioActividad = task.getResult();
+                            if(uidUsuarioSesion.equals(uidUsuarioActividad)) {
+                                obtenerYMostrarSeguidores(uidUsuarioSesion);
+                                obtenerYMostrarSeguidos(uidUsuarioSesion);
+                                buttonSeguir.setVisibility(View.GONE);
+                                buttonAjustes.setVisibility(View.VISIBLE);
+                            } else {
+                                obtenerYMostrarSeguidores(uidUsuarioActividad);
+                                obtenerYMostrarSeguidos(uidUsuarioActividad);
+                                buttonAjustes.setVisibility(View.GONE);
+                                buttonSeguir.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    }
+                });
         // Botones de la botonera inferior
         textViewNomUsuario = findViewById(R.id.textViewNomUsuario);
         buttonAjustes = findViewById(R.id.imageButtonAjustes);
@@ -92,6 +138,106 @@ public class PerfilActivity extends AppCompatActivity {
                 iniciarForo(nombreFormateado);
             }
         });
+        buttonSeguir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String uidUsuarioSesionActual = uidUsuarioSesion;
+                String uidUsuarioSeguido = uidUsuarioActividad;
+                firestoreDB.collection("usuarios")
+                        .document(uidUsuarioSesionActual)
+                        .update("seguidos",FieldValue.arrayUnion(new HashMap<String, Object>() {{
+                            put("uid",uidUsuarioSeguido);
+                            put("display_name",nombreFormateado);
+                        }}))
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                firestoreDB.collection("usuarios")
+                                        .document(uidUsuarioSeguido)
+                                        .update("seguidores", FieldValue.arrayUnion(uidUsuarioSesion))
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void unused) {
+                                                buttonSeguir.setText("Siguiendo");
+                                                buttonSeguir.setEnabled(false);
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.e("PerfilActivity","Error al seguir al usuario",e);
+                                            }
+                                        });
+                            }
+                        });
+            }
+        });
+    }
+    
+    /**
+     * Obtiene el uid del usuario a traves de su nombre de usuario
+     */
+    private Task<String> obtenerUidActividad(String nombreUsuario) {
+        return firestoreDB.collection("usuarios")
+                .whereEqualTo("display_name", nombreUsuario)
+                .get()
+                .continueWith(new Continuation<QuerySnapshot, String>() {
+                    @Override
+                    public String then(@NonNull Task<QuerySnapshot> task) throws Exception {
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot document : task.getResult()) {
+                                return document.getId();
+                            }
+                        }
+                        return null;
+                    }
+                });
+    }
+
+    /**
+     * Obtiene y muestra el numero de seguidores
+     */
+    private void obtenerYMostrarSeguidores(String uidUsuario) {
+        firestoreDB.collection("usuarios")
+                .document(uidUsuario)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if(document.exists()) {
+                                List<String> seguidores = (List<String>) document.get("seguidores");
+                                textViewNumSeguidores.setText(String.valueOf(seguidores.size()));
+                            } else {
+                                textViewNumSeguidores.setText(String.valueOf(000));
+                            }
+                        }
+                    }
+                });
+    }
+
+    /**
+     * Obtiene y muestra el numero de seguidos
+     */
+    private void obtenerYMostrarSeguidos(String uidUsuario) {
+        firestoreDB.collection("usuarios")
+                .document(uidUsuario)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if(document.exists()) {
+                                List<String> seguidos = (List<String>) document.get("seguidos");
+                                textViewNumSeguidos.setText(String.valueOf(seguidos.size()));
+                            } else {
+                                textViewNumSeguidos.setText(String.valueOf(000));
+                            }
+                        }
+                    }
+                });
     }
 
     /**

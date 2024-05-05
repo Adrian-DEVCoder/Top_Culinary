@@ -78,20 +78,17 @@ public class CocinaActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
-                                // El documento existe, extraemos el nombre de usuario
+                                // Si el documento existe, extraemos el nombre de usuario
                                 String nombreUsuario = document.getString("display_name");
                                 // Inicializacion de los widgets
                                 textViewHola = findViewById(R.id.txvHola);
                                 textViewNSaludo = findViewById(R.id.txvNombreUsuario);
                                 textViewNSaludo.setText(nombreUsuario); // Establecemos el nombre de usuario
-                                // El resto de tu código de inicialización de widgets...
                             } else {
                                 Log.d("Firestore", "No se encontró el documento del usuario");
-                                // Manejar el caso en que el documento no se encuentra
                             }
                         } else {
                             Log.d("Firestore", "Error al obtener el documento del usuario", task.getException());
-                            // Manejar el error
                         }
                     }
                 });

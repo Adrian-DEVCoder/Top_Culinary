@@ -89,6 +89,7 @@ public class NombreUsuarioActivity extends AppCompatActivity {
                     }
                 });
     }
+
     // Metodo para agregar el usuario a firestore
     private void agregarUsuarioFirestore(String inicioDeSesion, String nombreUsuario) {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
