@@ -8,26 +8,27 @@
     tools:context=".perfil.PerfilActivity">
 
     <!-- Textview para el nombre de usuario -->
+
     <TextView
         android:id="@+id/textViewRecetas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/alegreya_sc"
         android:text="Recetas Publicadas"
         android:textColor="#000000"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.545"
+        app:layout_constraintHorizontal_bias="0.51"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewLineaDivisora" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonSeguir" />
 
     <TextView
         android:id="@+id/textViewNumRecetas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/alegreya_sc"
         android:text="50"
         android:textColor="#000000"
@@ -36,7 +37,7 @@
         app:layout_constraintEnd_toStartOf="@+id/textViewRecetas"
         app:layout_constraintHorizontal_bias="0.917"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewLineaDivisora" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonSeguir" />
 
     <TextView
         android:id="@+id/textViewNomUsuario"

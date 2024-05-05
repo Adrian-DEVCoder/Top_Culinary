@@ -77,11 +77,13 @@ public class PerfilActivity extends AppCompatActivity {
                             if(uidUsuarioSesion.equals(uidUsuarioActividad)) {
                                 obtenerYMostrarSeguidores(uidUsuarioSesion);
                                 obtenerYMostrarSeguidos(uidUsuarioSesion);
+                                obtenerYMostrarNumRecetas(uidUsuarioSesion);
                                 buttonSeguir.setVisibility(View.GONE);
                                 buttonAjustes.setVisibility(View.VISIBLE);
                             } else {
                                 obtenerYMostrarSeguidores(uidUsuarioActividad);
                                 obtenerYMostrarSeguidos(uidUsuarioActividad);
+                                obtenerYMostrarNumRecetas(uidUsuarioActividad);
                                 buttonAjustes.setVisibility(View.GONE);
                                 buttonSeguir.setVisibility(View.VISIBLE);
                             }
@@ -235,6 +237,27 @@ public class PerfilActivity extends AppCompatActivity {
                             } else {
                                 textViewNumSeguidos.setText(String.valueOf(000));
                             }
+                        }
+                    }
+                });
+    }
+
+    /**
+     * Obtiene y muestra el numero de recetas publicadas
+     */
+    private void obtenerYMostrarNumRecetas(String uidUsuario) {
+        firestoreDB.collection("usuarios")
+                .document(uidUsuario)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        DocumentSnapshot document = task.getResult();
+                        if(document.exists()) {
+                            List<String> recetasPublicadas = (List<String>) document.get("recetasPublicadas");
+                            textViewNumRecetas.setText(String.valueOf(recetasPublicadas.size()));
+                        } else {
+                            textViewNumRecetas.setText(String.valueOf(000));
                         }
                     }
                 });
