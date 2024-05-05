@@ -37,7 +37,7 @@
 
     <Button
         android:id="@+id/buttonCambiarNombre"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="65dp"
         android:backgroundTint="@color/white"
@@ -52,7 +52,7 @@
 
     <Button
         android:id="@+id/buttonCambiarContrasena"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:backgroundTint="@color/white"
@@ -65,4 +65,22 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonCambiarNombre" />
+
+    <Button
+        android:id="@+id/buttonCerrarSesion"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="@color/rojo"
+        android:fontFamily="@font/alegreya_sc"
+        android:text="CERRAR SESIÓN"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonCambiarContrasena"
+        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>

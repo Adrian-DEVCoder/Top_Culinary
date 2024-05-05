@@ -173,7 +173,7 @@ public class PerfilActivity extends AppCompatActivity {
             }
         });
     }
-    
+
     /**
      * Obtiene el uid del usuario a traves de su nombre de usuario
      */
