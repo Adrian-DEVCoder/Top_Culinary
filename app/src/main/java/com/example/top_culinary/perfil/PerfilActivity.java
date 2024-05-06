@@ -275,7 +275,7 @@ public class PerfilActivity extends AppCompatActivity {
         Intent intent = new Intent(this, AjustesActivity.class);
         intent.putExtra("nombreFormateado", nombreFormateado);
         startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
         finish();
     }
     private void iniciarAniadirRecetas(String nombreFormateado){
