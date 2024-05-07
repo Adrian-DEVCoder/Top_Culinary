@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.example.top_culinary.R;
 import com.example.top_culinary.cesta.CestaActivity;
 import com.example.top_culinary.cocina.CocinaActivity;
-import com.example.top_culinary.foro.ForoActivity;
+import com.example.top_culinary.chat.ChatActivity;
 import com.example.top_culinary.recetas.AniadirRecetasActivity;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -312,7 +312,7 @@ public class PerfilActivity extends AppCompatActivity {
      * Inicia la actividad de Perfil
      */
     private void iniciarForo(String nombreFormateado){
-        Intent intent = new Intent(this, ForoActivity.class);
+        Intent intent = new Intent(this, ChatActivity.class);
         intent.putExtra("nombreFormateado",nombreFormateado);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);

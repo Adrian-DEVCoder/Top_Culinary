@@ -164,7 +164,7 @@
             android:scaleType="centerCrop"
             android:scaleX="0.5"
             android:scaleY="0.5"
-            android:src="@drawable/usuarios"
+            android:src="@drawable/chat"
             app:tint="@color/naranja_normal" />
         <!-- Actividad de Perfil de Usuario -->
         <ImageButton

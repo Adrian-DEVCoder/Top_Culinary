@@ -9,7 +9,7 @@ import android.widget.ImageButton;
 
 import com.example.top_culinary.R;
 import com.example.top_culinary.cocina.CocinaActivity;
-import com.example.top_culinary.foro.ForoActivity;
+import com.example.top_culinary.chat.ChatActivity;
 import com.example.top_culinary.perfil.PerfilActivity;
 import com.example.top_culinary.recetas.AniadirRecetasActivity;
 
@@ -84,7 +84,7 @@ public class CestaActivity extends AppCompatActivity {
      * Inicia la actividad de Foro
      */
     private void iniciarForo(String nombreFormateado){
-        Intent intent = new Intent(this, ForoActivity.class);
+        Intent intent = new Intent(this, ChatActivity.class);
         intent.putExtra("nombreFormateado",nombreFormateado);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);

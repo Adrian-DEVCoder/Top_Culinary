@@ -20,13 +20,11 @@ import com.example.top_culinary.R;
 import com.example.top_culinary.adapter.AdapterReceta;
 import com.example.top_culinary.cesta.CestaActivity;
 import com.example.top_culinary.database.DBHandler;
-import com.example.top_culinary.foro.ForoActivity;
+import com.example.top_culinary.chat.ChatActivity;
 import com.example.top_culinary.model.Receta;
 import com.example.top_culinary.perfil.PerfilActivity;
 import com.example.top_culinary.recetas.AniadirRecetasActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,9 +32,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class CocinaActivity extends AppCompatActivity {
     // Declaracion de las variables
@@ -182,7 +178,7 @@ public class CocinaActivity extends AppCompatActivity {
      * Inicia la actividad de Foro
      */
     private void iniciarForo(String nombreFormateado){
-        Intent intent = new Intent(CocinaActivity.this, ForoActivity.class);
+        Intent intent = new Intent(CocinaActivity.this, ChatActivity.class);
         intent.putExtra("nombreFormateado",nombreFormateado);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);

@@ -1,4 +1,4 @@
-package com.example.top_culinary.foro;
+package com.example.top_culinary.chat;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,7 +13,7 @@ import com.example.top_culinary.cocina.CocinaActivity;
 import com.example.top_culinary.perfil.PerfilActivity;
 import com.example.top_culinary.recetas.AniadirRecetasActivity;
 
-public class ForoActivity extends AppCompatActivity {
+public class ChatActivity extends AppCompatActivity {
     // Declaracion de los widgets
     ImageButton buttonAniadirRecetas;
     ImageButton buttonCesta;

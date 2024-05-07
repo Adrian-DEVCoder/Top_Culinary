@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/marron_more"
-    tools:context=".foro.ForoActivity">
+    android:background="@color/naranja_more"
+    tools:context=".chat.ChatActivity">
 
     <!-- Botonera inferior para moverse -->
     <LinearLayout
@@ -13,7 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:background="@color/white"
-        android:layout_marginBottom="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -59,7 +58,7 @@
             android:scaleType="centerCrop"
             android:scaleX="0.5"
             android:scaleY="0.5"
-            android:src="@drawable/usuarios"
+            android:src="@drawable/chat"
             app:tint="@color/naranja_normal" />
         <!-- Actividad de Perfil de Usuario -->
         <ImageButton
@@ -73,5 +72,6 @@
             android:src="@drawable/usuario"
             app:tint="@color/naranja_normal" />
     </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
