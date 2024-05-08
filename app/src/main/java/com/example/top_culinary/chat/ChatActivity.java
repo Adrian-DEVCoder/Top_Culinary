@@ -22,7 +22,7 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_foro);
+        setContentView(R.layout.activity_chat);
         // Obtencion del nombre del intent
         Intent intent = getIntent();
         String nombreFormateado = intent.getStringExtra("nombreFormateado");
