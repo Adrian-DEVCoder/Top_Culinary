@@ -22,9 +22,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class DBHandler extends SQLiteOpenHelper {
-    // Constantes
+    // Constantes DB
     private static final String NOMBRE_DB = "Recetas.sqlite";
     private static final int DB_VERSION = 1;
+    // Constantes Tabla Recetas Aplicacion
     private static final String NOMBRE_TABLA = "Recetas";
     private static final String ID_COL = "id";
     private static final String IMAGEN_COL = "imagen";
@@ -42,9 +43,15 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String PASOS_COL = "pasos";
     private static final String KALORIAS_COL = "kalorias";
     private static final String NOTAS_COL = "notas";
+    // Constantes Tabla Recetas Usuario
+    private static final String NOMBRE_TABLA_USUARIO = "RecetasUsuario";
+    private static final String ID_USUARIO_COL = "id";
+    private static final String IMAGEN_USUARIO_COL = "imagen";
+    private static final String TITULO_USUARIO_COL = "titulo";
+    private static final String INGREDIENTES_USUARIO_COL = "ingredientes";
+    private static final String PASOS_USUARIO_COL = "pasos";
     // Inicializacion de las variables
     private Context context;
-
     /**
      * Constructor
      * @param context Contexto de la actividad
@@ -56,7 +63,8 @@ public class DBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String query = "CREATE TABLE IF NOT EXISTS " + NOMBRE_TABLA + "("
+        // Query para la creacion de la tabla de las Recetas de la app
+        String queryRecetas = "CREATE TABLE IF NOT EXISTS " + NOMBRE_TABLA + "("
                 + ID_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + IMAGEN_COL + " TEXT, "
                 + TITULO_COL + " TEXT, "
@@ -74,7 +82,16 @@ public class DBHandler extends SQLiteOpenHelper {
                 + PASOS_COL + " TEXT, "
                 + NOTAS_COL + " TEXT)";
         // Ejecutamos la query de la creacion de la tabla
-        db.execSQL(query);
+        db.execSQL(queryRecetas);
+        // Query para la creacion de la tabla de las recetas creadas por el usuario
+        String queryRecetasUsuario = "CREATE TABLE IF NOT EXISTS " + NOMBRE_TABLA_USUARIO + "("
+                + ID_USUARIO_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + IMAGEN_USUARIO_COL + " TEXT, "
+                + TITULO_USUARIO_COL + " TEXT, "
+                + INGREDIENTES_USUARIO_COL + " TEXT, "
+                + PASOS_USUARIO_COL + " TEXT)";
+        // Ejecutamos la query para la creacion de la tabla
+        db.execSQL(queryRecetasUsuario);
         try{
             InputStream inputStream = context.getAssets().open("recetas.json");
             int tamanio = inputStream.available();
@@ -238,10 +255,40 @@ public class DBHandler extends SQLiteOpenHelper {
         return receta;
     }
 
+    /**
+     * Inserta la receta creada por el usuario
+     * @param imagen de la receta
+     * @param titulo de la receta
+     * @param ingredientes de la receta
+     * @param pasos de la receta
+     */
+    public void insertarRecetaUsuario(String imagen, String titulo, String ingredientes, String pasos) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(IMAGEN_USUARIO_COL, imagen);
+        contentValues.put(TITULO_USUARIO_COL, titulo);
+        contentValues.put(INGREDIENTES_USUARIO_COL, ingredientes);
+        contentValues.put(PASOS_USUARIO_COL, pasos);
+        long resultado = sqLiteDatabase.insert(NOMBRE_TABLA_USUARIO, null, contentValues);
+        if(resultado == -1) {
+            throw new SQLiteException("Error al insertar la receta en la tabla RecetasUsuario");
+        }
+        sqLiteDatabase.close();
+    }
+
+    private void eliminarRecetaUsuario(String titulo) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        String queryEliminacion = "DELETE FROM " + NOMBRE_TABLA_USUARIO + " WHERE " + TITULO_USUARIO_COL + " =?";
+        sqLiteDatabase.execSQL(queryEliminacion, new String[]{titulo});
+        sqLiteDatabase.close();
+    }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        String query = "DROP TABLE IF EXISTS " + NOMBRE_TABLA;
-        db.execSQL(query);
+        String queryRecetas = "DROP TABLE IF EXISTS " + NOMBRE_TABLA;
+        db.execSQL(queryRecetas);
+        String queryRecetasUsuario = "DROP TABLE IF EXISTS " + NOMBRE_TABLA_USUARIO;
+        db.execSQL(queryRecetasUsuario);
         onCreate(db);
     }
 }

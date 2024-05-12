@@ -4,16 +4,58 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/azul_less"
+    android:background="@color/naranja_more"
     tools:context=".recetas.AniadirRecetasActivity">
 
     <!-- Botonera inferior para moverse -->
+
+    <Button
+        android:id="@+id/buttonAnadirReceta"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="#FFFFFF"
+        android:fontFamily="@font/alegreya_sc"
+        android:text="AÑADIR RECETA"
+        android:textColor="@color/naranja_more"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewMisRecetas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/alegreya_sc"
+        android:text="MIS RECETAS"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonAnadirReceta" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewMisRecetas"
+        android:layout_width="409dp"
+        android:layout_height="695dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="1dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayoutBotoneraInferior"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewMisRecetas"
+        tools:listitem="@layout/receta_anadida" />
+
     <LinearLayout
         android:id="@+id/linearLayoutBotoneraInferior"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:background="@color/white"
-        android:layout_marginBottom="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">

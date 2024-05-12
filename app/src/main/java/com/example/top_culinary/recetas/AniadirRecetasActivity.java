@@ -1,11 +1,14 @@
 package com.example.top_culinary.recetas;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.example.top_culinary.R;
 import com.example.top_culinary.cesta.CestaActivity;
@@ -15,6 +18,9 @@ import com.example.top_culinary.perfil.PerfilActivity;
 
 public class AniadirRecetasActivity extends AppCompatActivity {
     // Declaracion de los widgets
+    Button buttonAnadirReceta;
+    TextView textViewMisRecetas;
+    RecyclerView recyclerViewRecetasAnadidas;
     ImageButton buttonCesta;
     ImageButton buttonCocina;
     ImageButton buttonForo;
@@ -27,10 +33,20 @@ public class AniadirRecetasActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String nombreFormateado = intent.getStringExtra("nombreFormateado");
         // Botones de la botonera inferior
+        buttonAnadirReceta = findViewById(R.id.buttonAnadirReceta);
+        textViewMisRecetas = findViewById(R.id.textViewMisRecetas);
+        recyclerViewRecetasAnadidas = findViewById(R.id.recyclerViewMisRecetas);
         buttonCesta = findViewById(R.id.imgBCesta);
         buttonCocina = findViewById(R.id.imgBCocina);
         buttonForo = findViewById(R.id.imgBForo);
         buttonPerfil = findViewById(R.id.imgBPerfil);
+        // Listener del boton de añadir recetas
+        buttonAnadirReceta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                iniciarAnadirRecetas(nombreFormateado);
+            }
+        });
         // Listener de los botones inferiores
         buttonCesta.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,7 +75,18 @@ public class AniadirRecetasActivity extends AppCompatActivity {
     }
 
     /**
-     * Inicia la actividad de Añadir Recetas
+     * Inicia la actividad Añadir Recetas
+     * @param nombreFormateado
+     */
+    private void iniciarAnadirRecetas(String nombreFormateado) {
+        Intent intent = new Intent(this, NombreImagenRecetaActivity.class);
+        intent.putExtra("nombreFormateado",nombreFormateado);
+        startActivity(intent);
+        finish();
+    }
+
+    /**
+     * Inicia la actividad Cesta
      */
     private void iniciarCesta(String nombreFormateado){
         Intent intent = new Intent(this, CestaActivity.class);
@@ -70,7 +97,7 @@ public class AniadirRecetasActivity extends AppCompatActivity {
     }
 
     /**
-     * Inicia la actividad de Cesta
+     * Inicia la actividad Cocina
      */
     private void iniciarCocina(String nombreFormateado){
         Intent intent = new Intent(this, CocinaActivity.class);
@@ -81,7 +108,7 @@ public class AniadirRecetasActivity extends AppCompatActivity {
     }
 
     /**
-     * Inicia la actividad de Foro
+     * Inicia la actividad Chat
      */
     private void iniciarForo(String nombreFormateado){
         Intent intent = new Intent(this, ChatActivity.class);

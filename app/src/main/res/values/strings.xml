@@ -3,4 +3,5 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="default_web_client_id">1070547082757-d3djqmscritem7pdcfuri201at061uts.apps.googleusercontent.com</string>
+    <string name="introduceNombreReceta">Introduce el nombre de la receta</string>
 </resources>
