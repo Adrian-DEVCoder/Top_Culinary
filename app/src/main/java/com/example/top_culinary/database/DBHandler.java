@@ -195,13 +195,42 @@ public class DBHandler extends SQLiteOpenHelper {
                 } while (cursor.moveToNext());
             }
         } catch (Exception e){
-            Log.d("Insercion BD","Error al insertar la receta.");
+            Log.d("Insercion BD","Error al obtener las recetas.");
         } finally {
             if(cursor != null){
                 cursor.close();
             }
         }
         return recetas;
+    }
+
+    /**
+     * Obtenemos todas las recetas de los usuarios de la base de datos
+     * @return Lista de Recetas del Usuario
+     */
+    @SuppressLint("Range")
+    public List<Receta> obtenerRecetasUsuario() {
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        List<Receta> recetasUsuario = new ArrayList<Receta>();
+        Cursor cursor = null;
+        try {
+            cursor = sqLiteDatabase.rawQuery("SELECT * FROM " + NOMBRE_TABLA_USUARIO, null);
+            if(cursor.moveToFirst()) {
+                do {
+                    Receta receta = new Receta();
+                    receta.setImagen(cursor.getString(cursor.getColumnIndex(IMAGEN_USUARIO_COL)));
+                    receta.setTitulo(cursor.getString(cursor.getColumnIndex(TITULO_USUARIO_COL)));
+                    recetasUsuario.add(receta);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            Log.d("Insercion BD", "Error al obtener las recetas del usuario");
+        } finally {
+            if(cursor != null) {
+                cursor.close();
+            }
+         }
+        return recetasUsuario;
     }
 
     /**
@@ -276,6 +305,10 @@ public class DBHandler extends SQLiteOpenHelper {
         sqLiteDatabase.close();
     }
 
+    /**
+     * Elimina una receta insertada por el usuario
+     * @param titulo de la receta
+     */
     private void eliminarRecetaUsuario(String titulo) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         String queryEliminacion = "DELETE FROM " + NOMBRE_TABLA_USUARIO + " WHERE " + TITULO_USUARIO_COL + " =?";

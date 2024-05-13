@@ -1,6 +1,7 @@
 package com.example.top_culinary.recetas;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -11,12 +12,21 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.top_culinary.R;
+import com.example.top_culinary.adapter.AdapterRecetaUsuario;
 import com.example.top_culinary.cesta.CestaActivity;
 import com.example.top_culinary.cocina.CocinaActivity;
 import com.example.top_culinary.chat.ChatActivity;
+import com.example.top_culinary.database.DBHandler;
+import com.example.top_culinary.model.Receta;
 import com.example.top_culinary.perfil.PerfilActivity;
 
+import java.util.List;
+
 public class AniadirRecetasActivity extends AppCompatActivity {
+    // Declaracion de las variables
+    private DBHandler dbHandler;
+    private List<Receta> recetaUsuarioList;
+    private AdapterRecetaUsuario adapterRecetaUsuario;
     // Declaracion de los widgets
     Button buttonAnadirReceta;
     TextView textViewMisRecetas;
@@ -29,6 +39,8 @@ public class AniadirRecetasActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aniadir_recetas);
+        // Inicializacion de la DB Local
+        dbHandler = new DBHandler(this);
         // Obtencion del nombre del usuario
         Intent intent = getIntent();
         String nombreFormateado = intent.getStringExtra("nombreFormateado");
@@ -36,6 +48,10 @@ public class AniadirRecetasActivity extends AppCompatActivity {
         buttonAnadirReceta = findViewById(R.id.buttonAnadirReceta);
         textViewMisRecetas = findViewById(R.id.textViewMisRecetas);
         recyclerViewRecetasAnadidas = findViewById(R.id.recyclerViewMisRecetas);
+        recyclerViewRecetasAnadidas.setLayoutManager(new LinearLayoutManager(this));
+        recetaUsuarioList = dbHandler.obtenerRecetasUsuario();
+        adapterRecetaUsuario = new AdapterRecetaUsuario(recetaUsuarioList);
+        recyclerViewRecetasAnadidas.setAdapter(adapterRecetaUsuario);
         buttonCesta = findViewById(R.id.imgBCesta);
         buttonCocina = findViewById(R.id.imgBCocina);
         buttonForo = findViewById(R.id.imgBForo);

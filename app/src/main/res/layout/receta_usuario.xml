@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!-- COMIENZO PAGINA -->
+    
+    <!-- Cardview para las recetas-->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardReceta"
+        android:layout_width="374dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="8dp"
+        app:cardCornerRadius="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        
+        <!-- Linear layout para el cardview -->
+        <LinearLayout
+            android:id="@+id/llReceta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            
+            <!-- Imageview para la receta -->
+            <ImageView
+                android:id="@+id/imgReceta"
+                android:layout_width="374dp"
+                android:layout_height="200dp"
+                android:background="#FFFFFF"
+                android:scaleType="centerCrop"
+                android:src="@drawable/placeholder" />
+            
+            <!-- Linear layout para los detalles de la receta -->
+            <LinearLayout
+                android:id="@+id/llDetalles"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:background="@color/white"
+                android:orientation="vertical">
+                
+                <!-- Textview del nombre de la receta -->
+                <TextView
+                    android:id="@+id/txvNombreReceta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" 
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/alegreya_sc"
+                    android:text="Macarrones con Tomate"
+                    android:textAlignment="center"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+                
+                <!-- Linear layout de los detalles -->
+
+            </LinearLayout>
+            
+        </LinearLayout>
+        
+    </androidx.cardview.widget.CardView>
+    <!-- FINAL PAGINA-->
+</androidx.constraintlayout.widget.ConstraintLayout>

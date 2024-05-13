@@ -21,7 +21,7 @@ import com.example.top_culinary.R;
 
 public class NombreImagenRecetaActivity extends AppCompatActivity {
     // Declaracion de constantes
-    private static final int REQUEST_CODE_SELECCIONAR_FOTO = 100;
+    private static final int REQUEST_CODE_SELECCIONAR_FOTO = 1001;
     // Declaracion de las variables
     private String nombreReceta;
     private String imagenRecetaUrl;
@@ -72,7 +72,7 @@ public class NombreImagenRecetaActivity extends AppCompatActivity {
     }
 
     private void solicitarPermiso() {
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_SELECCIONAR_FOTO);
         } else {
             seleccionarFoto();

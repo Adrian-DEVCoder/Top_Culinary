@@ -43,9 +43,9 @@ public class PasosActivity extends AppCompatActivity {
         // Obtencion del nombre de usuario, nombre de receta e ingredientes
         Intent intent = getIntent();
         nombreReceta = intent.getStringExtra("nombreReceta");
+        imagenReceta = intent.getStringExtra("imagenReceta");
         nombreFormateado = intent.getStringExtra("nombreFormateado");
         listaIngredientes = intent.getStringArrayListExtra("listaIngredientes");
-        imagenReceta = intent.getStringExtra("imagenReceta");
         // Inicializacion de los widgets
         scrollViewPasos = findViewById(R.id.scrollViewPasos);
         linearLayoutPasos = findViewById(R.id.linearLayoutPasos);
