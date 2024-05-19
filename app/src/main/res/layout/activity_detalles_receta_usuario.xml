@@ -11,8 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:scaleType="centerCrop"
-        android:layout_marginBottom="16dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/macarrones" />
@@ -25,10 +25,8 @@
         android:layout_marginTop="24dp"
         android:background="@drawable/botones_redondos"
         android:padding="10dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageViewReceta"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageViewReceta"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/atras"
         app:tint="@color/naranja_more" />
 
@@ -41,7 +39,7 @@
         android:background="@drawable/botones_redondos"
         android:padding="12dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageViewReceta"
+        app:layout_constraintTop_toTopOf="@+id/imageViewRecetaUsuario"
         app:srcCompat="@drawable/sin_favorito" />
 
     <ScrollView
@@ -50,10 +48,10 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewReceta"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintTop_toBottomOf="@+id/imageViewRecetaUsuario"
+        app:layout_constraintVertical_bias="0.0">
 
         <LinearLayout
             android:id="@+id/llDetallesReceta"

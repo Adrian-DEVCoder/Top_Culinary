@@ -43,7 +43,11 @@ public class AdapterRecetaUsuario extends RecyclerView.Adapter<AdapterRecetaUsua
     @Override
     public void onBindViewHolder(@NonNull AdapterRecetaUsuario.ItemViewHolder holder, int position) {
         Receta receta = recetaUsuarioList.get(position);
-        holder.imageViewReceta.setImageResource(R.drawable.placeholder);
+        Glide.with(holder.itemView.getContext())
+                .load(receta.getImagen())
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.placeholder)
+                .into(holder.imageViewReceta);
         holder.textViewNombre.setText(receta.getTitulo());
     }
 

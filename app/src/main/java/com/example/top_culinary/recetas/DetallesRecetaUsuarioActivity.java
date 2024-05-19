@@ -7,6 +7,7 @@
     import android.graphics.PorterDuff;
     import android.net.Uri;
     import android.os.Bundle;
+    import android.util.Log;
     import android.view.View;
     import android.view.animation.Animation;
     import android.view.animation.AnimationUtils;
@@ -25,6 +26,7 @@
     import androidx.loader.app.LoaderManager;
     import androidx.loader.content.Loader;
 
+    import com.bumptech.glide.Glide;
     import com.example.top_culinary.R;
     import com.example.top_culinary.cocina.RecetacionActivity;
     import com.example.top_culinary.database.DBHandler;
@@ -93,22 +95,13 @@
             // Obtenemos la receta y sus detalles
             Receta receta = dbHandler.obtenerRecetaUsuarioPorNombre(nombreReceta);
             // Cargamos la imagen dentro del imageView
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED) {
-                // Permiso no concedido, solicítalo
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                        MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
-            } else {
-                String urlImagen = receta.getImagen();
-                System.out.println("URI de la Imagen: "+urlImagen);
-                Uri uri = Uri.parse(urlImagen);
-                if (uri != null) {
-                    imageViewReceta.setImageURI(uri);
-                } else {
-                    Toast.makeText(this, "URI de la imagen no válida.", Toast.LENGTH_SHORT).show();
-                }
-            }
+            String urlImagen = receta.getImagen();
+            Log.d("Imagen Receta Usuario",urlImagen);
+            Glide.with(this)
+                    .load(receta.getImagen())
+                    .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.placeholder)
+                    .into(imageViewReceta);
             // Cargamos el tituto de la receta
             textViewTituloReceta.setText(receta.getTitulo());
             // Cargamos los ingredientes
