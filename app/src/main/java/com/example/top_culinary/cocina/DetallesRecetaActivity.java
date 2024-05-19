@@ -131,7 +131,7 @@ public class DetallesRecetaActivity extends AppCompatActivity {
         int color = ContextCompat.getColor(imageButton.getContext(), currentImageResource == R.drawable.favorito ? R.color.naranja_more : R.color.black);
         imageButton.setColorFilter(color, PorterDuff.Mode.SRC_IN);
 
-        // Opcional: Agregar una animación de desvanecimiento si lo deseas
+        // Agrega una animación de desvanecimiento
         imageButton.animate().alpha(0.5f).setDuration(300).withEndAction(new Runnable() {
             @Override
             public void run() {

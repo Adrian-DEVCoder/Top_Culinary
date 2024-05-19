@@ -285,6 +285,40 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     /**
+     * Obtenemos los detalles de la receta del usuario pulsada
+     * @param nombreReceta de la receta
+     * @return receta seleccionada
+     */
+    @SuppressLint("Range")
+    public Receta obtenerRecetaUsuarioPorNombre(String nombreReceta) {
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        Receta receta = new Receta();
+        Cursor cursor = null;
+        try {
+            cursor = sqLiteDatabase.rawQuery("SELECT * FROM " + NOMBRE_TABLA_USUARIO + " WHERE " + TITULO_USUARIO_COL + " LIKE ?", new String[]{"%" + nombreReceta + "%"});
+            if(cursor.moveToFirst()) {
+                receta.setImagen(cursor.getString(cursor.getColumnIndex(IMAGEN_USUARIO_COL)));
+                receta.setTitulo(cursor.getString(cursor.getColumnIndex(TITULO_USUARIO_COL)));
+                String ingredientes = cursor.getString(cursor.getColumnIndex(INGREDIENTES_USUARIO_COL));
+                List<String> listaIngredientes = new ArrayList<>();
+                listaIngredientes.addAll(Arrays.asList(ingredientes.split("\n")));
+                receta.setIngredientes(listaIngredientes);
+                String pasos = cursor.getString(cursor.getColumnIndex(PASOS_USUARIO_COL));
+                List<String> listaPasos = new ArrayList<>();
+                listaPasos.addAll(Arrays.asList(pasos.split("\n")));
+                receta.setPasos(listaPasos);
+            }
+        } catch (SQLiteException e) {
+            Log.d("DB","Error al obtener los detalles de la receta.");
+        } finally {
+            if(cursor != null) {
+                cursor.close();
+            }
+        }
+        return receta;
+    }
+
+    /**
      * Inserta la receta creada por el usuario
      * @param imagen de la receta
      * @param titulo de la receta

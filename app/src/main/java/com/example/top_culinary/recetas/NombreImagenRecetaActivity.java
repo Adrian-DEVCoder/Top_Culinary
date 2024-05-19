@@ -19,12 +19,25 @@ import android.widget.Toast;
 
 import com.example.top_culinary.R;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Continuation;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+
+
 public class NombreImagenRecetaActivity extends AppCompatActivity {
     // Declaracion de constantes
     private static final int REQUEST_CODE_SELECCIONAR_FOTO = 1001;
     // Declaracion de las variables
+    private String nombreFormateado;
     private String nombreReceta;
     private String imagenRecetaUrl;
+    private StorageReference storageRef;
     // Declaracion de los widgets
     ImageView imageViewReceta;
     ImageButton buttonFoto;
@@ -34,9 +47,11 @@ public class NombreImagenRecetaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nombre_receta);
+        // Inicializacion del Storage de Firebase
+        storageRef = FirebaseStorage.getInstance().getReference("imagenes/recetas/");
         // Obtencion del nombre de usuario a traves del intent;
         Intent intent = getIntent();
-        String nombreFormateado = intent.getStringExtra("nombreFormateado");
+        nombreFormateado = intent.getStringExtra("nombreFormateado");
         // Inicializacion de los widgets
         imageViewReceta = findViewById(R.id.imageViewReceta);
         buttonFoto = findViewById(R.id.imageButtonFoto);
@@ -102,10 +117,35 @@ public class NombreImagenRecetaActivity extends AppCompatActivity {
         if(requestCode == REQUEST_CODE_SELECCIONAR_FOTO && resultCode == RESULT_OK && data != null) {
             Uri uri = data.getData();
             imageViewReceta.setImageURI(uri);
-            if(uri != null) {
-                imagenRecetaUrl = uri.toString();
-            }
+            uploadImageToFirebaseStorage(uri);
         }
+    }
+
+    // Subira la imagen seleccionada por el usuario al storage de firebase
+    private void uploadImageToFirebaseStorage(Uri imageUri) {
+        // Crea una referencia de almacenamiento para la imagen
+        StorageReference imageRef = storageRef.child(System.currentTimeMillis() + ".jpg");
+
+        // Inicia la subida de la imagen
+        UploadTask uploadTask = imageRef.putFile(imageUri);
+
+        // Encadena la operación de subida con la obtención de la URL de descarga
+        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        imagenRecetaUrl = uri.toString();
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     private void mostrarToast(String mensaje) {

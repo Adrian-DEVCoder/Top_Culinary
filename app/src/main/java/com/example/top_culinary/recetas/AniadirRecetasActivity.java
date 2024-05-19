@@ -19,6 +19,7 @@ import com.example.top_culinary.chat.ChatActivity;
 import com.example.top_culinary.database.DBHandler;
 import com.example.top_culinary.model.Receta;
 import com.example.top_culinary.perfil.PerfilActivity;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.List;
 
@@ -39,6 +40,8 @@ public class AniadirRecetasActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aniadir_recetas);
+        // Inicializacion del Storage de Firebase
+        FirebaseStorage storage = FirebaseStorage.getInstance();
         // Inicializacion de la DB Local
         dbHandler = new DBHandler(this);
         // Obtencion del nombre del usuario

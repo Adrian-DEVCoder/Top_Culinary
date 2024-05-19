@@ -18,6 +18,7 @@ import com.example.top_culinary.R;
 import com.example.top_culinary.cocina.DetallesRecetaActivity;
 import com.example.top_culinary.database.DBHandler;
 import com.example.top_culinary.model.Receta;
+import com.example.top_culinary.recetas.DetallesRecetaUsuarioActivity;
 
 import java.util.List;
 
@@ -83,7 +84,7 @@ public class AdapterRecetaUsuario extends RecyclerView.Adapter<AdapterRecetaUsua
         }
 
         private void obtenerReceta(String nomReceta) {
-            Intent intent = new Intent(itemView.getContext(), DetallesRecetaActivity.class);
+            Intent intent = new Intent(itemView.getContext(), DetallesRecetaUsuarioActivity.class);
             intent.putExtra("nombreReceta", nomReceta);
             itemView.getContext().startActivity(intent);
         }

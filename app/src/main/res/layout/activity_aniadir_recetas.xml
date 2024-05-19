@@ -41,10 +41,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewMisRecetas"
-        android:layout_width="409dp"
-        android:layout_height="695dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayoutBotoneraInferior"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
