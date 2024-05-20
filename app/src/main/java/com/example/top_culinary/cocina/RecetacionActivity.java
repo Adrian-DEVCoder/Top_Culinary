@@ -14,11 +14,13 @@ import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.example.top_culinary.R;
 import com.example.top_culinary.database.DBHandler;
 import com.example.top_culinary.model.Receta;
+import com.example.top_culinary.recetas.DetallesRecetaUsuarioActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,12 +49,20 @@ public class RecetacionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recetacion);
-        // Obtencion de los datos de la receta
+        // Inicializacion de la DB Local
         dbHandler = new DBHandler(this);
+        // Obtencion del nombre de la receta y la receta dependiendo de si accede por una variable o por otra llama a metodos diferentes
+        Receta receta = null;
         Intent intent = getIntent();
         String nombreReceta = intent.getStringExtra("nombreReceta");
-        Receta receta = null;
-        receta = dbHandler.obtenerRecetaPorNombre(nombreReceta);
+        String nombreRecetaUsuario = intent.getStringExtra("nombreRecetaUsuario");
+        if(nombreReceta != null) {
+            receta = dbHandler.obtenerRecetaPorNombre(nombreReceta);
+        } else if (nombreRecetaUsuario != null) {
+            receta = dbHandler.obtenerRecetaUsuarioPorNombre(nombreRecetaUsuario);
+        } else {
+            mostrarToast("No se ha podido recuperar los detalles de la receta.");
+        }
         // Inicializacion de los componentes
         textViewPaso = findViewById(R.id.textViewPaso);
         textViewTiempoRestante = findViewById(R.id.textViewTiempoRestante);
@@ -71,10 +81,19 @@ public class RecetacionActivity extends AppCompatActivity {
                     pasoActual++;
                     actualizarPaso(pasoActual);
                 } else {
-                    // Navegación a la siguiente actividad
-                    Intent intent = new Intent(RecetacionActivity.this, DetallesRecetaActivity.class);
-                    intent.putExtra("nombreReceta", nombreReceta);
-                    startActivity(intent);
+                    if(nombreReceta != null) {
+                        Intent intent = new Intent(RecetacionActivity.this, DetallesRecetaActivity.class);
+                        intent.putExtra("nombreReceta", nombreReceta);
+                        startActivity(intent);
+                        finish();
+                    } else if (nombreRecetaUsuario != null) {
+                        Intent intent = new Intent(RecetacionActivity.this, DetallesRecetaUsuarioActivity.class);
+                        intent.putExtra("nombreReceta", nombreRecetaUsuario);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        mostrarToast("No se ha podido iniciar correctamente la actividad.");
+                    }
                 }
             }
         });
@@ -115,7 +134,6 @@ public class RecetacionActivity extends AppCompatActivity {
                 // Convertimos los minutos en milisegundos
                 // Ajuste aquí: si el paso contiene "hora", multiplicamos por 60 para convertir horas en minutos
                 tiempoRestante = (paso.contains("hora") ? tiempo * 60 : tiempo) * 60 * 1000;
-                // Buscamos el TextView dentro del View inflado
                 textViewTiempoRestante.setText(formatearTiempo(tiempoRestante));
                 buttonPlayPausa.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -138,7 +156,6 @@ public class RecetacionActivity extends AppCompatActivity {
         // Actualizamos el progreso basado en el paso actual
         progresoActual = (int) (progresoSumar * (pasoActual + 1));
         progressBarPasos.setProgress(progresoActual);
-        // Llamamos a animacionBarraDeProgreso con solo el valor final y la duración
         animacionBarraDeProgreso(progresoActual, 1000);
     }
 
@@ -150,7 +167,6 @@ public class RecetacionActivity extends AppCompatActivity {
             @Override
             public void onTick(long millisUntilFinished) {
                 tiempoRestante = millisUntilFinished;
-                // Actualizamos la interfaz
                 TextView textViewTiempoRestante = findViewById(R.id.textViewTiempoRestante);
                 textViewTiempoRestante.setText(formatearTiempo(millisUntilFinished));
             }
@@ -207,8 +223,7 @@ public class RecetacionActivity extends AppCompatActivity {
         List<String> pasosReceta = receta.getPasos();
         List<String> pasosFormateados = new ArrayList<>();
         for(String pasoReceta : pasosReceta){
-            String pasoFormateado = pasoReceta.substring(3);
-            pasosFormateados.add(pasoFormateado);
+            pasosFormateados.add(pasoReceta);
         }
         return pasosFormateados;
     }
@@ -234,5 +249,9 @@ public class RecetacionActivity extends AppCompatActivity {
         animation.start();
     }
 
+    // Muestra un toast al usuario
+    private void mostrarToast(String mensaje) {
+        Toast.makeText(RecetacionActivity.this,mensaje,Toast.LENGTH_SHORT).show();
+    }
 
 }

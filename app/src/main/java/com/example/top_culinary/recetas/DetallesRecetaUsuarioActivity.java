@@ -35,7 +35,6 @@
     import org.jetbrains.annotations.Nullable;
 
     public class DetallesRecetaUsuarioActivity extends AppCompatActivity {
-        private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 100;
         // Declaracion de las variables
         private DBHandler dbHandler;
         // Declaracion de los widgets
@@ -107,13 +106,13 @@
             // Cargamos los ingredientes
             StringBuilder stbIngredientes = new StringBuilder();
             for(String ingrediente : receta.getIngredientes()) {
-                stbIngredientes.append(ingrediente+"\n");
+                stbIngredientes.append("- ").append(ingrediente).append("\n");
             }
             textViewListaIngredientes.setText(stbIngredientes.toString());
             // Cargamos los pasos
             StringBuilder stbPasos = new StringBuilder();
-            for(String paso : receta.getPasos()) {
-                stbPasos.append(paso+"\n");
+            for(int i = 0; i < receta.getPasos().size(); i++) {
+                stbPasos.append(i+1).append(". ").append(receta.getPasos().get(i)).append("\n");
             }
             textViewListaPasos.setText(stbPasos.toString());
             // Listener del boton de comenzar receta
@@ -121,7 +120,7 @@
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(DetallesRecetaUsuarioActivity.this, RecetacionActivity.class);
-                    intent.putExtra("nombreReceta",receta.getTitulo());
+                    intent.putExtra("nombreRecetaUsuario",receta.getTitulo());
                     startActivity(intent);
                     finish();
                 }

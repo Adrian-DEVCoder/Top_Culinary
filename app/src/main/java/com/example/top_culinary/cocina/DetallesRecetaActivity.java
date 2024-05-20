@@ -96,19 +96,19 @@ public class DetallesRecetaActivity extends AppCompatActivity {
 
         StringBuilder stbIngredientes = new StringBuilder();
         for(String ingrediente : receta.getIngredientes()){
-            stbIngredientes.append(ingrediente+"\n");
+            stbIngredientes.append("- ").append(ingrediente).append("\n");
         }
         textViewListaIngredientes.setText(stbIngredientes.toString());
 
         StringBuilder stbEquipamiento = new StringBuilder();
         for(String equipamiento : receta.getEquipamiento()){
-            stbEquipamiento.append(equipamiento+"\n");
+            stbEquipamiento.append("- ").append(equipamiento).append("\n");
         }
         textViewListaEquipamiento.setText(stbEquipamiento.toString());
 
         StringBuilder stbPasos = new StringBuilder();
         for(int i=0;i<receta.getPasos().size();i++){
-            stbPasos.append(receta.getPasos().get(i)+"\n");
+            stbPasos.append(i+1).append(". ").append(receta.getPasos().get(i)).append("\n");
         }
         textViewListaPasos.setText(stbPasos.toString());
 
