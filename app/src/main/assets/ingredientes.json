@@ -1,0 +1,577 @@
+[
+  {
+    "nombre": "Berenjena",
+    "imagen": "https://prod-mercadona.imgix.net/images/cbd784174d4dfee4fedee9f32d3ad0ab.jpg?fit=crop&h=300&w=300",
+    "precio": "0.51"
+  },
+  {
+    "nombre": "Cerveza Clásica Steinburg",
+    "imagen": "https://prod-mercadona.imgix.net/images/f78865cc7ad2442c870e5e0474387c6f.jpg?fit=crop&h=300&w=300",
+    "precio": "3.72"
+  },
+  {
+    "nombre": "Cerveza Amstel",
+    "imagen": "https://prod-mercadona.imgix.net/images/99fb29f4f7506390716e6a02deafcb2e.jpg?fit=crop&h=300&w=300",
+    "precio": "5.76"
+  },
+  {
+    "nombre": "Sal fina Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/5097b3d7450edab7c2d9586299f5f3b9.jpg?fit=crop&h=300&w=300",
+    "precio": "0.35"
+  },
+  {
+    "nombre": "Harina de garbanzo Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/11b528a4bb9f1610a8748b9bbb71b2a6.jpg?fit=crop&h=300&w=300",
+    "precio": "2.00"
+  },
+  {
+    "nombre": "Aceite de oliva 0,4º Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/1a84cd7052b68873985104ac24b87043.jpg?fit=crop&h=300&w=300",
+    "precio": "8.95"
+  },
+  {
+    "nombre": "Aceite de girasol refinado 0,2º Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/38334513c2db1608117eb6c2759439f2.jpg?fit=crop&h=300&w=300",
+    "precio": "1.45"
+  },
+  {
+    "nombre": "Huevos grandes L",
+    "imagen": "https://prod-mercadona.imgix.net/images/7e482af6b2e6f6ec0845e24bbfdace89.jpg?fit=crop&h=300&w=300",
+    "precio": "2.20"
+  },
+  {
+    "nombre": "Azúcar glas Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/e14477b8a02c2defb1d72329d38fb4da.jpg?fit=crop&h=300&w=300",
+    "precio": "2.60"
+  },
+  {
+    "nombre": "Harina de trigo Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/9e112e25decc6165336270a4ac1e78e7.jpg?fit=crop&h=300&w=300",
+    "precio": "0.70"
+  },
+  {
+    "nombre": "Harina de trigo grande Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/709e881751a26e426fcf038f3e750cd0.jpg?fit=crop&h=300&w=300",
+    "precio": "2.90"
+  },
+  {
+    "nombre": "Margarina con sal Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/04d9842e282309e84cf1b5fbb241180f.jpg?fit=crop&h=300&w=300",
+    "precio": "1.45"
+  },
+  {
+    "nombre": "Mantequilla sin sal añadida Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/48232d267bc61b1c1f2d4c7a192fa37f.jpg?fit=crop&h=300&w=300",
+    "precio": "1.90"
+  },
+  {
+    "nombre": "Agua mineral grande Bezoya mineralización muy débil",
+    "imagen": "https://prod-mercadona.imgix.net/images/755fa3728589353e8d1c3c7ac2c86d2e.jpg?fit=crop&h=300&w=300",
+    "precio": "0.74"
+  },
+  {
+    "nombre": "Agua mineral grande Solán de Cabras mineralización débil",
+    "imagen": "https://prod-mercadona.imgix.net/images/352cd9ecc83a4d07f990f058903c2003.jpg?fit=crop&h=300&w=300",
+    "precio": "0.89"
+  },
+  {
+    "nombre": "Azúcar blanco Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/782bc97fd2960e24b4505e25b384a2d4.jpg?fit=crop&h=300&w=300",
+    "precio": "1.45"
+  },
+  {
+    "nombre": "Tocino de cerdo",
+    "imagen": "https://prod-mercadona.imgix.net/images/837eb1856c487f51c4ae725a80c36905.jpg?fit=crop&h=300&w=300",
+    "precio": "0.86"
+  },
+  {
+    "nombre": "Trozo de vacuno para cocido",
+    "imagen": "https://prod-mercadona.imgix.net/images/23e5004af98d8c62a4a3b927e2144be9.jpg?fit=crop&h=300&w=300",
+    "precio": "3.84"
+  },
+  {
+    "nombre": "Pollo entero",
+    "imagen": "https://prod-mercadona.imgix.net/images/c2c349ccbe84eacc6c9ac3d09c9e2255.jpg?fit=crop&h=300&w=300",
+    "precio": "6.17"
+  },
+  {
+    "nombre": "Café molido mezcla fuerte Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/038c4c83e0b4c48ad5e627fc06848ddb.jpg?fit=crop&h=300&w=300",
+    "precio": "3.40"
+  },
+  {
+    "nombre": "Ron añejo La Recompensa",
+    "imagen": "https://prod-mercadona.imgix.net/images/49984c6a2df07f15d81436bd91e50001.jpg?fit=crop&h=300&w=300",
+    "precio": "5.95"
+  },
+  {
+    "nombre": "Chocolate negro fundir Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/c402c82c0caf8ff549ec508651892379.jpg?fit=crop&h=300&w=300",
+    "precio": "1.45"
+  },
+  {
+    "nombre": "Chocolate negro 85% cacao Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/aa3a4cd534eeeb52ad2ddd8fea969c8f.jpg?fit=crop&h=300&w=300",
+    "precio": "1.25"
+  },
+  {
+    "nombre": "Nata ligera para cocinar Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/a889e74c8124bd110a748bc3ac8df440.jpg?fit=crop&h=300&w=300",
+    "precio": "1.75"
+  },
+  {
+    "nombre": "Nata para montar Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/26fcf650a59ea910185beb6bfb2f6a09.jpg?fit=crop&h=300&w=300",
+    "precio": "1.95"
+  },
+  {
+    "nombre": "Cacao puro en polvo La Chocolatera 0% azúcares añadidos",
+    "imagen": "https://prod-mercadona.imgix.net/images/a242186d5fa01c0e32a85edf624c0ff4.jpg?fit=crop&h=300&w=300",
+    "precio": "2.90"
+  },
+  {
+    "nombre": "Gelatina neutra en láminas Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/8e6418d2f4e459aa77f64f0fcd3a3f18.jpg?fit=crop&h=300&w=300",
+    "precio": "1.00"
+  },
+  {
+    "nombre": "Garbanzo Hacendado categoría extra",
+    "imagen": "https://prod-mercadona.imgix.net/images/51b811c04aded80e12ed7decf92c7480.jpg?fit=crop&h=300&w=300",
+    "precio": "2.15"
+  },
+  {
+    "nombre": "Garbanzo cocido Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/a34fdf0b4c98ecab0cfbb5011e74259d.jpg?fit=crop&h=300&w=300",
+    "precio": "0.71"
+  },
+  {
+    "nombre": "Patatas",
+    "imagen": "https://prod-mercadona.imgix.net/images/f6cc8ef3532225e5f557e79c5f6cf3f1.jpg?fit=crop&h=300&w=300",
+    "precio": "4.90"
+  },
+  {
+    "nombre": "Patatas especial para freír",
+    "imagen": "https://prod-mercadona.imgix.net/images/b1cececc091434e8adde6ce44c92e079.jpg?fit=crop&h=300&w=300",
+    "precio": "3.75"
+  },
+  {
+    "nombre": "Calabaza cacahuete cortada a trozos",
+    "imagen": "https://prod-mercadona.imgix.net/images/08c558eaa11e88926e6a456606eb9be1.jpg?fit=crop&h=300&w=300",
+    "precio": "2.09"
+  },
+  {
+    "nombre": "Calabaza cacahuete",
+    "imagen": "https://prod-mercadona.imgix.net/images/d552b586da0854756dd9286994269da9.jpg?fit=crop&h=300&w=300",
+    "precio": "2.44"
+  },
+  {
+    "nombre": "Judía verde plana",
+    "imagen": "https://prod-mercadona.imgix.net/images/6fe3bd1734dacc3f8751577ed526b7ab.jpg?fit=crop&h=300&w=300",
+    "precio": "2.99"
+  },
+  {
+    "nombre": "Judías verdes planas Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/292aad78553646fd2cc464368f801d34.jpg?fit=crop&h=300&w=300",
+    "precio": "1.30"
+  },
+  {
+    "nombre": "Hueso blanco de cerdo salado",
+    "imagen": "https://prod-mercadona.imgix.net/images/251607e82e6114a16d56cc53b357a716.jpg?fit=crop&h=300&w=300",
+    "precio": "1.49"
+  },
+  {
+    "nombre": "Pan de molde blanco familiar Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/f26045084b08d8792979df13779e97d3.jpg?fit=crop&h=300&w=300",
+    "precio": "1.25"
+  },
+  {
+    "nombre": "Filetes pechuga de pollo",
+    "imagen": "https://prod-mercadona.imgix.net/images/a35cc1a72acc4fd738740a243cba0e86.jpg?fit=crop&h=300&w=300",
+    "precio": "4.81"
+  },
+  {
+    "nombre": "Rúcula",
+    "imagen": "https://prod-mercadona.imgix.net/images/83a2c7a099eeace37c9fd9081cfc8e76.jpg?fit=crop&h=300&w=300",
+    "precio": "0.79"
+  },
+  {
+    "nombre": "Salsa pesto con albahaca Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/0bb668dd6446fae242c2af59e4fa96a9.jpg?fit=crop&h=300&w=300",
+    "precio": "2.10"
+  },
+  {
+    "nombre": "Yogur natural Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/2808dcefb83f2873d66fcd3d3bb45cc3.jpg?fit=crop&h=300&w=300",
+    "precio": "1.05"
+  },
+  {
+    "nombre": "Yogur natural con azúcar de caña Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/eec021408e0841f454d650882bc182c1.jpg?fit=crop&h=300&w=300",
+    "precio": "1.05"
+  },
+  {
+    "nombre": "Tomate ensalada",
+    "imagen": "https://prod-mercadona.imgix.net/images/ccb2b42ba2bb6a7b692dac6101074709.jpg?fit=crop&h=300&w=300",
+    "precio": "0.57"
+  },
+  {
+    "nombre": "Tomates cherry",
+    "imagen": "https://prod-mercadona.imgix.net/images/67f3a44f9dc0f1a9c5389c86ec5ac8b6.jpg?fit=crop&h=300&w=300",
+    "precio": "1.90"
+  },
+  {
+    "nombre": "Pimienta negra molida Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/905e76fd8f59b3931ae5e2c586c4a9f5.jpg?fit=crop&h=300&w=300",
+    "precio": "1.05"
+  },
+  {
+    "nombre": "Pimienta negra en grano Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/ade2f829444a465f07de05c97b526258.jpg?fit=crop&h=300&w=300",
+    "precio": "1.45"
+  },
+  {
+    "nombre": "Jamón serrano Incarlopsa lonchas extrafinas",
+    "imagen": "https://prod-mercadona.imgix.net/images/46f3bca561f311bf3c432c2ebc626ead.jpg?fit=crop&h=300&w=300",
+    "precio": "2.45"
+  },
+  {
+    "nombre": "Jamón serrano Incarlopsa",
+    "imagen": "https://prod-mercadona.imgix.net/images/1f6610714246f37d7f063c35d6ad4719.jpg?fit=crop&h=300&w=300",
+    "precio": "58.00"
+  },
+  {
+    "nombre": "Harina fina de maíz Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/16836e80b3a19d31db3bdfdbb44b25bd.jpg?fit=crop&h=300&w=300",
+    "precio": "1.20"
+  },
+  {
+    "nombre": "Lechuga romana cortada",
+    "imagen": "https://prod-mercadona.imgix.net/images/de27c05991934ccea736560b54d21694.jpg?fit=crop&h=300&w=300",
+    "precio": "1.15"
+  },
+  {
+    "nombre": "Lechuga corazón romana",
+    "imagen": "https://prod-mercadona.imgix.net/images/ecea548419831d3cfa93562fbe38f8f6.jpg?fit=crop&h=300&w=300",
+    "precio": "1.15"
+  },
+  {
+    "nombre": "Cebollas",
+    "imagen": "https://prod-mercadona.imgix.net/images/d950590e426dca5e9531e1ff2809edb4.jpg?fit=crop&h=300&w=300",
+    "precio": "1.85"
+  },
+  {
+    "nombre": "Cebolla troceada Hacendado ultracongelada",
+    "imagen": "https://prod-mercadona.imgix.net/images/833c078f6ec9349bb4ea4b799a50d2c9.jpg?fit=crop&h=300&w=300",
+    "precio": "1.10"
+  },
+  {
+    "nombre": "Zanahorias",
+    "imagen": "https://prod-mercadona.imgix.net/images/9be53ec227e952dfc6609061f983c2b8.jpg?fit=crop&h=300&w=300",
+    "precio": "1.09"
+  },
+  {
+    "nombre": "Maíz dulce Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/63c02c99a04f34217723f9220d7edfcfcfc.jpg?fit=crop&h=300&w=300",
+    "precio": "1.60"
+  },
+  {
+    "nombre": "Atún claro en aceite de girasol Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/a11fb0855fc30224e3a36be5c697cf87.jpg?fit=crop&h=300&w=300",
+    "precio": "4.20"
+  },
+  {
+    "nombre": "Atún en aceite de girasol Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/4962e76232f64fde0f9e54bff04e0c08.jpg?fit=crop&h=300&w=300",
+    "precio": "6.45"
+  },
+  {
+    "nombre": "Aceitunas manzanilla rellenas de anchoa Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/645db5dd645d6aedf4cad2bbbcfa4ccf.jpg?fit=crop&h=300&w=300",
+    "precio": "1.60"
+  },
+  {
+    "nombre": "Aceitunas manzanilla Hacendado sin hueso",
+    "imagen": "https://prod-mercadona.imgix.net/images/d112a5d1ab7a1fb8fa665063447d8167.jpg?fit=crop&h=300&w=300",
+    "precio": "2.60"
+  },
+  {
+    "nombre": "Vinagre de vino blanco Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/998aae3f62fda2b1e90ecd4e835357e3.jpg?fit=crop&h=300&w=300",
+    "precio": "0.70"
+  },
+  {
+    "nombre": "Vinagre balsámico de Módena Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/f65c196d0aae6388f9e6852c381f8da4.jpg?fit=crop&h=300&w=300",
+    "precio": "2.45"
+  },
+  {
+    "nombre": "Edulcorante Eritritol y Sucralosa Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/b0c012a1c8c1ee4c3b6690b9e97e70e9.jpg?fit=crop&h=300&w=300",
+    "precio": "3.20"
+  },
+  {
+    "nombre": "Impulsor gasificante Hacendado para uso alimentario",
+    "imagen": "https://prod-mercadona.imgix.net/images/0128143796a62404befa88eb6ff92b6e.jpg?fit=crop&h=300&w=300",
+    "precio": "0.70"
+  },
+  {
+    "nombre": "Levadura fresca Levital",
+    "imagen": "https://prod-mercadona.imgix.net/images/60a4066ca6c37e9cfec1eaaa4ddb5e81.jpg?fit=crop&h=300&w=300",
+    "precio": "0.45"
+  },
+  {
+    "nombre": "Queso fresco mascarpone de vaca Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/252e00f8e796e4fd057f92fa37823c01.jpg?fit=crop&h=300&w=300",
+    "precio": "2.45"
+  },
+  {
+    "nombre": "Tortillas de trigo Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/ed65b3b242f3ea0ffb63bdc75878a1d7.jpg?fit=crop&h=300&w=300",
+    "precio": "1.30"
+  },
+  {
+    "nombre": "Pimiento verde",
+    "imagen": "https://prod-mercadona.imgix.net/images/47e87bc50f5a180656c12f1792a223de.jpg?fit=crop&h=300&w=300",
+    "precio": "0.62"
+  },
+  {
+    "nombre": "Pimiento verde freír",
+    "imagen": "https://prod-mercadona.imgix.net/images/ace6cddb107859b9d019cdd773ffda00.jpg?fit=crop&h=300&w=300",
+    "precio": "0.24"
+  },
+  {
+    "nombre": "Pimiento rojo",
+    "imagen": "https://prod-mercadona.imgix.net/images/607abb73219fc21a8aac8c74550ea369.jpg?fit=crop&h=300&w=300",
+    "precio": "0.73"
+  },
+  {
+    "nombre": "Guacamole Hacendado 95% aguacate fresco",
+    "imagen": "https://prod-mercadona.imgix.net/images/534186c0a94952f5b363f467580cf747.jpg?fit=crop&h=300&w=300",
+    "precio": "1.75"
+  },
+  {
+    "nombre": "Harina de fuerza Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/5af2f418e8038d398bdfbb02b07df051.jpg?fit=crop&h=300&w=300",
+    "precio": "0.91"
+  },
+  {
+    "nombre": "Leche semidesnatada Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/b553fccc508b76d5f3ae282f76e84385.jpg?fit=crop&h=300&w=300",
+    "precio": "4.98"
+  },
+  {
+    "nombre": "Leche entera Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/8984cdaf74531a09f4efb6a8a3f8c922.jpg?fit=crop&h=300&w=300",
+    "precio": "5.46"
+  },
+  {
+    "nombre": "Leche desnatada Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/e94ae3ddcb8a31f4f22e85ce0edbabef.jpg?fit=crop&h=300&w=300",
+    "precio": "4.80"
+  },
+  {
+    "nombre": "Naranjas",
+    "imagen": "https://prod-mercadona.imgix.net/images/9fdc8778c8dab255cc4431327d56d0f4.jpeg?fit=crop&h=300&w=300",
+    "precio": "5.95"
+  },
+  {
+    "nombre": "Naranja para mesa",
+    "imagen": "https://prod-mercadona.imgix.net/images/0e0431fbcd08dac4b7df7dd034760193.jpg?fit=crop&h=300&w=300",
+    "precio": "0.54"
+  },
+  {
+    "nombre": "Limones",
+    "imagen": "https://prod-mercadona.imgix.net/images/161660f7e41fe33f0a6bdc0f3f58edb1.jpg?fit=crop&h=300&w=300",
+    "precio": "1.79"
+  },
+  {
+    "nombre": "Limón",
+    "imagen": "https://prod-mercadona.imgix.net/images/c5c512407bc265ae901a3b8efc24ac23.jpg?fit=crop&h=300&w=300",
+    "precio": "0.34"
+  },
+  {
+    "nombre": "Canela en rama Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/79a95af1248f3f9e5f0a5fab40e06adf.jpg?fit=crop&h=300&w=300",
+    "precio": "1.45"
+  },
+  {
+    "nombre": "Almendra natural Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/aaa8bc63fd70b9fac170eed075838a77.jpg?fit=crop&h=300&w=300",
+    "precio": "2.05"
+  },
+  {
+    "nombre": "Salsa de soja Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/cf38529dd7bc417793b2132b18080899.jpg?fit=crop&h=300&w=300",
+    "precio": "1.40"
+  },
+  {
+    "nombre": "Caldo de pollo Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/a549c9bbb21719b4936b882ac2b36f69.jpg?fit=crop&h=300&w=300",
+    "precio": "0.80"
+  },
+  {
+    "nombre": "Caldo de pollo casero Gallina Blanca",
+    "imagen": "https://prod-mercadona.imgix.net/images/fe86551e6df09f72b72bcc5c0e68c5d1.jpg?fit=crop&h=300&w=300",
+    "precio": "2.20"
+  },
+  {
+    "nombre": "Galletas Digestive avena Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/d086d2c6218ad70af3806ffc086da1f4.jpg?fit=crop&h=300&w=300",
+    "precio": "1.10"
+  },
+  {
+    "nombre": "Manteca de cerdo Mont-Palau para cocinar",
+    "imagen": "https://prod-mercadona.imgix.net/images/42b8c8da45aef2e14be3983bab9500ea.jpg?fit=crop&h=300&w=300",
+    "precio": "2.30"
+  },
+  {
+    "nombre": "Vino blanco verdejo D.O Rueda Arribeño",
+    "imagen": "https://prod-mercadona.imgix.net/images/38eea14b572deafb0dde92402c50f06c.jpg?fit=crop&h=300&w=300",
+    "precio": "1.90"
+  },
+  {
+    "nombre": "Vino blanco verdejo D.O Rueda Abadía Mantrús",
+    "imagen": "https://prod-mercadona.imgix.net/images/ee5445adbdaf02f28c8cb7daa680ad59.jpg?fit=crop&h=300&w=300",
+    "precio": "2.10"
+  },
+  {
+    "nombre": "Vino tinto Caperucita tinta Torre Oria suave tempranillo",
+    "imagen": "https://prod-mercadona.imgix.net/images/3507fc36564d4ba1f423185d394812c6.jpg?fit=crop&h=300&w=300",
+    "precio": "1.95"
+  },
+  {
+    "nombre": "Vino tinto D.O Ribera del Duero Abadía Mantrús crianza",
+    "imagen": "https://prod-mercadona.imgix.net/images/72ba655ffcf090d466923add9e971350.jpg?fit=crop&h=300&w=300",
+    "precio": "4.50"
+  },
+  {
+    "nombre": "Arroz redondo Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/0daf43fb5761b823ce83c985930c97c9.jpg?fit=crop&h=300&w=300",
+    "precio": "1.27"
+  },
+  {
+    "nombre": "Arroz redondo SOS",
+    "imagen": "https://prod-mercadona.imgix.net/images/4ba32eab46a9e4d0a1cdfd5e58155383.jpg?fit=crop&h=300&w=300",
+    "precio": "1.80"
+  },
+  {
+    "nombre": "Gambón congelado",
+    "imagen": "https://prod-mercadona.imgix.net/images/8a6cce24488444736497d91a7a5ec404.jpg?fit=crop&h=300&w=300",
+    "precio": "1.49"
+  },
+  {
+    "nombre": "Gambón grande congelado",
+    "imagen": "https://prod-mercadona.imgix.net/images/b47e6923e24e806e6d9f9ab381a38d52.jpg?fit=crop&h=300&w=300",
+    "precio": "17.90"
+  },
+  {
+    "nombre": "Ajos morados",
+    "imagen": "https://prod-mercadona.imgix.net/images/6aef4488c873e4b8519b57151be424f3.jpg?fit=crop&h=300&w=300",
+    "precio": "1.65"
+  },
+  {
+    "nombre": "Colorante alimentario Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/279afe277bed6a3c1af998dbda9b66e7.jpg?fit=crop&h=300&w=300",
+    "precio": "0.90"
+  },
+  {
+    "nombre": "Azafrán hebra Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/6b28a5275722bf42ecd58cac70a7497f.jpg?fit=crop&h=300&w=300",
+    "precio": "1.70"
+  },
+  {
+    "nombre": "Caldo de pescado Hacendado en pastillas",
+    "imagen": "https://prod-mercadona.imgix.net/images/1c84283ff8dfbd4076b91aa262c10172.jpg?fit=crop&h=300&w=300",
+    "precio": "0.85"
+  },
+  {
+    "nombre": "Aroma de vainilla Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/2c248d360f2f9b4be831a56bd33b7185.jpg?fit=crop&h=300&w=300",
+    "precio": "2.00"
+  },
+  {
+    "nombre": "Azúcar moreno de caña Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/feede3851164a6adf1969b62beaacb36.jpg?fit=crop&h=300&w=300",
+    "precio": "1.95"
+  },
+  {
+    "nombre": "Mostaza clásica Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/8a0749aa163298f9b2b036de495a1b05.jpg?fit=crop&h=300&w=300",
+    "precio": "1.35"
+  },
+  {
+    "nombre": "Mostaza de Dijon Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/4334494341409213b190f94f81e8baa5.jpg?fit=crop&h=300&w=300",
+    "precio": "1.25"
+  },
+  {
+    "nombre": "Barra de pan",
+    "imagen": "https://prod-mercadona.imgix.net/images/b0382f15d4c53669852e014255bdc714.jpg?fit=crop&h=300&w=300",
+    "precio": "0.48"
+  },
+  {
+    "nombre": "Tomillo Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/23cda8ba2719d64662af5acde3485411.jpg?fit=crop&h=300&w=300",
+    "precio": "1.05"
+  },
+  {
+    "nombre": "Hoja de laurel Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/34e7ea3d2a5df1817f89cecadea1e462.jpg?fit=crop&h=300&w=300",
+    "precio": "0.80"
+  },
+  {
+    "nombre": "Clavo en grano Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/4454375471a75b1e36fe451869e79460.jpg?fit=crop&h=300&w=300",
+    "precio": "1.75"
+  },
+  {
+    "nombre": "Nuez moscada molida Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/26a3c69f637bdb1722940dbaa79f6cf9.jpg?fit=crop&h=300&w=300",
+    "precio": "1.65"
+  },
+  {
+    "nombre": "Canela molida Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/22948761cf10a9f149a06ec505fb8dcd.jpg?fit=crop&h=300&w=300",
+    "precio": "0.95"
+  },
+  {
+    "nombre": "Jengibre",
+    "imagen": "https://prod-mercadona.imgix.net/images/7dd45cf931604953e565fe15eaa20a6a.jpg?fit=crop&h=300&w=300",
+    "precio": "1.69"
+  },
+  {
+    "nombre": "Jengibre molido Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/660b9d830317ff63daa0a5a5cfe4cdb2.jpg?fit=crop&h=300&w=300",
+    "precio": "1.65"
+  },
+  {
+    "nombre": "Bicarbonato sódico Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/c7cd20b0038ee22bb7678fbebc26df3f.jpg?fit=crop&h=300&w=300",
+    "precio": "1.10"
+  },
+  {
+    "nombre": "Bizcochos Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/8f15fc88bab663d839a183751e4ddf57.jpg?fit=crop&h=300&w=300",
+    "precio": "1.70"
+  },
+  {
+    "nombre": "Cabello de Ángel Hida",
+    "imagen": "https://prod-mercadona.imgix.net/images/5027aba646edc3c44d09c0643a7a062e.jpg?fit=crop&h=300&w=300",
+    "precio": "2.20"
+  },
+  {
+    "nombre": "Leche condensada Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/b6c7821e45659190d4af302c40508d34.jpg?fit=crop&h=300&w=300",
+    "precio": "3.85"
+  },
+  {
+    "nombre": "Leche en polvo desnatada",
+    "imagen": "https://prod-mercadona.imgix.net/images/17bd49f9b24aa0e4291b0b29ea497d12.jpg?fit=crop&h=300&w=300",
+    "precio": "5.20"
+  },
+  {
+    "nombre": "Aceite de coco virgen Hacendado",
+    "imagen": "https://prod-mercadona.imgix.net/images/4b73d0063a13ed91219d84e7dd70d22d.jpg?fit=crop&h=300&w=300",
+    "precio": "4.40"
+  }
+]

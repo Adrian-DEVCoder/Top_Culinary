@@ -50,6 +50,12 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String TITULO_USUARIO_COL = "titulo";
     private static final String INGREDIENTES_USUARIO_COL = "ingredientes";
     private static final String PASOS_USUARIO_COL = "pasos";
+    // Constantes Tabla Ingredientes
+    private static final String NOMBRE_TABLA_INGREDIENTES = "Ingredientes";
+    private static final String ID_INGREDIENTES_COL = "id";
+    private static final String NOMBRE_INGREDIENTE_COL = "nombre";
+    private static final String IMAGEN_INGREDIENTE_COL = "imagen";
+    private static final String PRECIO_INGREDIENTE_COL = "precio";
     // Inicializacion de las variables
     private Context context;
     /**
@@ -63,6 +69,13 @@ public class DBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        creacionTablaRecetas(db);
+        creacionTablaRecetasUsuario(db);
+        creacionTablaIngredientes(db);
+    }
+
+    // Crea la tabla para las recetas generadas por la app
+    private void creacionTablaRecetas(SQLiteDatabase db) {
         // Query para la creacion de la tabla de las Recetas de la app
         String queryRecetas = "CREATE TABLE IF NOT EXISTS " + NOMBRE_TABLA + "("
                 + ID_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -83,15 +96,12 @@ public class DBHandler extends SQLiteOpenHelper {
                 + NOTAS_COL + " TEXT)";
         // Ejecutamos la query de la creacion de la tabla
         db.execSQL(queryRecetas);
-        // Query para la creacion de la tabla de las recetas creadas por el usuario
-        String queryRecetasUsuario = "CREATE TABLE IF NOT EXISTS " + NOMBRE_TABLA_USUARIO + "("
-                + ID_USUARIO_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + IMAGEN_USUARIO_COL + " TEXT, "
-                + TITULO_USUARIO_COL + " TEXT, "
-                + INGREDIENTES_USUARIO_COL + " TEXT, "
-                + PASOS_USUARIO_COL + " TEXT)";
-        // Ejecutamos la query para la creacion de la tabla
-        db.execSQL(queryRecetasUsuario);
+        // Insertamos los datos obtenidos del JSON de las recetas insertadas en la APP
+        insertarRecetasGeneral(db);
+    }
+
+    // Inserta las recetas mediante los datos obtenidos a traves del archivo JSON
+    private void insertarRecetasGeneral(SQLiteDatabase db) {
         try{
             InputStream inputStream = context.getAssets().open("recetas.json");
             int tamanio = inputStream.available();
@@ -172,6 +182,57 @@ public class DBHandler extends SQLiteOpenHelper {
         }
     }
 
+    // Crea la tabla para las recetas creadas por el usuario
+    private void creacionTablaRecetasUsuario(SQLiteDatabase db) {
+        // Query para la creacion de la tabla de las recetas creadas por el usuario
+        String queryRecetasUsuario = "CREATE TABLE IF NOT EXISTS " + NOMBRE_TABLA_USUARIO + "("
+                + ID_USUARIO_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + IMAGEN_USUARIO_COL + " TEXT, "
+                + TITULO_USUARIO_COL + " TEXT, "
+                + INGREDIENTES_USUARIO_COL + " TEXT, "
+                + PASOS_USUARIO_COL + " TEXT)";
+        // Ejecutamos la query para la creacion de la tabla
+        db.execSQL(queryRecetasUsuario);
+    }
+
+    // Crea la tabla de los ingredientes disponibles en la app
+    private void creacionTablaIngredientes(SQLiteDatabase db) {
+        // Query para la creacion de la tabla de los ingredientes
+        String queryIngredientes = "CREATE TABLE IF NOT EXISTS " + NOMBRE_TABLA_INGREDIENTES + "("
+                + ID_INGREDIENTES_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + NOMBRE_INGREDIENTE_COL + " TEXT, "
+                + IMAGEN_INGREDIENTE_COL + " TEXT, "
+                + PRECIO_INGREDIENTE_COL + " TEXT)";
+        // Ejecutamos la query para la creacion de la tabla
+        db.execSQL(queryIngredientes);
+        // Insertamos los datos de los ingredientes obtenidos del archivo JSON
+        insertarIngredientesGeneral(db);
+    }
+
+    // Inserta los diferentes ingredientes dentro de la tabla especificada
+    private void insertarIngredientesGeneral(SQLiteDatabase db) {
+        try {
+            InputStream inputStream = context.getAssets().open("ingredientes.json");
+            int tamanio = inputStream.available();
+            byte[] buffer = new byte[tamanio];
+            inputStream.read(buffer);
+            inputStream.close();
+            JSONArray jsonArray = new JSONArray(new String(buffer,"UTF-8"));
+            for(int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                String nombre = jsonObject.getString("nombre");
+                String imagen = jsonObject.getString("imagen");
+                String precio = jsonObject.getString("precio");
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(NOMBRE_INGREDIENTE_COL,nombre);
+                contentValues.put(IMAGEN_INGREDIENTE_COL,imagen);
+                contentValues.put(PRECIO_INGREDIENTE_COL,precio);
+                db.insert(NOMBRE_TABLA_INGREDIENTES,null,contentValues);
+            }
+        } catch (IOException | JSONException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     /**
      * Obtenemos todas las recetas de la base de datos
