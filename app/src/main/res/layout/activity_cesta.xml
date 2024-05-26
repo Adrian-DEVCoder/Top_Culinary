@@ -4,10 +4,50 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/azul_more"
+    android:background="@color/naranja_more"
     tools:context=".cesta.CestaActivity">
 
     <!-- Botonera inferior para moverse -->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewIngredientesComprados"
+        android:layout_width="match_parent"
+        android:layout_height="799dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayoutBotoneraInferior"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:listitem="@layout/ingrediente_cesta" />
+
+    <ImageButton
+        android:id="@+id/imageButtonCarrito"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/botones_redondos"
+        android:scaleType="centerInside"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/carrito_de_compras"
+        app:tint="@color/naranja_more" />
+
+    <ImageButton
+        android:id="@+id/imageButtonBuscarIngredientes"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/botones_redondos"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/lupa"
+        app:tint="@color/naranja_more" />
+
     <LinearLayout
         android:id="@+id/linearLayoutBotoneraInferior"
         android:layout_width="match_parent"

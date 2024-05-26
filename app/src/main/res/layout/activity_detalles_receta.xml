@@ -174,9 +174,9 @@
                 android:layout_marginBottom="14dp"
                 android:backgroundTint="@color/naranja_dark"
                 android:fontFamily="@font/alegreya_sc"
+                android:text="¡A COCINAR!"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:text="COMENZAR RECETA" />
+                android:textStyle="bold" />
         </LinearLayout>
     </ScrollView>
 

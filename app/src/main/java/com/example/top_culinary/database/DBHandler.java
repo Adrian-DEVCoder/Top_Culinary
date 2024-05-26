@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.top_culinary.model.Ingrediente;
 import com.example.top_culinary.model.Receta;
 
 import org.json.JSONArray;
@@ -232,6 +233,63 @@ public class DBHandler extends SQLiteOpenHelper {
         } catch (IOException | JSONException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Obtenemos todos los ingredientes de la base de datos
+     * @return lista de ingredientes
+     */
+    @SuppressLint("Range")
+    public List<Ingrediente> obtenerIngredientes() {
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        List<Ingrediente> ingredientes = new ArrayList<>();
+        Cursor cursor = null;
+        try {
+            cursor = sqLiteDatabase.rawQuery("SELECT * FROM " + NOMBRE_TABLA_INGREDIENTES, null);
+            if(cursor.moveToFirst()) {
+                do {
+                    Ingrediente ingrediente = new Ingrediente();
+                    ingrediente.setImagen(cursor.getString(cursor.getColumnIndex(IMAGEN_INGREDIENTE_COL)));
+                    ingrediente.setNombre(cursor.getString(cursor.getColumnIndex(NOMBRE_INGREDIENTE_COL)));
+                    ingrediente.setPrecio(cursor.getString(cursor.getColumnIndex(PRECIO_INGREDIENTE_COL)));
+                    ingredientes.add(ingrediente);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            Log.d("Insercion BD", "Error al obtener los ingredientes");
+        } finally {
+            if(cursor != null) {
+                cursor.close();
+            }
+        }
+        return ingredientes;
+    }
+
+    /**
+     * Obtenemos un ingrediente por su nombre de la base de datos
+     * @param nombreIngrediente a buscar
+     * @return ingrediente obtenido
+     */
+    @SuppressLint("Range")
+    public Ingrediente obtenerIngredientePorNombre(String nombreIngrediente) {
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        Ingrediente ingrediente = new Ingrediente();
+        Cursor cursor = null;
+        try {
+            cursor = sqLiteDatabase.rawQuery("SELECT * FROM " + NOMBRE_TABLA_INGREDIENTES + " WHERE " + NOMBRE_INGREDIENTE_COL + " LIKE ?", new String[]{"%" + nombreIngrediente + "%"});
+            if(cursor.moveToFirst()) {
+                ingrediente.setImagen(cursor.getString(cursor.getColumnIndex(IMAGEN_INGREDIENTE_COL)));
+                ingrediente.setNombre(cursor.getString(cursor.getColumnIndex(NOMBRE_TABLA_INGREDIENTES)));
+                ingrediente.setPrecio(cursor.getString(cursor.getColumnIndex(PRECIO_INGREDIENTE_COL)));
+            }
+        } catch (Exception e) {
+            Log.d("Insercion BD", "Error al obtener el ingrediente");
+        } finally {
+            if(cursor != null) {
+                cursor.close();
+            }
+        }
+        return ingrediente;
     }
 
     /**
