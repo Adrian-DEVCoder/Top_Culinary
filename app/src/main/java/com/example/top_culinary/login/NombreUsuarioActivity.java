@@ -115,11 +115,14 @@ public class NombreUsuarioActivity extends AppCompatActivity {
             // Creamos un array vacio tanto para las recetas como las recetas publicadas
             List<String> recetas = new ArrayList<>();
             List<String> recetasPublicadas = new ArrayList<>();
+            // Creamos un array vacio para los chats del usuario
+            List<String> chats = new ArrayList<>();
             // Insertamos las diferentes listas
             usuario.put("seguidores", seguidores);
             usuario.put("seguidos", seguidos);
             usuario.put("recetas", recetas);
             usuario.put("recetasPublicadas", recetasPublicadas);
+            usuario.put("chats", chats);
             // Verificamos si el documento ya existe
             firestoreDB.collection("usuarios").document(uid).get()
                     .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

@@ -7,6 +7,48 @@
     android:background="@color/naranja_more"
     tools:context=".chat.ChatActivity">
 
+    <!-- ImageButton para buscar usuarios -->
+    <ImageButton
+        android:id="@+id/imageButtonBuscarUsuarios"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/lupa"
+        android:background="@android:color/transparent"
+        app:tint="@color/white"
+        app:layout_constraintStart_toStartOf="@+id/searchViewChats"
+        app:layout_constraintTop_toTopOf="@+id/searchViewChats"
+        app:layout_constraintBottom_toTopOf="@+id/searchViewChats"/>
+
+    <!-- SearchView para buscar chats -->
+    <android.widget.SearchView
+        android:id="@+id/searchViewChats"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:queryHint="Buscar chat..."
+        app:layout_constraintStart_toEndOf="@+id/imageButtonBuscarUsuarios"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageButtonBuscarUsuarios"
+        app:queryBackground="@color/white"/>
+
+    <!-- NestedScrollView para envolver el RecyclerView -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/searchViewChats"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <!-- RecyclerView para los chats -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewChats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.core.widget.NestedScrollView>
+
     <!-- Botonera inferior para moverse -->
     <LinearLayout
         android:id="@+id/linearLayoutBotoneraInferior"
@@ -72,6 +114,5 @@
             android:src="@drawable/usuario"
             app:tint="@color/naranja_normal" />
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

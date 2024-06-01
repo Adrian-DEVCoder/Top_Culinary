@@ -1,11 +1,14 @@
 package com.example.top_culinary.chat;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.SearchView;
 
 import com.example.top_culinary.R;
 import com.example.top_culinary.cesta.CestaActivity;
@@ -15,6 +18,9 @@ import com.example.top_culinary.recetas.AniadirRecetasActivity;
 
 public class ChatActivity extends AppCompatActivity {
     // Declaracion de los widgets
+    ImageButton buttonBuscarUsuarios;
+    SearchView searchViewChats;
+    RecyclerView recyclerViewChats;
     ImageButton buttonAniadirRecetas;
     ImageButton buttonCesta;
     ImageButton buttonCocina;
@@ -26,11 +32,36 @@ public class ChatActivity extends AppCompatActivity {
         // Obtencion del nombre del intent
         Intent intent = getIntent();
         String nombreFormateado = intent.getStringExtra("nombreFormateado");
+        // Inicializacion de los widgets
+        buttonBuscarUsuarios = findViewById(R.id.imageButtonBuscarUsuarios);
+        recyclerViewChats = findViewById(R.id.recyclerViewChats);
+        recyclerViewChats.setLayoutManager(new LinearLayoutManager(this));
+        /*AdapterChatsUsuario adapterChatsUsuario = new AdapterChatsUsuario(this,new ArrayList<>());
+        recyclerViewChats.setAdapter(adapterChatsUsuario);*/
+        searchViewChats = findViewById(R.id.searchViewChats);
+        searchViewChats.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
         // Botones de la botonera inferior
         buttonAniadirRecetas = findViewById(R.id.imgBRecetas);
         buttonCesta = findViewById(R.id.imgBCesta);
         buttonCocina = findViewById(R.id.imgBCocina);
         buttonPerfil = findViewById(R.id.imgBPerfil);
+        // Listener del boton de la busqueda de usuarios
+        buttonBuscarUsuarios.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                iniciarBuscarUsuarios(nombreFormateado);
+            }
+        });
         // Listener de los botones inferiores
         buttonAniadirRecetas.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +89,13 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
+    private void iniciarBuscarUsuarios(String nombreFormateado) {
+        Intent intent = new Intent(this, BuscadorUsuariosActivity.class);
+        intent.putExtra("nombreFormateado",nombreFormateado);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+        finish();
+    }
     /**
      * Inicia la actividad de Añadir Recetas
      */
@@ -68,7 +106,6 @@ public class ChatActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
         finish();
     }
-
     /**
      * Inicia la actividad de Cesta
      */
@@ -79,7 +116,6 @@ public class ChatActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
         finish();
     }
-
     /**
      * Inicia la actividad de Foro
      */
@@ -90,7 +126,6 @@ public class ChatActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
         finish();
     }
-
     /**
      * Inicia la actividad de Perfil
      */
