@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +19,7 @@ import com.example.top_culinary.R;
 import com.example.top_culinary.adapter.AdapterMensajes;
 import com.example.top_culinary.model.Chat;
 import com.example.top_culinary.model.Mensaje;
+import com.example.top_culinary.model.Usuario;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -27,6 +30,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,9 +42,8 @@ public class MensajesActivity extends AppCompatActivity {
     private String uidUsuarioRecibidor;
     private String uidUsuarioEnviador;
     private RecyclerView recyclerViewMensajes;
-    private ImageButton buttonVolver;
     private EditText editTextMensaje;
-    private Button buttonEnviarMensaje;
+    private ImageButton buttonEnviarMensaje;
     private List<Mensaje> mensajes = new ArrayList<>();
     private String chatId;
     private String otherUserId;
@@ -63,7 +66,6 @@ public class MensajesActivity extends AppCompatActivity {
 
         editTextMensaje = findViewById(R.id.editTextMensaje);
         buttonEnviarMensaje = findViewById(R.id.buttonEnviarMensaje);
-        buttonVolver = findViewById(R.id.imageButtonVolver);
 
         Intent intent = getIntent();
         if (intent.getStringExtra("chatId") != null) {
@@ -76,6 +78,7 @@ public class MensajesActivity extends AppCompatActivity {
         chatExiste(exists -> {
             if (exists) {
                 cargarMensajes();
+                cargarDatosUsuario(otherUserId);
             } else {
                 crearNuevoChat();
             }
@@ -91,46 +94,43 @@ public class MensajesActivity extends AppCompatActivity {
                 }
             }
         });
+    }
 
-        buttonVolver.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MensajesActivity.this, ChatActivity.class);
-                startActivity(intent);
-                finish();
+    private void cargarMensajes() {
+        if (chatId == null) return;
+
+        CollectionReference mensajesRef = firebaseFirestore.collection("chats").document(chatId).collection("mensajes");
+        mensajesRef.orderBy("timestamp", Query.Direction.ASCENDING).addSnapshotListener((queryDocumentSnapshots, e) -> {
+            if (e != null) {
+                Log.e("MensajesActivity", "Error al cargar mensajes", e);
+                return;
+            }
+
+            if (queryDocumentSnapshots != null) {
+                mensajes.clear();
+                for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
+                    Mensaje mensaje = doc.toObject(Mensaje.class);
+                    mensajes.add(mensaje);
+                }
+                adapterMensajes.notifyDataSetChanged();
+                recyclerViewMensajes.smoothScrollToPosition(mensajes.size() - 1);
             }
         });
     }
 
-    private void cargarMensajes() {
-        CollectionReference mensajesCollection = firebaseFirestore.collection("chats").document(chatId).collection("mensajes");
-
-        mensajesCollection.orderBy("timestamp", Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(QuerySnapshot snapshots, FirebaseFirestoreException e) {
-                if (e != null) {
-                    Log.e("MensajesActivity", "Error al obtener mensajes de Firebase", e);
-                    Toast.makeText(MensajesActivity.this, "Error al cargar mensajes.", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (snapshots != null && !snapshots.isEmpty()) {
-                    List<Mensaje> mensajesLeidos = snapshots.toObjects(Mensaje.class);
-                    mensajes.clear();
-                    mensajes.addAll(mensajesLeidos);
-                    adapterMensajes.notifyDataSetChanged();
-                    /*for (DocumentSnapshot document : snapshots.getDocuments()) {
-                        Mensaje mensaje = document.toObject(Mensaje.class);
-                        if (mensaje != null) {
-                            mensajes.add(mensaje);
-                        }
-                    }
-                    adapterMensajes.setMensajes(mensajes);*/
-                } else {
-                    Toast.makeText(MensajesActivity.this, "No hay mensajes en este chat.", Toast.LENGTH_SHORT).show();
+    private void cargarDatosUsuario(String userId) {
+        DocumentReference docRef = firebaseFirestore.collection("usuarios").document(userId);
+        docRef.get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                Usuario usuario = documentSnapshot.toObject(Usuario.class);
+                if (usuario != null) {
+                    TextView userName = findViewById(R.id.user_name);
+                    ImageView userProfileImage = findViewById(R.id.user_profile_image);
+                    userName.setText(usuario.getDisplay_name());
+                    Picasso.get().load(usuario.getUrlImagenUsuario()).into(userProfileImage);
                 }
             }
-        });
+        }).addOnFailureListener(e -> Log.e("MensajesActivity", "Error al cargar datos del usuario", e));
     }
 
     private String construirChatId(String idUsuario1, String idUsuario2) {

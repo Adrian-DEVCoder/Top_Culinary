@@ -16,8 +16,8 @@ import java.util.List;
 
 public class AdapterMensajes extends RecyclerView.Adapter<AdapterMensajes.ViewHolder> {
 
-    private static final int VIEW_TYPE_ENVIADO = 0;
-    private static final int VIEW_TYPE_RECIBIDO = 1;
+    private static final int VIEW_TYPE_ENVIADO = 1;
+    private static final int VIEW_TYPE_RECIBIDO = 2;
 
     private List<Mensaje> mensajes;
     private String currentUserId;
@@ -30,7 +30,11 @@ public class AdapterMensajes extends RecyclerView.Adapter<AdapterMensajes.ViewHo
     @Override
     public int getItemViewType(int position) {
         Mensaje mensaje = mensajes.get(position);
-        return mensaje.getSenderId().equals(currentUserId) ? VIEW_TYPE_ENVIADO : VIEW_TYPE_RECIBIDO;
+        if (mensaje.getSenderId().equals(currentUserId)) {
+            return VIEW_TYPE_ENVIADO;
+        } else {
+            return VIEW_TYPE_RECIBIDO;
+        }
     }
 
     @NonNull
@@ -66,21 +70,15 @@ public class AdapterMensajes extends RecyclerView.Adapter<AdapterMensajes.ViewHo
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvContent, tvTimestamp;
+        TextView tvContent;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvContent = itemView.findViewById(R.id.tvContent);
-            tvTimestamp = itemView.findViewById(R.id.tvTimestamp);
+            tvContent = itemView.findViewById(R.id.text_message_body);
         }
 
         public void bind(Mensaje mensaje) {
             tvContent.setText(mensaje.getContent());
-            if (mensaje.getTimestamp() != null) {
-                tvTimestamp.setText(mensaje.getFormattedTimeStamp());
-            } else {
-                tvTimestamp.setText("");
-            }
         }
     }
 }
