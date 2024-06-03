@@ -18,6 +18,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,6 +27,7 @@ public class DBHandler extends SQLiteOpenHelper {
     // Constantes DB
     private static final String NOMBRE_DB = "Recetas.sqlite";
     private static final int DB_VERSION = 1;
+
     // Constantes Tabla Recetas Aplicacion
     private static final String NOMBRE_TABLA = "Recetas";
     private static final String ID_COL = "id";
@@ -44,6 +46,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String PASOS_COL = "pasos";
     private static final String KALORIAS_COL = "kalorias";
     private static final String NOTAS_COL = "notas";
+
     // Constantes Tabla Recetas Usuario
     private static final String NOMBRE_TABLA_USUARIO = "RecetasUsuario";
     private static final String ID_USUARIO_COL = "id";
@@ -51,16 +54,19 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String TITULO_USUARIO_COL = "titulo";
     private static final String INGREDIENTES_USUARIO_COL = "ingredientes";
     private static final String PASOS_USUARIO_COL = "pasos";
+
     // Constantes Tabla Ingredientes
     private static final String NOMBRE_TABLA_INGREDIENTES = "Ingredientes";
     private static final String ID_INGREDIENTES_COL = "id";
     private static final String NOMBRE_INGREDIENTE_COL = "nombre";
     private static final String IMAGEN_INGREDIENTE_COL = "imagen";
     private static final String PRECIO_INGREDIENTE_COL = "precio";
-    // Inicializacion de las variables
+
     private Context context;
+
     /**
      * Constructor
+     *
      * @param context Contexto de la actividad
      */
     public DBHandler(Context context) {
@@ -103,150 +109,96 @@ public class DBHandler extends SQLiteOpenHelper {
 
     // Inserta las recetas mediante los datos obtenidos a traves del archivo JSON
     private void insertarRecetasGeneral(SQLiteDatabase db) {
-        try{
-            InputStream inputStream = context.getAssets().open("recetas.json");
-            int tamanio = inputStream.available();
-            byte[] buffer = new byte[tamanio];
-            inputStream.read(buffer);
-            inputStream.close();
-            JSONArray jsonArray = new JSONArray(new String(buffer,"UTF-8"));
-            for(int i=0;i<jsonArray.length();i++){
+        try {
+            String jsonString = leerJSONDesdeAsset("recetas.json");
+            JSONArray jsonArray = new JSONArray(jsonString);
+            for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                String imagen = jsonObject.getString("imagen");
-                String titulo = jsonObject.getString("titulo");
-                String descripcion = jsonObject.getString("descripcion");
-                String tiempoTotal = jsonObject.getString("tiempoTotal");
-                String tipoPlato = jsonObject.getString("tipoPlato");
-                String kalorias = jsonObject.getString("numCalorias");
-                JSONArray jsonIngredientes = jsonObject.getJSONArray("ingredientes");
-                List<String> ingredientes = new ArrayList<>();
-                for (int j = 0; j < jsonIngredientes.length(); j++) {
-                    ingredientes.add(jsonIngredientes.getString(j));
-                }
-                String url = jsonObject.getString("url");
-                JSONArray jsonDetallesNutricion = jsonObject.getJSONArray("detallesNutricion");
-                List<String> detallesNutricion = new ArrayList<>();
-                for (int j = 0; j < jsonDetallesNutricion.length(); j++) {
-                    detallesNutricion.add(jsonDetallesNutricion.getString(j));
-                }
-                String numPersonas = jsonObject.getString("numPersonas");
-                String tiempoPreparacion = jsonObject.getString("tiempoPreparacion");
-                JSONArray jsonEquipamiento = jsonObject.getJSONArray("equipamiento");
-                List<String> equipamientos = new ArrayList<>();
-                for (int j = 0; j < jsonEquipamiento.length(); j++) {
-                    equipamientos.add(jsonEquipamiento.getString(j));
-                }
-                String tipoCocina = jsonObject.getString("tipoCocina");
-                JSONArray jsonPasos = jsonObject.getJSONArray("pasos");
-                List<String> pasos = new ArrayList<>();
-                for (int j = 0; j < jsonPasos.length(); j++) {
-                    pasos.add(jsonPasos.getString(j));
-                }
-                String notas = jsonObject.getString("notas");
                 ContentValues contentValues = new ContentValues();
-                contentValues.put(IMAGEN_COL,imagen);
-                contentValues.put(TITULO_COL,titulo);
-                contentValues.put(DESCRIPCION_COL,descripcion);
-                contentValues.put(TIEMPO_TOTAL_COL,tiempoTotal);
-                contentValues.put(TIPO_PLATO_COL,tipoPlato);
-                contentValues.put(KALORIAS_COL,kalorias);
-                StringBuilder stbIngredientes = new StringBuilder();
-                for(String ingrediente : ingredientes) {
-                    stbIngredientes.append(ingrediente + "\n");
-                }
-                contentValues.put(INGREDIENTES_COL,stbIngredientes.toString());
-                contentValues.put(URL_COL,url);
-                StringBuilder stbDetallesNutricion = new StringBuilder();
-                for(String detalleNutricion : detallesNutricion) {
-                    stbDetallesNutricion.append(detalleNutricion + "\n");
-                }
-                contentValues.put(DETALLES_NUTRICION_COL, stbDetallesNutricion.toString());
-                contentValues.put(NUM_PERSONAS_COL,numPersonas);
-                contentValues.put(TIEMPO_PREPARACION_COL,tiempoPreparacion);
-                StringBuilder stbEquipamiento = new StringBuilder();
-                for(String equipamiento : equipamientos) {
-                    stbEquipamiento.append(equipamiento + "\n");
-                }
-                contentValues.put(EQUIPAMIENTO_COL,stbEquipamiento.toString());
-                contentValues.put(TIPO_COCINA_COL,tipoCocina);
-                StringBuilder stbPasos = new StringBuilder();
-                for(String paso : pasos) {
-                    stbPasos.append(paso + "\n");
-                }
-                contentValues.put(PASOS_COL, stbPasos.toString());
-                contentValues.put(NOTAS_COL, notas);
-                // Implementando la nueva base de datos
-                db.insert(NOMBRE_TABLA,null,contentValues);
+                contentValues.put(IMAGEN_COL, jsonObject.getString("imagen"));
+                contentValues.put(TITULO_COL, jsonObject.getString("titulo"));
+                contentValues.put(DESCRIPCION_COL, jsonObject.getString("descripcion"));
+                contentValues.put(TIEMPO_TOTAL_COL, jsonObject.getString("tiempoTotal"));
+                contentValues.put(TIPO_PLATO_COL, jsonObject.getString("tipoPlato"));
+                contentValues.put(KALORIAS_COL, jsonObject.getString("numCalorias"));
+                contentValues.put(INGREDIENTES_COL, convertirJSONArrayAString(jsonObject.getJSONArray("ingredientes")));
+                contentValues.put(URL_COL, jsonObject.getString("url"));
+                contentValues.put(DETALLES_NUTRICION_COL, convertirJSONArrayAString(jsonObject.getJSONArray("detallesNutricion")));
+                contentValues.put(NUM_PERSONAS_COL, jsonObject.getString("numPersonas"));
+                contentValues.put(TIEMPO_PREPARACION_COL, jsonObject.getString("tiempoPreparacion"));
+                contentValues.put(EQUIPAMIENTO_COL, convertirJSONArrayAString(jsonObject.getJSONArray("equipamiento")));
+                contentValues.put(TIPO_COCINA_COL, jsonObject.getString("tipoCocina"));
+                contentValues.put(PASOS_COL, convertirJSONArrayAString(jsonObject.getJSONArray("pasos")));
+                contentValues.put(NOTAS_COL, jsonObject.getString("notas"));
+
+                db.insert(NOMBRE_TABLA, null, contentValues);
             }
         } catch (IOException | JSONException e) {
             throw new RuntimeException(e);
         }
     }
 
-    // Crea la tabla para las recetas creadas por el usuario
     private void creacionTablaRecetasUsuario(SQLiteDatabase db) {
-        // Query para la creacion de la tabla de las recetas creadas por el usuario
         String queryRecetasUsuario = "CREATE TABLE IF NOT EXISTS " + NOMBRE_TABLA_USUARIO + "("
                 + ID_USUARIO_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + IMAGEN_USUARIO_COL + " TEXT, "
                 + TITULO_USUARIO_COL + " TEXT, "
                 + INGREDIENTES_USUARIO_COL + " TEXT, "
                 + PASOS_USUARIO_COL + " TEXT)";
-        // Ejecutamos la query para la creacion de la tabla
         db.execSQL(queryRecetasUsuario);
     }
 
-    // Crea la tabla de los ingredientes disponibles en la app
     private void creacionTablaIngredientes(SQLiteDatabase db) {
-        // Query para la creacion de la tabla de los ingredientes
         String queryIngredientes = "CREATE TABLE IF NOT EXISTS " + NOMBRE_TABLA_INGREDIENTES + "("
                 + ID_INGREDIENTES_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + NOMBRE_INGREDIENTE_COL + " TEXT, "
                 + IMAGEN_INGREDIENTE_COL + " TEXT, "
                 + PRECIO_INGREDIENTE_COL + " TEXT)";
-        // Ejecutamos la query para la creacion de la tabla
         db.execSQL(queryIngredientes);
-        // Insertamos los datos de los ingredientes obtenidos del archivo JSON
         insertarIngredientesGeneral(db);
     }
 
-    // Inserta los diferentes ingredientes dentro de la tabla especificada
     private void insertarIngredientesGeneral(SQLiteDatabase db) {
         try {
-            InputStream inputStream = context.getAssets().open("ingredientes.json");
-            int tamanio = inputStream.available();
-            byte[] buffer = new byte[tamanio];
-            inputStream.read(buffer);
-            inputStream.close();
-            JSONArray jsonArray = new JSONArray(new String(buffer,"UTF-8"));
-            for(int i = 0; i < jsonArray.length(); i++) {
+            String jsonString = leerJSONDesdeAsset("ingredientes.json");
+            JSONArray jsonArray = new JSONArray(jsonString);
+            for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                String nombre = jsonObject.getString("nombre");
-                String imagen = jsonObject.getString("imagen");
-                String precio = jsonObject.getString("precio");
                 ContentValues contentValues = new ContentValues();
-                contentValues.put(NOMBRE_INGREDIENTE_COL,nombre);
-                contentValues.put(IMAGEN_INGREDIENTE_COL,imagen);
-                contentValues.put(PRECIO_INGREDIENTE_COL,precio);
-                db.insert(NOMBRE_TABLA_INGREDIENTES,null,contentValues);
+                contentValues.put(NOMBRE_INGREDIENTE_COL, jsonObject.getString("nombre"));
+                contentValues.put(IMAGEN_INGREDIENTE_COL, jsonObject.getString("imagen"));
+                contentValues.put(PRECIO_INGREDIENTE_COL, jsonObject.getString("precio"));
+                db.insert(NOMBRE_TABLA_INGREDIENTES, null, contentValues);
             }
         } catch (IOException | JSONException e) {
             throw new RuntimeException(e);
         }
     }
 
-    /**
-     * Obtenemos todos los ingredientes de la base de datos
-     * @return lista de ingredientes
-     */
+    private String leerJSONDesdeAsset(String nombreArchivo) throws IOException {
+        InputStream inputStream = context.getAssets().open(nombreArchivo);
+        int tamanio = inputStream.available();
+        byte[] buffer = new byte[tamanio];
+        inputStream.read(buffer);
+        inputStream.close();
+        return new String(buffer, StandardCharsets.UTF_8);
+    }
+
+    private String convertirJSONArrayAString(JSONArray jsonArray) throws JSONException {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            stringBuilder.append(jsonArray.getString(i)).append("\n");
+        }
+        return stringBuilder.toString();
+    }
+
     @SuppressLint("Range")
     public List<Ingrediente> obtenerIngredientes() {
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         List<Ingrediente> ingredientes = new ArrayList<>();
-        Cursor cursor = null;
-        try {
-            cursor = sqLiteDatabase.rawQuery("SELECT * FROM " + NOMBRE_TABLA_INGREDIENTES, null);
-            if(cursor.moveToFirst()) {
+        try (SQLiteDatabase db = this.getReadableDatabase();
+             Cursor cursor = db.rawQuery("SELECT * FROM " + NOMBRE_TABLA_INGREDIENTES, null)) {
+
+            if (cursor.moveToFirst()) {
                 do {
                     Ingrediente ingrediente = new Ingrediente();
                     ingrediente.setImagen(cursor.getString(cursor.getColumnIndex(IMAGEN_INGREDIENTE_COL)));
@@ -256,54 +208,35 @@ public class DBHandler extends SQLiteOpenHelper {
                 } while (cursor.moveToNext());
             }
         } catch (Exception e) {
-            Log.d("Insercion BD", "Error al obtener los ingredientes");
-        } finally {
-            if(cursor != null) {
-                cursor.close();
-            }
+            Log.d("DBHandler", "Error al obtener los ingredientes", e);
         }
         return ingredientes;
     }
 
-    /**
-     * Obtenemos un ingrediente por su nombre de la base de datos
-     * @param nombreIngrediente a buscar
-     * @return ingrediente obtenido
-     */
     @SuppressLint("Range")
     public Ingrediente obtenerIngredientePorNombre(String nombreIngrediente) {
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         Ingrediente ingrediente = new Ingrediente();
-        Cursor cursor = null;
-        try {
-            cursor = sqLiteDatabase.rawQuery("SELECT * FROM " + NOMBRE_TABLA_INGREDIENTES + " WHERE " + NOMBRE_INGREDIENTE_COL + " LIKE ?", new String[]{"%" + nombreIngrediente + "%"});
-            if(cursor.moveToFirst()) {
+        try (SQLiteDatabase db = this.getReadableDatabase();
+             Cursor cursor = db.rawQuery("SELECT * FROM " + NOMBRE_TABLA_INGREDIENTES + " WHERE " + NOMBRE_INGREDIENTE_COL + " LIKE ?", new String[]{"%" + nombreIngrediente + "%"})) {
+
+            if (cursor.moveToFirst()) {
                 ingrediente.setImagen(cursor.getString(cursor.getColumnIndex(IMAGEN_INGREDIENTE_COL)));
-                ingrediente.setNombre(cursor.getString(cursor.getColumnIndex(NOMBRE_TABLA_INGREDIENTES)));
+                ingrediente.setNombre(cursor.getString(cursor.getColumnIndex(NOMBRE_INGREDIENTE_COL)));
                 ingrediente.setPrecio(cursor.getString(cursor.getColumnIndex(PRECIO_INGREDIENTE_COL)));
             }
         } catch (Exception e) {
-            Log.d("Insercion BD", "Error al obtener el ingrediente");
-        } finally {
-            if(cursor != null) {
-                cursor.close();
-            }
+            Log.d("DBHandler", "Error al obtener el ingrediente", e);
         }
         return ingrediente;
     }
 
-    /**
-     * Obtenemos todas las recetas de la base de datos
-     * @return Lista de recetas
-     */
     @SuppressLint("Range")
-    public List<Receta> obtenerRecetas(){
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        List<Receta> recetas = new ArrayList<Receta>();
-        Cursor cursor = null;
-        try {
-            cursor = sqLiteDatabase.rawQuery("SELECT * FROM " + NOMBRE_TABLA, null);
-            if(cursor.moveToFirst()){
+    public List<Receta> obtenerRecetas() {
+        List<Receta> recetas = new ArrayList<>();
+        try (SQLiteDatabase db = this.getReadableDatabase();
+             Cursor cursor = db.rawQuery("SELECT * FROM " + NOMBRE_TABLA, null)) {
+
+            if (cursor.moveToFirst()) {
                 do {
                     Receta receta = new Receta();
                     receta.setImagen(cursor.getString(cursor.getColumnIndex(IMAGEN_COL)));
@@ -313,28 +246,19 @@ public class DBHandler extends SQLiteOpenHelper {
                     recetas.add(receta);
                 } while (cursor.moveToNext());
             }
-        } catch (Exception e){
-            Log.d("Insercion BD","Error al obtener las recetas.");
-        } finally {
-            if(cursor != null){
-                cursor.close();
-            }
+        } catch (Exception e) {
+            Log.d("DBHandler", "Error al obtener las recetas", e);
         }
         return recetas;
     }
 
-    /**
-     * Obtenemos todas las recetas de los usuarios de la base de datos
-     * @return Lista de Recetas del Usuario
-     */
     @SuppressLint("Range")
     public List<Receta> obtenerRecetasUsuario() {
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        List<Receta> recetasUsuario = new ArrayList<Receta>();
-        Cursor cursor = null;
-        try {
-            cursor = sqLiteDatabase.rawQuery("SELECT * FROM " + NOMBRE_TABLA_USUARIO, null);
-            if(cursor.moveToFirst()) {
+        List<Receta> recetasUsuario = new ArrayList<>();
+        try (SQLiteDatabase db = this.getReadableDatabase();
+             Cursor cursor = db.rawQuery("SELECT * FROM " + NOMBRE_TABLA_USUARIO, null)) {
+
+            if (cursor.moveToFirst()) {
                 do {
                     Receta receta = new Receta();
                     receta.setImagen(cursor.getString(cursor.getColumnIndex(IMAGEN_USUARIO_COL)));
@@ -343,130 +267,77 @@ public class DBHandler extends SQLiteOpenHelper {
                 } while (cursor.moveToNext());
             }
         } catch (Exception e) {
-            Log.d("Insercion BD", "Error al obtener las recetas del usuario");
-        } finally {
-            if(cursor != null) {
-                cursor.close();
-            }
-         }
+            Log.d("DBHandler", "Error al obtener las recetas del usuario", e);
+        }
         return recetasUsuario;
     }
 
-    /**
-     * Obtenemos los detalles de la receta pulsada
-     * @param nomReceta Nombre de la Receta seleccionada
-     * @return Detalles de la receta seleccionada
-     */
     @SuppressLint("Range")
     public Receta obtenerRecetaPorNombre(String nomReceta) {
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         Receta receta = new Receta();
-        Cursor cursor = null;
-        try {
-            cursor = sqLiteDatabase.rawQuery("SELECT * FROM " + NOMBRE_TABLA + " WHERE " + TITULO_COL + " LIKE ?", new String[]{"%" + nomReceta + "%"});
-            if(cursor.moveToFirst()){
+        try (SQLiteDatabase db = this.getReadableDatabase();
+             Cursor cursor = db.rawQuery("SELECT * FROM " + NOMBRE_TABLA + " WHERE " + TITULO_COL + " LIKE ?", new String[]{"%" + nomReceta + "%"})) {
+
+            if (cursor.moveToFirst()) {
                 receta.setImagen(cursor.getString(cursor.getColumnIndex(IMAGEN_COL)));
                 receta.setTitulo(cursor.getString(cursor.getColumnIndex(TITULO_COL)));
                 receta.setDescripcion(cursor.getString(cursor.getColumnIndex(DESCRIPCION_COL)));
                 receta.setTiempoTotal(cursor.getString(cursor.getColumnIndex(TIEMPO_TOTAL_COL)));
                 receta.setTipoPlato(cursor.getString(cursor.getColumnIndex(TIPO_PLATO_COL)));
                 receta.setKalorias(cursor.getString(cursor.getColumnIndex(KALORIAS_COL)));
-                String ingredientes = cursor.getString(cursor.getColumnIndex(INGREDIENTES_COL));
-                List<String> listaIngredientes = new ArrayList<>();
-                listaIngredientes.addAll(Arrays.asList(ingredientes.split("\n")));
-                receta.setIngredientes(listaIngredientes);
+                receta.setIngredientes(Arrays.asList(cursor.getString(cursor.getColumnIndex(INGREDIENTES_COL)).split("\n")));
                 receta.setUrl(cursor.getString(cursor.getColumnIndex(URL_COL)));
-                String detallesNutricion = cursor.getString(cursor.getColumnIndex(DETALLES_NUTRICION_COL));
-                List<String> listaDetallesNutricion = new ArrayList<>();
-                listaDetallesNutricion.addAll(Arrays.asList(detallesNutricion.split("\n")));
-                receta.setDetallesNutricion(listaDetallesNutricion);
+                receta.setDetallesNutricion(Arrays.asList(cursor.getString(cursor.getColumnIndex(DETALLES_NUTRICION_COL)).split("\n")));
                 receta.setNumPersonas(cursor.getString(cursor.getColumnIndex(NUM_PERSONAS_COL)));
                 receta.setTiempoPreparacion(cursor.getString(cursor.getColumnIndex(TIEMPO_PREPARACION_COL)));
-                String equipamiento = cursor.getString(cursor.getColumnIndex(EQUIPAMIENTO_COL));
-                List<String> listaEquipamiento = new ArrayList<>();
-                listaEquipamiento.addAll(Arrays.asList(equipamiento.split("\n")));
-                receta.setEquipamiento(listaEquipamiento);
+                receta.setEquipamiento(Arrays.asList(cursor.getString(cursor.getColumnIndex(EQUIPAMIENTO_COL)).split("\n")));
                 receta.setTipoCocina(cursor.getString(cursor.getColumnIndex(TIPO_COCINA_COL)));
-                String pasos = cursor.getString(cursor.getColumnIndex(PASOS_COL));
-                List<String> listaPasos = new ArrayList<>();
-                listaPasos.addAll(Arrays.asList(pasos.split("\n")));
-                receta.setPasos(listaPasos);
+                receta.setPasos(Arrays.asList(cursor.getString(cursor.getColumnIndex(PASOS_COL)).split("\n")));
                 receta.setNotas(cursor.getString(cursor.getColumnIndex(NOTAS_COL)));
             }
-        } catch (SQLiteException e){
-            Log.d("DB","Error al obtener los detalles de la receta");
-        } finally {
-            if(cursor != null){
-                cursor.close();
-            }
+        } catch (SQLiteException e) {
+            Log.d("DBHandler", "Error al obtener los detalles de la receta", e);
         }
         return receta;
     }
 
-    /**
-     * Obtenemos los detalles de la receta del usuario pulsada
-     * @param nombreReceta de la receta
-     * @return receta seleccionada
-     */
     @SuppressLint("Range")
     public Receta obtenerRecetaUsuarioPorNombre(String nombreReceta) {
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         Receta receta = new Receta();
-        Cursor cursor = null;
-        try {
-            cursor = sqLiteDatabase.rawQuery("SELECT * FROM " + NOMBRE_TABLA_USUARIO + " WHERE " + TITULO_USUARIO_COL + " LIKE ?", new String[]{"%" + nombreReceta + "%"});
-            if(cursor.moveToFirst()) {
+        try (SQLiteDatabase db = this.getReadableDatabase();
+             Cursor cursor = db.rawQuery("SELECT * FROM " + NOMBRE_TABLA_USUARIO + " WHERE " + TITULO_USUARIO_COL + " LIKE ?", new String[]{"%" + nombreReceta + "%"})) {
+
+            if (cursor.moveToFirst()) {
                 receta.setImagen(cursor.getString(cursor.getColumnIndex(IMAGEN_USUARIO_COL)));
                 receta.setTitulo(cursor.getString(cursor.getColumnIndex(TITULO_USUARIO_COL)));
-                String ingredientes = cursor.getString(cursor.getColumnIndex(INGREDIENTES_USUARIO_COL));
-                List<String> listaIngredientes = new ArrayList<>();
-                listaIngredientes.addAll(Arrays.asList(ingredientes.split("\n")));
-                receta.setIngredientes(listaIngredientes);
-                String pasos = cursor.getString(cursor.getColumnIndex(PASOS_USUARIO_COL));
-                List<String> listaPasos = new ArrayList<>();
-                listaPasos.addAll(Arrays.asList(pasos.split("\n")));
-                receta.setPasos(listaPasos);
+                receta.setIngredientes(Arrays.asList(cursor.getString(cursor.getColumnIndex(INGREDIENTES_USUARIO_COL)).split("\n")));
+                receta.setPasos(Arrays.asList(cursor.getString(cursor.getColumnIndex(PASOS_USUARIO_COL)).split("\n")));
             }
         } catch (SQLiteException e) {
-            Log.d("DB","Error al obtener los detalles de la receta.");
-        } finally {
-            if(cursor != null) {
-                cursor.close();
-            }
+            Log.d("DBHandler", "Error al obtener los detalles de la receta", e);
         }
         return receta;
     }
 
-    /**
-     * Inserta la receta creada por el usuario
-     * @param imagen de la receta
-     * @param titulo de la receta
-     * @param ingredientes de la receta
-     * @param pasos de la receta
-     */
     public void insertarRecetaUsuario(String imagen, String titulo, String ingredientes, String pasos) {
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(IMAGEN_USUARIO_COL, imagen);
-        contentValues.put(TITULO_USUARIO_COL, titulo);
-        contentValues.put(INGREDIENTES_USUARIO_COL, ingredientes);
-        contentValues.put(PASOS_USUARIO_COL, pasos);
-        long resultado = sqLiteDatabase.insert(NOMBRE_TABLA_USUARIO, null, contentValues);
-        if(resultado == -1) {
-            throw new SQLiteException("Error al insertar la receta en la tabla RecetasUsuario");
+        try (SQLiteDatabase db = this.getWritableDatabase()) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(IMAGEN_USUARIO_COL, imagen);
+            contentValues.put(TITULO_USUARIO_COL, titulo);
+            contentValues.put(INGREDIENTES_USUARIO_COL, ingredientes);
+            contentValues.put(PASOS_USUARIO_COL, pasos);
+            long resultado = db.insert(NOMBRE_TABLA_USUARIO, null, contentValues);
+            if (resultado == -1) {
+                throw new SQLiteException("Error al insertar la receta en la tabla RecetasUsuario");
+            }
         }
-        sqLiteDatabase.close();
     }
 
-    /**
-     * Elimina una receta insertada por el usuario
-     * @param titulo de la receta
-     */
     private void eliminarRecetaUsuario(String titulo) {
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        String queryEliminacion = "DELETE FROM " + NOMBRE_TABLA_USUARIO + " WHERE " + TITULO_USUARIO_COL + " =?";
-        sqLiteDatabase.execSQL(queryEliminacion, new String[]{titulo});
-        sqLiteDatabase.close();
+        try (SQLiteDatabase db = this.getWritableDatabase()) {
+            String queryEliminacion = "DELETE FROM " + NOMBRE_TABLA_USUARIO + " WHERE " + TITULO_USUARIO_COL + " =?";
+            db.execSQL(queryEliminacion, new String[]{titulo});
+        }
     }
 
     @Override
@@ -475,6 +346,8 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL(queryRecetas);
         String queryRecetasUsuario = "DROP TABLE IF EXISTS " + NOMBRE_TABLA_USUARIO;
         db.execSQL(queryRecetasUsuario);
+        String queryIngredientes = "DROP TABLE IF EXISTS " + NOMBRE_TABLA_INGREDIENTES;
+        db.execSQL(queryIngredientes);
         onCreate(db);
     }
 }
