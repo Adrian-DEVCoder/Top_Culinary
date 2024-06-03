@@ -12,42 +12,38 @@
         android:id="@+id/imageButtonBuscarUsuarios"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/botones_redondos"
         android:src="@drawable/lupa"
-        android:background="@android:color/transparent"
-        app:tint="@color/white"
-        app:layout_constraintStart_toStartOf="@+id/searchViewChats"
-        app:layout_constraintTop_toTopOf="@+id/searchViewChats"
-        app:layout_constraintBottom_toTopOf="@+id/searchViewChats"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/searchViewChats"
+        app:tint="@color/naranja" />
 
     <!-- SearchView para buscar chats -->
     <android.widget.SearchView
         android:id="@+id/searchViewChats"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
         android:queryHint="Buscar chat..."
-        app:layout_constraintStart_toEndOf="@+id/imageButtonBuscarUsuarios"
+        app:layout_constraintTop_toBottomOf="@id/imageButtonBuscarUsuarios"
+        app:layout_constraintStart_toEndOf="@id/imageButtonBuscarUsuarios"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButtonBuscarUsuarios"
-        app:queryBackground="@color/white"/>
+        app:queryBackground="@color/white" />
 
-    <!-- NestedScrollView para envolver el RecyclerView -->
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
+    <!-- RecyclerView para los chats -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewChats"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/searchViewChats"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <!-- RecyclerView para los chats -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewChats"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-
-    </androidx.core.widget.NestedScrollView>
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/searchViewChats"
+        app:layout_constraintBottom_toTopOf="@id/linearLayoutBotoneraInferior"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <!-- Botonera inferior para moverse -->
     <LinearLayout

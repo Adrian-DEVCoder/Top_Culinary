@@ -1,78 +1,74 @@
 package com.example.top_culinary.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.top_culinary.R;
 import com.example.top_culinary.model.Chat;
-import com.google.api.Context;
 
 import java.util.List;
 
-public class AdapterChatsUsuario extends RecyclerView.Adapter<AdapterChatsUsuario.ViewHolder> {
+public class AdapterChatsUsuario extends RecyclerView.Adapter<AdapterChatsUsuario.ChatViewHolder> {
+
     private Context context;
-    private List<Chat> chatList;
+    private List<Chat> chats;
+    private OnItemClickListener onItemClickListener;
 
-    public AdapterChatsUsuario(Context context, List<Chat> chatList) {
+    public interface OnItemClickListener {
+        void onItemClick(Chat chat);
+    }
+
+    public AdapterChatsUsuario(Context context, List<Chat> chats, OnItemClickListener onItemClickListener) {
         this.context = context;
-        this.chatList = chatList;
+        this.chats = chats;
+        this.onItemClickListener = onItemClickListener;
     }
 
-    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ChatViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chat, parent, false);
-        return new ViewHolder(view);
+        return new ChatViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Chat chat = chatList.get(position);
-        String urlImagenUsuario = chat.getAvatarUrl();
-        Glide.with(holder.itemView.getContext())
-                .load(urlImagenUsuario)
-                .into(holder.imageViewAvatar);
-        holder.textViewNombreUsuario.setText(chat.getNombreUsuario());
-        holder.textViewUltimoMensaje.setText(chat.getUltimoMensaje());
+    public void onBindViewHolder(ChatViewHolder holder, int position) {
+        Chat chat = chats.get(position);
+        holder.nombreUsuario.setText(chat.getNombreUsuario());
+        holder.ultimoMensaje.setText(chat.getUltimoMensaje());
+        /*if (chat.getAvatarUrl() != null && !chat.getAvatarUrl().isEmpty()) {
+            Picasso.get().load(chat.getAvatarUrl()).into(holder.avatar);
+        } else {
+            holder.avatar.setImageResource(R.drawable.default_avatar); // Asegúrate de tener un avatar predeterminado en tus recursos
+        }*/
+
+        holder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(chat));
     }
 
     @Override
     public int getItemCount() {
-        return chatList.size();
+        return chats.size();
     }
 
-    // Agregar un nuevo usuario al adaptador
-    public void agregarUsuario(Chat chat) {
-        chatList.add(chat);
-        notifyItemInserted(chatList.size() - 1);
+    public void filterList(List<Chat> filteredChats) {
+        this.chats = filteredChats;
+        notifyDataSetChanged();
     }
 
-    // Limpia el adaptador
-    public void clear() {
-        int size = chatList.size();
-        if(size > 0) {
-            chatList.clear();
-            notifyItemRangeRemoved(0,size);
-        }
-    }
+    class ChatViewHolder extends RecyclerView.ViewHolder {
+        TextView nombreUsuario, ultimoMensaje;
+        ImageView avatar;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView imageViewAvatar;
-        public TextView textViewNombreUsuario;
-        public TextView textViewUltimoMensaje;
-
-        public ViewHolder(@NonNull View itemView) {
+        public ChatViewHolder(View itemView) {
             super(itemView);
-            imageViewAvatar = itemView.findViewById(R.id.imageViewAvatar);
-            textViewNombreUsuario = itemView.findViewById(R.id.textViewNombreUsuario);
-            textViewUltimoMensaje = itemView.findViewById(R.id.textViewUltimoMensaje);
+            nombreUsuario = itemView.findViewById(R.id.textViewNombreUsuario);
+            ultimoMensaje = itemView.findViewById(R.id.textViewUltimoMensaje);
+            avatar = itemView.findViewById(R.id.imageViewAvatar);
         }
     }
 }

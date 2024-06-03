@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.top_culinary.R;
 import com.example.top_culinary.cesta.CestaActivity;
+import com.example.top_culinary.chat.MensajesActivity;
 import com.example.top_culinary.cocina.CocinaActivity;
 import com.example.top_culinary.chat.ChatActivity;
 import com.example.top_culinary.model.Usuario;
@@ -54,6 +55,7 @@ public class PerfilActivity extends AppCompatActivity {
     TextView textViewNumRecetas;
     TextView textViewRecetasPublicadas;
     Button buttonSeguir;
+    ImageButton buttonEnviarMensaje;
     ImageButton buttonAniadirRecetas;
     ImageButton buttonCesta;
     ImageButton buttonCocina;
@@ -86,12 +88,14 @@ public class PerfilActivity extends AppCompatActivity {
                                 obtenerYMostrarSeguidos(uidUsuarioSesion);
                                 obtenerYMostrarNumRecetas(uidUsuarioSesion);
                                 buttonSeguir.setVisibility(View.GONE);
+                                buttonEnviarMensaje.setVisibility(View.GONE);
                                 buttonAjustes.setVisibility(View.VISIBLE);
                             } else {
                                 obtenerYMostrarSeguidores(uidUsuarioActividad);
                                 obtenerYMostrarSeguidos(uidUsuarioActividad);
                                 obtenerYMostrarNumRecetas(uidUsuarioActividad);
                                 buttonAjustes.setVisibility(View.GONE);
+                                buttonEnviarMensaje.setVisibility(View.VISIBLE);
                                 buttonSeguir.setVisibility(View.VISIBLE);
                             }
                             verificarSeguido();
@@ -112,6 +116,7 @@ public class PerfilActivity extends AppCompatActivity {
         textViewNumRecetas = findViewById(R.id.textViewNumRecetas);
         textViewRecetasPublicadas = findViewById(R.id.textViewRecetas);
         buttonSeguir = findViewById(R.id.buttonSeguir);
+        buttonEnviarMensaje = findViewById(R.id.imageButtonEnviarMensaje);
         buttonAniadirRecetas = findViewById(R.id.imgBRecetas);
         buttonCesta = findViewById(R.id.imgBCesta);
         buttonCocina = findViewById(R.id.imgBCocina);
@@ -206,6 +211,12 @@ public class PerfilActivity extends AppCompatActivity {
                                 }
                             }
                         });
+            }
+        });
+        buttonEnviarMensaje.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                iniciarEnviarMensajes(uidUsuarioActividad);
             }
         });
     }
@@ -344,6 +355,17 @@ public class PerfilActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    /**
+     * Inicia la actividad de Enviar Mensahes / Mensajes Activity
+     * @param uidUsuarioActividad El uid del usuario a enviar mensajes
+     */
+    private void iniciarEnviarMensajes(String uidUsuarioActividad) {
+        Intent intent = new Intent(this, MensajesActivity.class);
+        intent.putExtra("uidUsuarioActividad",uidUsuarioActividad);
+        startActivity(intent);
+        finish();
     }
 
     /**

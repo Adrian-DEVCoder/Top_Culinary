@@ -8,7 +8,6 @@
     tools:context=".perfil.PerfilActivity">
 
     <!-- Textview para el nombre de usuario -->
-
     <TextView
         android:id="@+id/textViewRecetas"
         android:layout_width="wrap_content"
@@ -219,8 +218,23 @@
         app:icon="@drawable/seguir"
         app:iconTint="#000000"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.329"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/viewLineaDivisora" />
+
+    <ImageButton
+        android:id="@+id/imageButtonEnviarMensaje"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:scaleX="0.8"
+        android:scaleY="0.8"
+        android:background="@drawable/botones_redondos"
+        android:src="@drawable/enviar_mensaje"
+        app:layout_constraintStart_toEndOf="@+id/buttonSeguir"
+        app:layout_constraintTop_toBottomOf="@+id/viewLineaDivisora"
+        app:tint="@color/naranja_more" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="409dp"

@@ -18,6 +18,9 @@
         android:theme="@style/Theme.Top_Culinary"
         tools:targetApi="tiramisu">
         <activity
+            android:name=".chat.MensajesActivity"
+            android:exported="false" />
+        <activity
             android:name=".chat.BuscadorUsuariosActivity"
             android:exported="false" />
         <activity
