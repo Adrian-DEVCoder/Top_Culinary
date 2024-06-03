@@ -29,7 +29,6 @@ import java.util.List;
 
 public class BuscarIngredientesActivity extends AppCompatActivity implements OnItemSelectListener {
     // Declaracion de las variables
-    private DBHandler dbHandler;
     private List<Ingrediente> ingredienteBuscadorList;
     private ArrayList<Ingrediente> ingredientesCompradosList;
     private AdapterIngredienteBuscador adapterIngredienteBuscador;
@@ -38,6 +37,7 @@ public class BuscarIngredientesActivity extends AppCompatActivity implements OnI
     CardView cardViewBuscador;
     SearchView searchViewIngredientes;
     RecyclerView recyclerViewIngredientes;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,20 +49,25 @@ public class BuscarIngredientesActivity extends AppCompatActivity implements OnI
             return insets;
         });
         // Inicializacion de la BD Local
-        dbHandler = new DBHandler(this);
+        DBHandler dbHandler = new DBHandler(this);
         ingredienteBuscadorList = dbHandler.obtenerIngredientes();
         // Obtencion de los datos del nombre del usuario del intent
         Intent intent = getIntent();
         String nombreFormateado = intent.getStringExtra("nombreFormateado");
-        if(intent.getParcelableArrayListExtra("ingredientesComprados") != null) {
-            ingredientesCompradosList = intent.getParcelableArrayListExtra("ingredientesComprados");
-        } else {
+        ingredientesCompradosList = intent.getParcelableArrayListExtra("ingredientesComprados");
+        if (ingredientesCompradosList == null) {
             ingredientesCompradosList = new ArrayList<>();
         }
         // Inicializacion de los widgets
-        buttonAtras = findViewById(R.id.imageButtonAtrasBuscar);
-        cardViewBuscador = findViewById(R.id.cardViewBuscador);
-        searchViewIngredientes = findViewById(R.id.searchViewIngredientes);
+        initWidgets();
+
+        // Configuracion del RecyclerView
+        setupRecyclerView();
+
+        // Listener del boton de volver atras
+        buttonAtras.setOnClickListener(v -> iniciarCesta(nombreFormateado));
+
+        // Configuracion del SearchView
         searchViewIngredientes.clearFocus();
         searchViewIngredientes.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -76,31 +81,34 @@ public class BuscarIngredientesActivity extends AppCompatActivity implements OnI
                 return true;
             }
         });
+    }
+
+    private void initWidgets() {
+        buttonAtras = findViewById(R.id.imageButtonAtrasBuscar);
+        cardViewBuscador = findViewById(R.id.cardViewBuscador);
+        searchViewIngredientes = findViewById(R.id.searchViewIngredientes);
         recyclerViewIngredientes = findViewById(R.id.recyclerViewIngredientesComprados);
+    }
+
+    private void setupRecyclerView() {
         recyclerViewIngredientes.setLayoutManager(new LinearLayoutManager(this));
         adapterIngredienteBuscador = new AdapterIngredienteBuscador(ingredienteBuscadorList, this);
         recyclerViewIngredientes.setAdapter(adapterIngredienteBuscador);
-        // Listener del boton de volver atras
-        buttonAtras.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                iniciarCesta(nombreFormateado);
-            }
-        });
     }
 
     /**
      * Filtra la busqueda del usuario en tiempo real
+     *
      * @param filtro contenido del nombre del ingrediente
      */
     private void filtrarIngredientes(String filtro) {
         List<Ingrediente> ingredientesFiltrados = new ArrayList<>();
-        for(Ingrediente ingrediente : ingredienteBuscadorList) {
-            if(ingrediente.getNombre().toLowerCase().contains(filtro.toLowerCase())) {
+        for (Ingrediente ingrediente : ingredienteBuscadorList) {
+            if (ingrediente.getNombre().toLowerCase().contains(filtro.toLowerCase())) {
                 ingredientesFiltrados.add(ingrediente);
             }
         }
-        if(ingredientesFiltrados.isEmpty()) {
+        if (ingredientesFiltrados.isEmpty()) {
             mostrarToast("No hay datos");
         } else {
             adapterIngredienteBuscador.setListaIngredientesFiltrados(ingredientesFiltrados);
@@ -109,6 +117,7 @@ public class BuscarIngredientesActivity extends AppCompatActivity implements OnI
 
     /**
      * Muestra un toast al usuario
+     *
      * @param mensaje a incluir en el toast
      */
     private void mostrarToast(String mensaje) {
@@ -117,11 +126,12 @@ public class BuscarIngredientesActivity extends AppCompatActivity implements OnI
 
     /**
      * Inicia la actividad de la cesta
+     *
      * @param nombreFormateado del usuario
      */
-    private void iniciarCesta (String nombreFormateado) {
+    private void iniciarCesta(String nombreFormateado) {
         Intent intent = new Intent(this, CestaActivity.class);
-        intent.putExtra("nombreFormateado",nombreFormateado);
+        intent.putExtra("nombreFormateado", nombreFormateado);
         intent.putParcelableArrayListExtra("ingredientesComprados", ingredientesCompradosList);
         startActivity(intent);
         finish();
@@ -130,17 +140,18 @@ public class BuscarIngredientesActivity extends AppCompatActivity implements OnI
     @Override
     public void onItemSelect(Ingrediente ingredienteSeleccionado) {
         boolean ingredienteEncontrado = false;
-        for(int i = 0; i < ingredientesCompradosList.size(); i++) {
-            if(ingredientesCompradosList.get(i).getNombre().equals(ingredienteSeleccionado.getNombre()) &&
-            ingredientesCompradosList.get(i).getImagen().equals(ingredienteSeleccionado.getImagen())) {
+        for (int i = 0; i < ingredientesCompradosList.size(); i++) {
+            if (ingredientesCompradosList.get(i).getNombre().equals(ingredienteSeleccionado.getNombre()) &&
+                    ingredientesCompradosList.get(i).getImagen().equals(ingredienteSeleccionado.getImagen())) {
                 ingredientesCompradosList.get(i).setCantidad(ingredientesCompradosList.get(i).getCantidad() + 1);
                 ingredienteEncontrado = true;
                 break;
             }
-            if(!ingredienteEncontrado) {
-                ingredientesCompradosList.add(ingredienteSeleccionado);
-            }
-            adapterIngredienteBuscador.notifyDataSetChanged();
         }
+        if (!ingredienteEncontrado) {
+            ingredienteSeleccionado.setCantidad(1); // Asegurarse de que la cantidad inicial sea 1
+            ingredientesCompradosList.add(ingredienteSeleccionado);
+        }
+        adapterIngredienteBuscador.notifyDataSetChanged();
     }
 }
