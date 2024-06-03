@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -20,96 +19,58 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.regex.Pattern;
 
 public class RegistroActivity extends AppCompatActivity {
-    /**
-     * Widgets
-     */
-    ImageView imageViewFondo;
-    ImageView imageViewTitulo;
-    TextView textViewNuevoChef;
-    TextView textViewEmail;
-    EditText editTextEmail;
-    TextView textViewContrasenia;
-    EditText editTextContrasenia;
-    TextView textViewEligeTema;
-    LinearLayout linearLayoutTemas;
-    ImageView imageViewNaranja;
-    ImageView imageViewVerde;
-    ImageView imageViewRojo;
-    ImageView imageViewMarron;
-    ImageView imageViewAzul;
-    Button buttonRegistro;
-    TextView textViewYaChef;
-    Button buttonInicioSesion;
-
-    /**
-     * Variables
-     */
+    // Widgets
+    private EditText editTextEmail;
+    private EditText editTextContrasenia;
+    private Button buttonRegistro;
+    private Button buttonInicioSesion;
+    // Variables
     private FirebaseAuth firebaseAuth;
-    /**
-     * Constantes
-     */
+    // Constantes
     private static final Pattern passwordPattern = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$");
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
-        // Inicializacion de Firebase
+        // Inicialización de Firebase
         firebaseAuth = FirebaseAuth.getInstance();
-        // Inicializacion de los Widgets
-        imageViewFondo = findViewById(R.id.imgFondo);
-        imageViewTitulo = findViewById(R.id.imgTituloFondo);
-        textViewNuevoChef = findViewById(R.id.txvNuevoChef);
-        textViewEmail = findViewById(R.id.txvEmail);
+        // Inicialización de los Widgets
         editTextEmail = findViewById(R.id.edtEmail);
-        textViewContrasenia = findViewById(R.id.txvContrasenia);
         editTextContrasenia = findViewById(R.id.edtContrasenia);
-        textViewEligeTema = findViewById(R.id.txvEligeTema);
-        linearLayoutTemas = findViewById(R.id.llTemas);
-        imageViewNaranja = findViewById(R.id.imgTemaNaranja);
-        imageViewVerde = findViewById(R.id.imgTemaVerde);
-        imageViewRojo = findViewById(R.id.imgTemaRojo);
-        imageViewMarron = findViewById(R.id.imgTemaMarron);
-        imageViewAzul = findViewById(R.id.imgTemaAzul);
         buttonRegistro = findViewById(R.id.btnRegistro);
-        textViewYaChef = findViewById(R.id.txvYaChef);
         buttonInicioSesion = findViewById(R.id.btnIniciarSesion);
-        // Listener del boton para registrarse
-        buttonRegistro.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        // Listener del botón para registrarse
+        buttonRegistro.setOnClickListener(v -> validarYRegistrar());
+        // Listener del botón para ir al inicio de sesión
+        buttonInicioSesion.setOnClickListener(v -> inicioSesion());
+    }
 
-                String email = editTextEmail.getText().toString().trim();
-                String password = editTextContrasenia.getText().toString().trim();
-                if(email.isEmpty() && password.isEmpty()) {
-                    editTextEmail.setError("Por favor, introduce las credenciales.");
-                } else if(!email.contains("@")){
-                    editTextEmail.setError("El email introducido no es valido.");
-                    editTextEmail.requestFocus();
-                } else if(password.length() <= 8){
-                    editTextContrasenia.setError("La contraseña debe contener mas de 8 caracteres. Además, debe incluir mayúsculas, minúsculas y números.");
-                    editTextContrasenia.requestFocus();
-                } else if(!comprobarContrasenia(password)){
-                    editTextContrasenia.setError("La contraseña debe contener mas de 8 caracteres. Además, debe incluir mayúsculas, minúsculas y números.");
-                    editTextContrasenia.requestFocus();
-                } else {
-                    registro(email, password);
-                }
+    /**
+     * Validamos los datos de entrada y registramos al usuario si son válidos
+     */
+    private void validarYRegistrar() {
+        String email = editTextEmail.getText().toString().trim();
+        String password = editTextContrasenia.getText().toString().trim();
 
-            }
-        });
-        // Listener del boton para ir al inicio de sesion
-        buttonInicioSesion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                inicioSesion();
-            }
-        });
+        if (email.isEmpty()) {
+            editTextEmail.setError("Por favor, introduce las credenciales.");
+            editTextEmail.requestFocus();
+        } else if (!email.contains("@")) {
+            editTextEmail.setError("El email introducido no es válido.");
+            editTextEmail.requestFocus();
+        } else if (password.length() <= 8) {
+            editTextContrasenia.setError("La contraseña debe contener más de 8 caracteres.");
+            editTextContrasenia.requestFocus();
+        } else if (!comprobarContrasenia(password)) {
+            editTextContrasenia.setError("La contraseña debe contener mayúsculas, minúsculas y números.");
+            editTextContrasenia.requestFocus();
+        } else {
+            registro(email, password);
+        }
     }
 
     /**
@@ -119,32 +80,25 @@ public class RegistroActivity extends AppCompatActivity {
      */
     private void registro(String email, String password) {
         firebaseAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            Log.d("REGISTRO","Registro Satisfactorio");
-                            // Reinicia la sesión de usuario
-                            firebaseAuth.signOut();
-                            // Luego, inicia la actividad de inicio de sesión
-                            Intent intent = new Intent(RegistroActivity.this, LoginActivity.class);
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            Log.w("REGISTRO","Registro Incorrecto");
-                            Toast.makeText(RegistroActivity.this,"Registro Erroneo",Toast.LENGTH_SHORT).show();
-                        }
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        Log.d("REGISTRO", "Registro satisfactorio");
+                        firebaseAuth.signOut(); // Cerrar la sesión del usuario recién registrado
+                        inicioSesion(); // Redirigir al inicio de sesión
+                    } else {
+                        Log.w("REGISTRO", "Registro incorrecto", task.getException());
+                        Toast.makeText(RegistroActivity.this, "Registro erróneo", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
     /**
-     * Redirigimos al usuario al inicio de sesion
+     * Redirigimos al usuario al inicio de sesión
      */
-    private void inicioSesion(){
+    private void inicioSesion() {
         Intent intent = new Intent(RegistroActivity.this, LoginActivity.class);
         startActivity(intent);
-        super.finish();
+        finish();
     }
 
     /**
@@ -152,7 +106,7 @@ public class RegistroActivity extends AppCompatActivity {
      * @param pass del usuario
      * @return true o false dependiendo si la contraseña pasa el pattern
      */
-    private boolean comprobarContrasenia(String pass){
+    private boolean comprobarContrasenia(String pass) {
         return passwordPattern.matcher(pass).matches();
     }
 }
