@@ -3,8 +3,6 @@ package com.example.top_culinary.cocina;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import android.animation.AnimatorInflater;
-import android.animation.AnimatorSet;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -22,122 +20,118 @@ import com.example.top_culinary.R;
 import com.example.top_culinary.database.DBHandler;
 import com.example.top_culinary.model.Receta;
 
+import java.util.List;
+
 public class DetallesRecetaActivity extends AppCompatActivity {
     // Declaracion de las variables
     private DBHandler dbHandler;
     // Declaracion de los widgets
-    ImageButton imageButtonAtras;
-    ImageButton imageButtonFavorito;
-    ImageView imageViewReceta;
-    ScrollView scrollViewReceta;
-    TextView textViewTitulo;
-    TextView textViewDescripcion;
-    TextView textViewIngredientes;
-    TextView textViewListaIngredientes;
-    TextView textViewEquipamiento;
-    TextView textViewListaEquipamiento;
-    TextView textViewPasos;
-    TextView textViewListaPasos;
-    Button buttonComenzarReceta;
+    private ImageButton imageButtonAtras;
+    private ImageButton imageButtonFavorito;
+    private ImageView imageViewReceta;
+    private TextView textViewTitulo;
+    private TextView textViewDescripcion;
+    private TextView textViewListaIngredientes;
+    private TextView textViewListaEquipamiento;
+    private TextView textViewListaPasos;
+    private Button buttonComenzarReceta;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles_receta);
-        // Obtenemos el nombre de la receta a traves del intent
+
+        // Inicializar la base de datos y los widgets
+        dbHandler = new DBHandler(this);
+        initWidgets();
+
+        // Obtener el nombre de la receta del intent
         Intent intent = getIntent();
         String nombreReceta = intent.getStringExtra("nombreReceta");
         String nombreFormateado = intent.getStringExtra("nombreFormateado");
-        dbHandler = new DBHandler(this);
-        scrollViewReceta = findViewById(R.id.scrollViewDetalles);
+
+        // Cargar los datos de la receta
+        Receta receta = dbHandler.obtenerRecetaPorNombre(nombreReceta);
+        cargarDatosReceta(receta);
+
+        // Configurar los listeners
+        setupListeners(nombreFormateado, receta);
+    }
+
+    private void initWidgets() {
         imageButtonAtras = findViewById(R.id.imageButtonBack);
         imageButtonFavorito = findViewById(R.id.imageButtonFavorito);
         imageViewReceta = findViewById(R.id.imageViewReceta);
         textViewTitulo = findViewById(R.id.textviewTituloReceta);
         textViewDescripcion = findViewById(R.id.textviewDescripcion);
-        textViewIngredientes = findViewById(R.id.textviewIngredientes);
         textViewListaIngredientes = findViewById(R.id.textviewListaIngredientes);
-        textViewEquipamiento = findViewById(R.id.textviewEquipamiento);
         textViewListaEquipamiento = findViewById(R.id.textviewListaEquipamiento);
-        textViewPasos = findViewById(R.id.textviewPasos);
         textViewListaPasos = findViewById(R.id.textviewListaPasos);
-        // Boton para comenzar a realizar la receta con una animacion
         buttonComenzarReceta = findViewById(R.id.buttonComenzarReceta);
+    }
+
+    private void cargarDatosReceta(Receta receta) {
+        if (receta != null) {
+            Glide.with(this)
+                    .load(receta.getImagen())
+                    .into(imageViewReceta);
+
+            textViewTitulo.setText(receta.getTitulo());
+            textViewDescripcion.setText(receta.getDescripcion());
+
+            textViewListaIngredientes.setText(construirLista(receta.getIngredientes()));
+            textViewListaEquipamiento.setText(construirLista(receta.getEquipamiento()));
+            textViewListaPasos.setText(construirListaPasos(receta.getPasos()));
+        }
+    }
+
+    private String construirLista(List<String> items) {
+        StringBuilder stb = new StringBuilder();
+        for (String item : items) {
+            stb.append("- ").append(item).append("\n");
+        }
+        return stb.toString();
+    }
+
+    private String construirListaPasos(List<String> pasos) {
+        StringBuilder stb = new StringBuilder();
+        for (int i = 0; i < pasos.size(); i++) {
+            stb.append(i + 1).append(". ").append(pasos.get(i)).append("\n");
+        }
+        return stb.toString();
+    }
+
+    private void setupListeners(String nombreFormateado, Receta receta) {
+        imageButtonAtras.setOnClickListener(v -> volverAtras(nombreFormateado));
+        imageButtonFavorito.setOnClickListener(v -> toggleFavorito(imageButtonFavorito));
+        buttonComenzarReceta.setOnClickListener(v -> comenzarReceta(receta.getTitulo()));
+        animarBotonComenzar();
+    }
+
+    private void volverAtras(String nombreFormateado) {
+        Intent intent = new Intent(DetallesRecetaActivity.this, CocinaActivity.class);
+        intent.putExtra("nombreFormateado", nombreFormateado);
+        startActivity(intent);
+        finish();
+    }
+
+    private void comenzarReceta(String nombreReceta) {
+        Intent intent = new Intent(DetallesRecetaActivity.this, RecetacionActivity.class);
+        intent.putExtra("nombreReceta", nombreReceta);
+        startActivity(intent);
+        finish();
+    }
+
+    private void animarBotonComenzar() {
         Animation pulseAnimation = AnimationUtils.loadAnimation(this, R.anim.pulse_animation);
         buttonComenzarReceta.startAnimation(pulseAnimation);
-
-        // Listener para el boton de volver atras
-        imageButtonAtras.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(DetallesRecetaActivity.this, CocinaActivity.class);
-                intent.putExtra("nombreFormateado",nombreFormateado);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-        // Listener para el boton de favorito
-        imageButtonFavorito.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toggleFavorito(imageButtonFavorito);
-            }
-        });
-
-        Receta receta = dbHandler.obtenerRecetaPorNombre(nombreReceta);
-
-        String urlImagen = receta.getImagen();
-        Glide.with(this)
-                .load(urlImagen)
-                .into(imageViewReceta);
-
-        textViewTitulo.setText(receta.getTitulo());
-        textViewDescripcion.setText(receta.getDescripcion());
-
-        StringBuilder stbIngredientes = new StringBuilder();
-        for(String ingrediente : receta.getIngredientes()){
-            stbIngredientes.append("- ").append(ingrediente).append("\n");
-        }
-        textViewListaIngredientes.setText(stbIngredientes.toString());
-
-        StringBuilder stbEquipamiento = new StringBuilder();
-        for(String equipamiento : receta.getEquipamiento()){
-            stbEquipamiento.append("- ").append(equipamiento).append("\n");
-        }
-        textViewListaEquipamiento.setText(stbEquipamiento.toString());
-
-        StringBuilder stbPasos = new StringBuilder();
-        for(int i=0;i<receta.getPasos().size();i++){
-            stbPasos.append(i+1).append(". ").append(receta.getPasos().get(i)).append("\n");
-        }
-        textViewListaPasos.setText(stbPasos.toString());
-
-        // Listener para el boton de comenzar recetas
-        buttonComenzarReceta.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(DetallesRecetaActivity.this, RecetacionActivity.class);
-                intent.putExtra("nombreReceta",receta.getTitulo());
-                startActivity(intent);
-                finish();
-            }
-        });
     }
 
     private void toggleFavorito(ImageButton imageButton) {
         int currentImageResource = imageButton.getDrawable().getConstantState().equals(ContextCompat.getDrawable(imageButton.getContext(), R.drawable.favorito).getConstantState()) ? R.drawable.sin_favorito : R.drawable.favorito;
         imageButton.setImageResource(currentImageResource);
-        // Aplicar ColorFilter para cambiar el color de la imagen
         int color = ContextCompat.getColor(imageButton.getContext(), currentImageResource == R.drawable.favorito ? R.color.naranja_more : R.color.black);
         imageButton.setColorFilter(color, PorterDuff.Mode.SRC_IN);
-
-        // Agrega una animación de desvanecimiento
-        imageButton.animate().alpha(0.5f).setDuration(300).withEndAction(new Runnable() {
-            @Override
-            public void run() {
-                imageButton.animate().alpha(1f).setDuration(300);
-            }
-        });
+        imageButton.animate().alpha(0.5f).setDuration(300).withEndAction(() -> imageButton.animate().alpha(1f).setDuration(300));
     }
-
 }

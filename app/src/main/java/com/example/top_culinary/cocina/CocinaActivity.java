@@ -41,59 +41,80 @@ public class CocinaActivity extends AppCompatActivity {
     private List<Receta> recetaList;
     private AdapterReceta adapterReceta;
     // Declaracion de los widgets
-    TextView textViewHola;
-    TextView textViewNSaludo;
-    ImageView imageViewPerfil;
-    CardView cardViewBuscador;
-    TextView textViewMensaje;
-    SearchView searchViewIngRec;
-    RecyclerView recyclerViewRecetas;
-    ImageButton buttonAniadirRecetas;
-    ImageButton buttonCesta;
-    ImageButton buttonCocina;
-    ImageButton buttonForo;
-    ImageButton buttonPerfil;
+    private TextView textViewHola;
+    private TextView textViewNSaludo;
+    private ImageView imageViewPerfil;
+    private SearchView searchViewIngRec;
+    private RecyclerView recyclerViewRecetas;
+    private ImageButton buttonAniadirRecetas;
+    private ImageButton buttonCesta;
+    private ImageButton buttonForo;
+    private ImageButton buttonPerfil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cocina);
-        // Inicializacion de la BD Local
+
+        // Inicializacion de la BD Local y Online
         dbHandler = new DBHandler(this);
-        // Inicializacion de la BD Online
         firestoreDB = FirebaseFirestore.getInstance();
-        // Obtenemos los datos del usuario
+
+        // Inicializacion de los widgets
+        initWidgets();
+
+        // Configurar RecyclerView
+        setupRecyclerView();
+
+        // Configurar Firestore y obtener datos de usuario
+        setupFirestore();
+
+        // Configurar listeners
+        setupListeners();
+    }
+
+    private void initWidgets() {
+        textViewHola = findViewById(R.id.txvHola);
+        textViewNSaludo = findViewById(R.id.txvNombreUsuario);
+        imageViewPerfil = findViewById(R.id.imgPerfil);
+        searchViewIngRec = findViewById(R.id.searchViewIngRec);
+        recyclerViewRecetas = findViewById(R.id.recyclerViewRecetas);
+        buttonAniadirRecetas = findViewById(R.id.imgBRecetas);
+        buttonCesta = findViewById(R.id.imgBCesta);
+        buttonForo = findViewById(R.id.imgBForo);
+        buttonPerfil = findViewById(R.id.imgBPerfil);
+    }
+
+    private void setupRecyclerView() {
+        recyclerViewRecetas.setLayoutManager(new LinearLayoutManager(this));
+        recetaList = dbHandler.obtenerRecetas();
+        adapterReceta = new AdapterReceta(recetaList);
+        recyclerViewRecetas.setAdapter(adapterReceta);
+    }
+
+    private void setupFirestore() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         String uid = currentUser.getUid(); // Obtenemos el uid del usuario actualmente autenticado
         // Consulta para obtener el documento del usuario
         firestoreDB.collection("usuarios").document(uid)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                // Si el documento existe, extraemos el nombre de usuario
-                                String nombreUsuario = document.getString("display_name");
-                                // Inicializacion de los widgets
-                                textViewHola = findViewById(R.id.txvHola);
-                                textViewNSaludo = findViewById(R.id.txvNombreUsuario);
-                                textViewNSaludo.setText(nombreUsuario); // Establecemos el nombre de usuario
-                            } else {
-                                Log.d("Firestore", "No se encontró el documento del usuario");
-                            }
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            // Si el documento existe, extraemos el nombre de usuario
+                            String nombreUsuario = document.getString("display_name");
+                            textViewNSaludo.setText(nombreUsuario); // Establecemos el nombre de usuario
                         } else {
-                            Log.d("Firestore", "Error al obtener el documento del usuario", task.getException());
+                            Log.d("Firestore", "No se encontró el documento del usuario");
                         }
+                    } else {
+                        Log.d("Firestore", "Error al obtener el documento del usuario", task.getException());
                     }
                 });
-        // Inicializacion de los widgets
-        imageViewPerfil = findViewById(R.id.imgPerfil);
-        cardViewBuscador = findViewById(R.id.cvBuscador);
-        textViewMensaje = findViewById(R.id.txvDescubrir);
-        // Buscador de ingredientes y recetas
-        searchViewIngRec = findViewById(R.id.searchViewIngRec);
+    }
+
+    private void setupListeners() {
         searchViewIngRec.clearFocus();
         searchViewIngRec.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -107,49 +128,12 @@ public class CocinaActivity extends AppCompatActivity {
                 return true;
             }
         });
-        recyclerViewRecetas = findViewById(R.id.recyclerViewRecetas);
-        recyclerViewRecetas.setLayoutManager(new LinearLayoutManager(this));
-        // Lista para las recetas a mostrar en el Recycler View de las Recetas
-        recetaList = dbHandler.obtenerRecetas();
-        adapterReceta = new AdapterReceta(recetaList);
-        recyclerViewRecetas.setAdapter(adapterReceta);
-        // Botones de la botonera inferior
-        buttonAniadirRecetas = findViewById(R.id.imgBRecetas);
-        buttonCesta = findViewById(R.id.imgBCesta);
-        buttonCocina = findViewById(R.id.imgBCocina);
-        buttonForo = findViewById(R.id.imgBForo);
-        buttonPerfil = findViewById(R.id.imgBPerfil);
-        // Listener de los botones inferiores
-        buttonAniadirRecetas.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                iniciarAniadirRecetas(textViewNSaludo.getText().toString());
-            }
-        });
-        buttonCesta.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                iniciarCesta(textViewNSaludo.getText().toString());
-            }
-        });
-        buttonForo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                iniciarForo(textViewNSaludo.getText().toString());
-            }
-        });
-        buttonPerfil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                iniciarPerfil(textViewNSaludo.getText().toString());
-            }
-        });
-        imageViewPerfil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                iniciarPerfil(textViewNSaludo.getText().toString());
-            }
-        });
+
+        buttonAniadirRecetas.setOnClickListener(v -> iniciarAniadirRecetas(textViewNSaludo.getText().toString()));
+        buttonCesta.setOnClickListener(v -> iniciarCesta(textViewNSaludo.getText().toString()));
+        buttonForo.setOnClickListener(v -> iniciarForo(textViewNSaludo.getText().toString()));
+        buttonPerfil.setOnClickListener(v -> iniciarPerfil(textViewNSaludo.getText().toString()));
+        imageViewPerfil.setOnClickListener(v -> iniciarPerfil(textViewNSaludo.getText().toString()));
     }
 
     /**
@@ -157,9 +141,9 @@ public class CocinaActivity extends AppCompatActivity {
      */
     private void iniciarAniadirRecetas(String nombreFormateado){
         Intent intent = new Intent(CocinaActivity.this, AniadirRecetasActivity.class);
-        intent.putExtra("nombreFormateado",nombreFormateado);
+        intent.putExtra("nombreFormateado", nombreFormateado);
         startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         finish();
     }
 
@@ -168,9 +152,9 @@ public class CocinaActivity extends AppCompatActivity {
      */
     private void iniciarCesta(String nombreFormateado){
         Intent intent = new Intent(CocinaActivity.this, CestaActivity.class);
-        intent.putExtra("nombreFormateado",nombreFormateado);
+        intent.putExtra("nombreFormateado", nombreFormateado);
         startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         finish();
     }
 
@@ -179,9 +163,9 @@ public class CocinaActivity extends AppCompatActivity {
      */
     private void iniciarForo(String nombreFormateado){
         Intent intent = new Intent(CocinaActivity.this, ChatActivity.class);
-        intent.putExtra("nombreFormateado",nombreFormateado);
+        intent.putExtra("nombreFormateado", nombreFormateado);
         startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         finish();
     }
 
@@ -190,9 +174,9 @@ public class CocinaActivity extends AppCompatActivity {
      */
     private void iniciarPerfil(String nombreFormateado){
         Intent intent = new Intent(CocinaActivity.this, PerfilActivity.class);
-        intent.putExtra("nombreFormateado",nombreFormateado);
+        intent.putExtra("nombreFormateado", nombreFormateado);
         startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         finish();
     }
 
@@ -202,15 +186,14 @@ public class CocinaActivity extends AppCompatActivity {
      */
     private void filtrarRecetasIngredientes(String filtro){
         List<Receta> recetasFiltradas = new ArrayList<>();
-        for(Receta receta : recetaList){
-            if(receta.getTitulo().toLowerCase().contains(filtro.toLowerCase())){
+        for (Receta receta : recetaList) {
+            if (receta.getTitulo().toLowerCase().contains(filtro.toLowerCase())) {
                 recetasFiltradas.add(receta);
             }
         }
-        // Comprobamos si la lista de las recetas filtradas esta vacia
-        if(recetasFiltradas.isEmpty()){
-            String mensaje = "No hay datos";
-            mostrarToast(mensaje);
+        // Comprobamos si la lista de las recetas filtradas está vacía
+        if (recetasFiltradas.isEmpty()) {
+            mostrarToast("No hay datos");
         } else {
             adapterReceta.setListaRecetasFiltradas(recetasFiltradas);
         }
@@ -218,7 +201,7 @@ public class CocinaActivity extends AppCompatActivity {
 
     /**
      * Mostramos Toast al usuario dependiendo del mensaje introducido
-     * @param mensaje introducido por el programac
+     * @param mensaje introducido por el programador
      */
     private void mostrarToast(String mensaje){
         Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
