@@ -77,8 +77,10 @@ public class MensajesActivity extends AppCompatActivity {
 
         chatExiste(exists -> {
             if (exists) {
+                if(otherUserId != null) {
+                    cargarDatosUsuario(otherUserId);
+                }
                 cargarMensajes();
-                cargarDatosUsuario(otherUserId);
             } else {
                 crearNuevoChat();
             }
@@ -113,7 +115,14 @@ public class MensajesActivity extends AppCompatActivity {
                     mensajes.add(mensaje);
                 }
                 adapterMensajes.notifyDataSetChanged();
-                recyclerViewMensajes.smoothScrollToPosition(mensajes.size() - 1);
+                if (!mensajes.isEmpty() && adapterMensajes.getItemCount() > 0) {
+                    int targetPosition = adapterMensajes.getItemCount() - 1;
+                    if (targetPosition >= 0 && targetPosition < adapterMensajes.getItemCount()) {
+                        recyclerViewMensajes.smoothScrollToPosition(targetPosition);
+                    } else {
+                        Log.e("MensajesActivity", "Invalid target position: " + targetPosition);
+                    }
+                }
             }
         });
     }
@@ -127,7 +136,7 @@ public class MensajesActivity extends AppCompatActivity {
                     TextView userName = findViewById(R.id.user_name);
                     ImageView userProfileImage = findViewById(R.id.user_profile_image);
                     userName.setText(usuario.getDisplay_name());
-                    Picasso.get().load(usuario.getUrlImagenUsuario()).into(userProfileImage);
+                    /*Picasso.get().load(usuario.getUrlImagenUsuario()).into(userProfileImage);*/
                 }
             }
         }).addOnFailureListener(e -> Log.e("MensajesActivity", "Error al cargar datos del usuario", e));
