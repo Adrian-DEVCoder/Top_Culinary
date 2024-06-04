@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/naranja_more"
-    android:padding="16dp">
+    android:padding="16dp"
+    tools:context=".chat.BuscadorUsuariosActivity">
 
     <!-- ImageButton para volver atrás -->
     <ImageButton
@@ -16,32 +16,42 @@
         android:layout_alignParentStart="true"
         android:layout_marginStart="10dp"
         android:layout_marginTop="6dp"
+        android:background="@drawable/botones_redondos"
         android:src="@drawable/atras"
-        app:tint="@color/naranja_more"
-        android:background="@drawable/botones_redondos"/>
+        app:tint="@color/naranja_more" />
 
+    <!-- SearchView para buscar usuarios -->
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchViewBuscadorUsuarios"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/imageButtonVolver"
+        android:layout_alignParentEnd="true"
         android:layout_marginStart="14dp"
-        android:background="@android:drawable/editbox_background"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="6dp"
+        android:background="@color/white"
         android:queryHint="Buscar usuarios..." />
 
+    <!-- RecyclerView para los resultados de búsqueda -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewResultados"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_below="@id/searchViewBuscadorUsuarios"
+        android:layout_above="@id/progressBarCarga"
+        android:layout_marginTop="8dp"
         tools:listitem="@layout/item_buscar_usuario"
         android:paddingTop="8dp" />
 
+    <!-- ProgressBar para la carga de datos -->
     <ProgressBar
         android:id="@+id/progressBarCarga"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="16dp"
         android:visibility="gone" />
 
 </RelativeLayout>

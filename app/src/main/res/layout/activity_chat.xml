@@ -7,43 +7,39 @@
     android:background="@color/naranja_more"
     tools:context=".chat.ChatActivity">
 
-    <!-- ImageButton para buscar usuarios -->
-    <ImageButton
-        android:id="@+id/imageButtonBuscarUsuarios"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/botones_redondos"
-        android:src="@drawable/lupa"
+    <!-- Contenedor superior para el buscador -->
+    <LinearLayout
+        android:id="@+id/llBuscarUsuarios"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/searchViewChats"
-        app:tint="@color/naranja" />
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <!-- SearchView para buscar chats -->
-    <android.widget.SearchView
-        android:id="@+id/searchViewChats"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="16dp"
-        android:queryHint="Buscar chat..."
-        app:layout_constraintTop_toBottomOf="@id/imageButtonBuscarUsuarios"
-        app:layout_constraintStart_toEndOf="@id/imageButtonBuscarUsuarios"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:queryBackground="@color/white" />
+        <!-- ImageButton para buscar usuarios -->
+        <ImageButton
+            android:id="@+id/imageButtonBuscarUsuarios"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/botones_redondos"
+            android:src="@drawable/lupa"
+            app:tint="@color/naranja" />
+
+
+    </LinearLayout>
 
     <!-- RecyclerView para los chats -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewChats"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/searchViewChats"
+        android:layout_margin="16dp"
+        app:layout_constraintTop_toBottomOf="@id/llBuscarUsuarios"
         app:layout_constraintBottom_toTopOf="@id/linearLayoutBotoneraInferior"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Botonera inferior para moverse -->
     <LinearLayout
@@ -51,62 +47,74 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:background="@color/white"
+        android:orientation="horizontal"
+        android:padding="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
+
         <!-- Actividad de Mis Recetas -->
         <ImageButton
             android:id="@+id/imgBRecetas"
-            android:layout_width="82dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:background="#0FFF"
-            android:scaleType="centerCrop"
-            android:scaleX="0.5"
-            android:scaleY="0.5"
+            android:scaleType="center"
+            android:scaleX="1.3"
+            android:scaleY="1.3"
             android:src="@drawable/anadir"
             app:tint="@color/naranja_normal" />
+
         <!-- Actividad de Cesta -->
         <ImageButton
             android:id="@+id/imgBCesta"
-            android:layout_width="82dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:background="#0FFF"
-            android:scaleType="centerCrop"
-            android:scaleX="0.5"
-            android:scaleY="0.5"
+            android:scaleType="center"
+            android:scaleX="1.3"
+            android:scaleY="1.3"
             android:src="@drawable/carrito"
             app:tint="@color/naranja_normal" />
+
         <!-- Actividad de Cocina -->
         <ImageButton
             android:id="@+id/imgBCocina"
-            android:layout_width="82dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:background="#0FFF"
-            android:scaleType="centerCrop"
-            android:scaleX="0.5"
-            android:scaleY="0.5"
+            android:scaleType="center"
+            android:scaleX="1.3"
+            android:scaleY="1.3"
             android:src="@drawable/cocina"
             app:tint="@color/naranja_normal" />
+
         <!-- Actividad de Foro -->
         <ImageButton
             android:id="@+id/imgBForo"
-            android:layout_width="82dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:background="#0FFF"
-            android:scaleType="centerCrop"
-            android:scaleX="0.5"
-            android:scaleY="0.5"
+            android:scaleType="center"
+            android:scaleX="1.3"
+            android:scaleY="1.3"
             android:src="@drawable/chat"
             app:tint="@color/naranja_normal" />
+
         <!-- Actividad de Perfil de Usuario -->
         <ImageButton
             android:id="@+id/imgBPerfil"
-            android:layout_width="82dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:background="#0FFF"
-            android:scaleType="centerCrop"
-            android:scaleX="0.5"
-            android:scaleY="0.5"
+            android:scaleType="center"
+            android:scaleX="1.3"
+            android:scaleY="1.3"
             android:src="@drawable/usuario"
             app:tint="@color/naranja_normal" />
     </LinearLayout>

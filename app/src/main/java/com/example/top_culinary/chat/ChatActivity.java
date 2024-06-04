@@ -37,7 +37,6 @@ public class ChatActivity extends AppCompatActivity {
     private AdapterChatsUsuario adapterChatsUsuario;
 
     ImageButton buttonBuscarUsuarios;
-    SearchView searchViewChats;
     RecyclerView recyclerViewChats;
     ImageButton buttonAniadirRecetas;
     ImageButton buttonCesta;
@@ -58,19 +57,6 @@ public class ChatActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
         cargarChats();
-        searchViewChats = findViewById(R.id.searchViewChats);
-        searchViewChats.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                filterChats(newText);
-                return true;
-            }
-        });
 
         buttonAniadirRecetas = findViewById(R.id.imgBRecetas);
         buttonCesta = findViewById(R.id.imgBCesta);
@@ -161,16 +147,6 @@ public class ChatActivity extends AppCompatActivity {
             }
         }
         return null;
-    }
-
-    private void filterChats(String text) {
-        List<Chat> filteredList = new ArrayList<>();
-        for (Chat chat : chats) {
-            if (chat.getNombreUsuario().toLowerCase().contains(text.toLowerCase())) {
-                filteredList.add(chat);
-            }
-        }
-        adapterChatsUsuario.filterList(filteredList);
     }
 
     private void iniciarBuscarUsuarios(String nombreFormateado) {
