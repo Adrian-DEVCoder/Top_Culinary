@@ -17,6 +17,8 @@ import com.example.top_culinary.R;
 import com.example.top_culinary.login.LoginActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -24,10 +26,9 @@ import java.util.regex.Pattern;
 
 public class RegistroActivity extends AppCompatActivity {
     // Widgets
-    private EditText editTextEmail;
-    private EditText editTextContrasenia;
-    private Button buttonRegistro;
-    private Button buttonInicioSesion;
+    private TextInputEditText edtEmail, edtContrasenia;
+    private TextInputLayout tilEmail, tilContrasenia;
+    private Button btnRegistro, btnIniciarSesion;
     // Variables
     private FirebaseAuth firebaseAuth;
     // Constantes
@@ -39,35 +40,37 @@ public class RegistroActivity extends AppCompatActivity {
         // Inicialización de Firebase
         firebaseAuth = FirebaseAuth.getInstance();
         // Inicialización de los Widgets
-        editTextEmail = findViewById(R.id.edtEmail);
-        editTextContrasenia = findViewById(R.id.edtContrasenia);
-        buttonRegistro = findViewById(R.id.btnRegistro);
-        buttonInicioSesion = findViewById(R.id.btnIniciarSesion);
+        edtEmail = findViewById(R.id.edtEmail);
+        edtContrasenia = findViewById(R.id.edtContrasenia);
+        tilEmail = findViewById(R.id.tilEmail);
+        tilContrasenia = findViewById(R.id.tilContrasenia);
+        btnRegistro = findViewById(R.id.btnRegistro);
+        btnIniciarSesion = findViewById(R.id.btnIniciarSesion);
         // Listener del botón para registrarse
-        buttonRegistro.setOnClickListener(v -> validarYRegistrar());
+        btnRegistro.setOnClickListener(v -> validarYRegistrar());
         // Listener del botón para ir al inicio de sesión
-        buttonInicioSesion.setOnClickListener(v -> inicioSesion());
+        btnIniciarSesion.setOnClickListener(v -> inicioSesion());
     }
 
     /**
      * Validamos los datos de entrada y registramos al usuario si son válidos
      */
     private void validarYRegistrar() {
-        String email = editTextEmail.getText().toString().trim();
-        String password = editTextContrasenia.getText().toString().trim();
+        String email = edtEmail.getText().toString().trim();
+        String password = edtContrasenia.getText().toString().trim();
 
         if (email.isEmpty()) {
-            editTextEmail.setError("Por favor, introduce las credenciales.");
-            editTextEmail.requestFocus();
+            tilEmail.setError("Ingrese su email");
+            edtEmail.requestFocus();
         } else if (!email.contains("@")) {
-            editTextEmail.setError("El email introducido no es válido.");
-            editTextEmail.requestFocus();
+            tilEmail.setError("El email introducido no es válido.");
+            edtEmail.requestFocus();
         } else if (password.length() <= 8) {
-            editTextContrasenia.setError("La contraseña debe contener más de 8 caracteres.");
-            editTextContrasenia.requestFocus();
+            tilContrasenia.setError("La contraseña debe contener más de 8 caracteres.");
+            edtContrasenia.requestFocus();
         } else if (!comprobarContrasenia(password)) {
-            editTextContrasenia.setError("La contraseña debe contener mayúsculas, minúsculas y números.");
-            editTextContrasenia.requestFocus();
+            tilContrasenia.setError("La contraseña debe contener mayúsculas, minúsculas y números.");
+            edtContrasenia.requestFocus();
         } else {
             registro(email, password);
         }

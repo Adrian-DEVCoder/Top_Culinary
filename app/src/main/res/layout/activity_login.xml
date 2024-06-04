@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#9CEBDAC0"
     tools:context=".login.LoginActivity">
-    <!-- COMIENZO PAGINA -->
 
     <!-- Imagen para el fondo del titulo -->
     <ImageView
@@ -14,184 +14,155 @@
         android:layout_width="match_parent"
         android:layout_height="248dp"
         android:alpha="0.65"
+        android:scaleType="centerCrop"
         android:src="@drawable/fondologin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <!-- Imagen del Titulo -->
     <ImageView
         android:id="@+id/imgTituloFondo"
-        android:layout_width="350dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
+        android:contentDescription="Logo de la Aplicacion"
         android:src="@drawable/logotop"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Textview de Iniciar Sesion -->
+    <!-- Textview de Iniciar Sesión -->
     <TextView
         android:id="@+id/txvIniciarSesion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:fontFamily="@font/alegreya_sc"
+        android:fontFamily="@font/roboto_bold"
         android:text="Iniciar Sesión"
         android:textColor="@color/black"
-        android:textSize="20dp"
-        android:textStyle="bold"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgFondo" />
 
-    <!-- Textview del Email -->
-    <TextView
-        android:id="@+id/txvEmail"
-        android:layout_width="wrap_content"
+    <!-- Campo de texto para el email -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilEmail"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
         android:layout_marginTop="24dp"
-        android:fontFamily="@font/alegreya_sc"
-        android:text="Email:"
-        android:textColor="@color/black"
-        android:textSize="16dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txvIniciarSesion" />
-
-    <!-- Textview de la contraseña -->
-    <TextView
-        android:id="@+id/txvContrasenia"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="28dp"
-        android:fontFamily="@font/alegreya_sc"
-        android:text="Contraseña:"
-        android:textColor="@color/black"
-        android:textSize="16dp"
-        android:textStyle="bold"
+        android:layout_marginEnd="32dp"
+        app:boxStrokeColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txvEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/txvIniciarSesion">
 
-    <!-- Campo editable para el email -->
-    <EditText
-        android:id="@+id/edtEmail"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
+            android:hint="Introduzca correo electrónico"
+            android:inputType="textEmailAddress"
+            android:textColorHint="@color/black" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Campo de texto para la contraseña -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilContrasenia"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginStart="10dp"
-        android:fontFamily="@font/alegreya_sc"
-        android:hint="prueba.prueba@prueba.com"
-        android:textColorHint="@color/black"
+        app:boxStrokeColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/txvEmail"
-        app:layout_constraintTop_toBottomOf="@+id/txvIniciarSesion"
-        app:layout_constraintWidth_default="spread"
-        app:layout_constraintHeight_default="wrap" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tilEmail">
 
-    <!-- Campo editable para la contraseña -->
-    <EditText
-        android:id="@+id/edtContrasenia"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginStart="10dp"
-        android:fontFamily="@font/alegreya_sc"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/txvContrasenia"
-        app:layout_constraintTop_toBottomOf="@+id/edtEmail"
-        app:layout_constraintWidth_default="spread"
-        app:layout_constraintHeight_default="wrap"/>
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtContrasenia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
+            android:hint="Introduzca su contraseña"
+            android:inputType="textPassword"
+            android:textColorHint="@color/black" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Boton para Iniciar Sesion -->
+    <!-- Botón para Iniciar Sesión -->
     <Button
         android:id="@+id/btnIniciarSesion"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:backgroundTint="#FF9800"
-        android:fontFamily="@font/alegreya_sc"
         android:text="Iniciar Sesión"
-        android:textColor="@color/black"
-        android:textSize="16dp"
-        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:fontFamily="@font/roboto_bold"
+        app:cornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtContrasenia" />
+        app:layout_constraintTop_toBottomOf="@+id/tilContrasenia" />
 
-    <!-- Textview para registro -->
+    <!-- Texto para registro -->
     <TextView
         android:id="@+id/txvRegistro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:fontFamily="@font/alegreya_sc"
+        android:fontFamily="@font/roboto_bold"
         android:text="¿Aún no eres un chef?"
-        android:textSize="20dp"
-        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnIniciarSesion" />
 
-    <!-- Botón para el Registro-->
+    <!-- Botón para el Registro -->
     <Button
         android:id="@+id/btnRegistro"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:backgroundTint="#FF9800"
-        android:fontFamily="@font/alegreya_sc"
         android:text="Comenzar a Cocinar"
-        android:textColor="@color/black"
-        android:textSize="16dp"
-        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:fontFamily="@font/roboto_bold"
+        app:cornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txvRegistro" />
 
-    <!-- Textview del Iniciar Sesion secundario -->
+    <!-- Texto para iniciar sesión con otro método -->
     <TextView
         android:id="@+id/txvIniciarSesionCon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:fontFamily="@font/alegreya_sc"
-        android:text="Iniciar Sesión Con"
-        android:textSize="20dp"
-        android:textStyle="bold"
+        android:fontFamily="@font/roboto_bold"
+        android:text="Iniciar sesión con"
+        android:textColor="@color/black"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnRegistro" />
 
-    <!-- Boton Inicio Sesion de Google-->
+    <!-- Botón Inicio Sesión de Google -->
     <ImageButton
         android:id="@+id/iBtnGoogle"
         android:layout_width="96dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:backgroundTint="#00FFFFFF"
+        android:backgroundTint="@android:color/transparent"
         android:scaleType="centerCrop"
         android:src="@drawable/common_google_signin_btn_icon_light"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txvIniciarSesionCon" />
 
-    <!-- Boton Inicio Sesion de Facebook -->
-
-    <!-- FIN PAGINA -->
 </androidx.constraintlayout.widget.ConstraintLayout>
