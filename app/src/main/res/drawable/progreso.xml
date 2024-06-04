@@ -1,24 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Estilo para la barra de progreso -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item>
-        <shape
-            android:shape="ring"
-            android:thicknessRatio="20"
-            android:useLevel="false">
-            <solid android:color="#FFF"/>
+    <!-- Fondo de la barra de progreso -->
+    <item android:id="@android:id/background">
+        <shape>
+            <corners android:radius="10dp" />
+            <solid android:color="@color/naranja_light" />
         </shape>
     </item>
-    <item>
-        <rotate
-            android:fromDegrees="270"
-            android:toDegrees="270">
-            <shape
-                android:shape="ring"
-                android:thicknessRatio="20"
-                android:useLevel="true">
-                <solid android:color="@color/naranja_more"/>
+    <!-- Progreso de la barra -->
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape>
+                <corners android:radius="10dp" />
+                <solid android:color="@color/naranja_more" />
             </shape>
-        </rotate>
+        </clip>
     </item>
 </layer-list>

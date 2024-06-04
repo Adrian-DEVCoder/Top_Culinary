@@ -1,23 +1,19 @@
 package com.example.top_culinary.cocina;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.top_culinary.R;
 import com.example.top_culinary.database.DBHandler;
 import com.example.top_culinary.model.Receta;
 import com.example.top_culinary.recetas.DetallesRecetaUsuarioActivity;
-
 import java.util.ArrayList;
 import java.util.List;
 

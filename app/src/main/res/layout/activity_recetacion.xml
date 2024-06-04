@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".cocina.RecetacionActivity">
+    tools:context=".cocina.RecetacionActivity"
+    android:background="@color/naranja_less">
 
     <!-- Textview del paso a realizar -->
     <TextView
@@ -17,26 +18,14 @@
         android:fontFamily="@font/alegreya_sc"
         android:text="Este es el texto de prueba para el textview de los pasos"
         android:textAlignment="center"
-        android:textColor="@color/naranja_more"
+        android:textColor="@color/black"
         android:textSize="28dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Boton para avanzar al siguiente paso -->
-    <ImageButton
-        android:id="@+id/buttonSiguiente"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:background="@drawable/botones_redondos"
-        app:layout_constraintBottom_toBottomOf="@+id/progressBarPasos"
-        app:layout_constraintEnd_toEndOf="@+id/progressBarPasos"
-        app:layout_constraintStart_toStartOf="@+id/progressBarPasos"
-        app:layout_constraintTop_toTopOf="@+id/progressBarPasos"
-        app:srcCompat="@drawable/flecha_derecha"
-        app:tint="@color/naranja_more" />
 
     <!-- Barra de Progreso de la Receta -->
     <ProgressBar
@@ -57,6 +46,18 @@
         android:max="100"/>
 
     <!-- Textview del tiempo restante -->
+    <ImageButton
+        android:id="@+id/buttonSiguiente"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:background="@drawable/botones_redondos"
+        app:layout_constraintBottom_toBottomOf="@+id/progressBarPasos"
+        app:layout_constraintEnd_toEndOf="@+id/progressBarPasos"
+        app:layout_constraintStart_toStartOf="@+id/progressBarPasos"
+        app:layout_constraintTop_toTopOf="@+id/progressBarPasos"
+        app:srcCompat="@drawable/flecha_derecha"
+        app:tint="@color/naranja_more" />
+
     <TextView
         android:id="@+id/textViewTiempoRestante"
         style="@style/ContadorStyle"

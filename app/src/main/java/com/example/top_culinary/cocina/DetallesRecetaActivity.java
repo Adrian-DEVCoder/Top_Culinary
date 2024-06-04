@@ -27,7 +27,6 @@ public class DetallesRecetaActivity extends AppCompatActivity {
     private DBHandler dbHandler;
     // Declaracion de los widgets
     private ImageButton imageButtonAtras;
-    private ImageButton imageButtonFavorito;
     private ImageView imageViewReceta;
     private TextView textViewTitulo;
     private TextView textViewDescripcion;
@@ -60,7 +59,6 @@ public class DetallesRecetaActivity extends AppCompatActivity {
 
     private void initWidgets() {
         imageButtonAtras = findViewById(R.id.imageButtonBack);
-        imageButtonFavorito = findViewById(R.id.imageButtonFavorito);
         imageViewReceta = findViewById(R.id.imageViewReceta);
         textViewTitulo = findViewById(R.id.textviewTituloReceta);
         textViewDescripcion = findViewById(R.id.textviewDescripcion);
@@ -103,7 +101,6 @@ public class DetallesRecetaActivity extends AppCompatActivity {
 
     private void setupListeners(String nombreFormateado, Receta receta) {
         imageButtonAtras.setOnClickListener(v -> volverAtras(nombreFormateado));
-        imageButtonFavorito.setOnClickListener(v -> toggleFavorito(imageButtonFavorito));
         buttonComenzarReceta.setOnClickListener(v -> comenzarReceta(receta.getTitulo()));
         animarBotonComenzar();
     }
@@ -125,13 +122,5 @@ public class DetallesRecetaActivity extends AppCompatActivity {
     private void animarBotonComenzar() {
         Animation pulseAnimation = AnimationUtils.loadAnimation(this, R.anim.pulse_animation);
         buttonComenzarReceta.startAnimation(pulseAnimation);
-    }
-
-    private void toggleFavorito(ImageButton imageButton) {
-        int currentImageResource = imageButton.getDrawable().getConstantState().equals(ContextCompat.getDrawable(imageButton.getContext(), R.drawable.favorito).getConstantState()) ? R.drawable.sin_favorito : R.drawable.favorito;
-        imageButton.setImageResource(currentImageResource);
-        int color = ContextCompat.getColor(imageButton.getContext(), currentImageResource == R.drawable.favorito ? R.color.naranja_more : R.color.black);
-        imageButton.setColorFilter(color, PorterDuff.Mode.SRC_IN);
-        imageButton.animate().alpha(0.5f).setDuration(300).withEndAction(() -> imageButton.animate().alpha(1f).setDuration(300));
     }
 }

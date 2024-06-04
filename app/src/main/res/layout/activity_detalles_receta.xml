@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".cocina.DetallesRecetaActivity">
+    tools:context=".cocina.DetallesRecetaActivity"
+    android:background="@color/naranja_more">
 
     <ImageView
         android:id="@+id/imageViewReceta"
@@ -32,18 +34,6 @@
         app:srcCompat="@drawable/atras"
         app:tint="@color/naranja_more" />
 
-    <ImageButton
-        android:id="@+id/imageButtonFavorito"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        android:background="@drawable/botones_redondos"
-        android:padding="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageViewReceta"
-        app:srcCompat="@drawable/sin_favorito" />
-
     <ScrollView
         android:id="@+id/scrollViewDetalles"
         android:layout_width="match_parent"
@@ -69,23 +59,21 @@
                 android:fontFamily="@font/alegreya_sc"
                 android:text="Macarrones con Tomate"
                 android:textAlignment="center"
-                android:textColor="@color/naranja_more"
-                android:textSize="20dp"
+                android:textColor="@color/black"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
             <!-- Textview para la descripcion de la receta -->
             <TextView
                 android:id="@+id/textviewDescripcion"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:fontFamily="@font/alegreya_sc"
-                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                 Sed augue lorem, luctus id nisi sed, fermentum ultrices arcu.
-                 Aenean venenatis euismod augue, quis ornare augue pretium eget."
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed augue lorem, luctus id nisi sed, fermentum ultrices arcu. Aenean venenatis euismod augue, quis ornare augue pretium eget."
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <!-- Textview para los ingredientes de la receta -->
@@ -97,21 +85,21 @@
                 android:fontFamily="@font/alegreya_sc"
                 android:text="Ingredientes"
                 android:textAlignment="center"
-                android:textColor="@color/naranja_more"
-                android:textSize="20dp"
+                android:textColor="@color/black"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <!-- Textview para la lista de los ingredientes de la receta -->
             <TextView
                 android:id="@+id/textviewListaIngredientes"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:fontFamily="@font/alegreya_sc"
                 android:text="- Macarrones\n- Tomate"
                 android:textAlignment="viewStart"
                 android:textColor="@color/black"
-                android:textSize="17dp"
+                android:textSize="17sp"
                 android:textStyle="bold" />
 
             <!-- Textview para el equipamiento recomendado/necesario -->
@@ -123,21 +111,21 @@
                 android:fontFamily="@font/alegreya_sc"
                 android:text="Equipamiento"
                 android:textAlignment="center"
-                android:textColor="@color/naranja_more"
-                android:textSize="20dp"
+                android:textColor="@color/black"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <!-- Textview para la lista del equipamiento para la receta -->
             <TextView
                 android:id="@+id/textviewListaEquipamiento"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:fontFamily="@font/alegreya_sc"
                 android:text="Sartén\nCuchillo"
                 android:textAlignment="viewStart"
                 android:textColor="@color/black"
-                android:textSize="17dp"
+                android:textSize="17sp"
                 android:textStyle="bold" />
 
             <!-- Textview para los pasos a realizar -->
@@ -149,21 +137,21 @@
                 android:fontFamily="@font/alegreya_sc"
                 android:text="Pasos"
                 android:textAlignment="center"
-                android:textColor="@color/naranja_more"
-                android:textSize="20dp"
+                android:textColor="@color/black"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <!-- Textview para la lista de los pasos a realizar-->
             <TextView
                 android:id="@+id/textviewListaPasos"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="14dp"
                 android:fontFamily="@font/alegreya_sc"
                 android:text="1. Cocer los Macarrones\n2. Comer los Macarrones"
                 android:textAlignment="viewStart"
                 android:textColor="@color/black"
-                android:textSize="17dp"
+                android:textSize="17sp"
                 android:textStyle="bold" />
 
             <!-- Boton para comenzar a realizar la receta -->
