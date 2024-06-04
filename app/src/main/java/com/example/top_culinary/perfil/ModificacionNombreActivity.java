@@ -1,60 +1,63 @@
 package com.example.top_culinary.perfil;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.top_culinary.R;
-import com.example.top_culinary.login.LoginActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 public class ModificacionNombreActivity extends AppCompatActivity {
-    // Declaracion de las variables
+    // Declaración de las variables
     private FirebaseFirestore firestoreDB;
     private String nombreFormateado;
-    // Declaracion de los widgets
-    ImageButton buttonAtras;
-    TextView textViewModificarNombre;
-    TextView textViewIntroduceNombre;
-    EditText editTextNombreUsuario;
-    ImageButton buttonConfirmar;
+
+    // Declaración de los widgets
+    private EditText editTextNombreUsuario;
+    private Button buttonConfirmar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modificacion_nombre);
-        // Inicializacion del Firestore
+
+        // Inicialización del Firestore
         firestoreDB = FirebaseFirestore.getInstance();
-        // Obtencion del nombre del usuario a traves del intent
-        Intent intent = getIntent();
-        nombreFormateado = intent.getStringExtra("nombreFormateado");
-        // Inicializacion de los widgets
-        buttonAtras = findViewById(R.id.imageButtonAtras);
-        textViewModificarNombre = findViewById(R.id.textViewModificarNombre);
-        textViewIntroduceNombre = findViewById(R.id.textViewNombreUsuario);
+
+        // Obtención del nombre del usuario a través del intent
+        nombreFormateado = getIntent().getStringExtra("nombreFormateado");
+
+        // Inicialización de los widgets
+        inicializarWidgets();
+
+        // Configuración de los listeners
+        configurarListeners();
+    }
+
+    private void inicializarWidgets() {
         editTextNombreUsuario = findViewById(R.id.editTextNombreUsuario);
-        buttonConfirmar = findViewById(R.id.imageButtonConfirmar);
-        // Listener de los diferentes botones
-        buttonAtras.setOnClickListener(new View.OnClickListener() {
+        buttonConfirmar = findViewById(R.id.buttonConfirmar);
+
+        findViewById(R.id.imageButtonAtras).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ModificacionNombreActivity.this, AjustesActivity.class);
-                intent.putExtra("nombreFormateado", nombreFormateado);
-                startActivity(intent);
+                regresarAjustes();
             }
         });
+    }
+
+    private void configurarListeners() {
         buttonConfirmar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,67 +66,70 @@ public class ModificacionNombreActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Valida si el nombre de usuario introducido es vacio
-     */
     private void validarActualizarNombreUsuario() {
         String nuevoNomUsuario = editTextNombreUsuario.getText().toString().trim();
-        if(nuevoNomUsuario.isEmpty()) {
-            Toast.makeText(this, "Por favor, introduce un nombre de usuario válido.", Toast.LENGTH_SHORT).show();
-            buttonConfirmar.setImageResource(R.drawable.no_confirmar);
+        if (nuevoNomUsuario.isEmpty()) {
+            mostrarToast("Por favor, introduce un nombre de usuario válido.");
             return;
         }
-        verificarNombreUsuarioRegistrado(nuevoNomUsuario, nombreFormateado);
+        verificarNombreUsuarioRegistrado(nuevoNomUsuario);
     }
 
-    /**
-     * Verifica si el nombre de usuario ya esta registrado
-     */
-    private void verificarNombreUsuarioRegistrado(String nuevoNomUsuario, String nombreFormateado) {
+    private void verificarNombreUsuarioRegistrado(String nuevoNomUsuario) {
         firestoreDB.collection("usuarios")
-                .whereEqualTo("display_name",nuevoNomUsuario)
+                .whereEqualTo("display_name", nuevoNomUsuario)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()) {
-                            if(!task.getResult().isEmpty()) {
-                                Toast.makeText(ModificacionNombreActivity.this, "El nombre de usuario ya esta registrado",Toast.LENGTH_SHORT).show();
-                                buttonConfirmar.setImageResource(R.drawable.no_confirmar);
+                        if (task.isSuccessful()) {
+                            if (!task.getResult().isEmpty()) {
+                                mostrarToast("El nombre de usuario ya está registrado.");
                             } else {
                                 actualizarNombreUsuario(nuevoNomUsuario);
                             }
                         } else {
-                            Toast.makeText(ModificacionNombreActivity.this, "Error al verificar el nombre de usuario", Toast.LENGTH_SHORT).show();
+                            mostrarToast("Error al verificar el nombre de usuario.");
                         }
                     }
                 });
     }
 
-    /**
-     * Actualiza el nombre de usuario, una vez pasadas las validaciones
-     */
     private void actualizarNombreUsuario(String nuevoNomUsuario) {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if(currentUser != null) {
+        if (currentUser != null) {
             firestoreDB.collection("usuarios")
                     .document(currentUser.getUid())
-                    .update("display_name",nuevoNomUsuario)
+                    .update("display_name", nuevoNomUsuario)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()) {
-                                Toast.makeText(ModificacionNombreActivity.this, "Nombre de Usuario actualizado correctamente.", Toast.LENGTH_SHORT).show();
-                                // Redirigimos al usuario a los ajustes de nuevo
-                                Intent intent = new Intent(ModificacionNombreActivity.this,AjustesActivity.class);
-                                intent.putExtra("nombreFormateado",nuevoNomUsuario);
-                                startActivity(intent);
-                                finish();
+                            if (task.isSuccessful()) {
+                                mostrarToast("Nombre de usuario actualizado correctamente.");
+                                regresarAjustes(nuevoNomUsuario);
                             } else {
-                                Toast.makeText(ModificacionNombreActivity.this, "Error al actualizar el nombre de usuario.", Toast.LENGTH_SHORT).show();
+                                mostrarToast("Error al actualizar el nombre de usuario.");
                             }
                         }
                     });
         }
+    }
+
+    private void regresarAjustes() {
+        Intent intent = new Intent(ModificacionNombreActivity.this, AjustesActivity.class);
+        intent.putExtra("nombreFormateado", nombreFormateado);
+        startActivity(intent);
+        finish();
+    }
+
+    private void regresarAjustes(String nuevoNomUsuario) {
+        Intent intent = new Intent(ModificacionNombreActivity.this, AjustesActivity.class);
+        intent.putExtra("nombreFormateado", nuevoNomUsuario);
+        startActivity(intent);
+        finish();
+    }
+
+    private void mostrarToast(String mensaje) {
+        Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
     }
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,78 +8,87 @@
     android:background="@color/naranja_more"
     tools:context=".perfil.ModificacionNombreActivity">
 
-    <TextView
-        android:id="@+id/textViewModificarNombre"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="56dp"
-        android:fontFamily="@font/alegreya_sc"
-        android:text="MODIFICAR NOMBRE DE USUARIO"
-        android:textAlignment="center"
-        android:textColor="#000000"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+    <!-- Botón para regresar -->
     <ImageButton
         android:id="@+id/imageButtonAtras"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="52dp"
-        android:background="@drawable/botones_redondos"
-        app:layout_constraintEnd_toStartOf="@+id/textViewModificarNombre"
-        app:layout_constraintHorizontal_bias="0.111"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/atras"
+        app:tint="@color/white"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/atras"
-        app:tint="@color/naranja_normal" />
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Texto de Modificar Nombre -->
+    <TextView
+        android:id="@+id/textViewModificarNombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/roboto_bold"
+        android:text="Modificar Nombre de Usuario"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageButtonAtras" />
+
+    <!-- Texto de Introducir Nombre -->
     <TextView
         android:id="@+id/textViewNombreUsuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="92dp"
-        android:fontFamily="@font/alegreya_sc"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/roboto_regular"
         android:text="Introduce el Nombre de Usuario"
-        android:textAlignment="center"
-        android:textColor="#000000"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewModificarNombre" />
 
-    <EditText
-        android:id="@+id/editTextNombreUsuario"
-        android:layout_width="wrap_content"
+    <!-- Campo de texto para el nombre de usuario -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilNombreUsuario"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:ems="10"
-        android:fontFamily="@font/alegreya_sc"
-        android:inputType="text"
-        android:textAlignment="center"
-        android:textColor="#000000"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        app:boxStrokeColor="@color/white"
+        app:hintTextColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewNombreUsuario" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewNombreUsuario">
 
-    <ImageButton
-        android:id="@+id/imageButtonConfirmar"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
-        android:backgroundTint="#00FFFFFF"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="parent"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextNombreUsuario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nombre de Usuario"
+            android:inputType="text"
+            android:textColorHint="@color/white"
+            android:textColor="@color/white" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Botón para confirmar la modificación -->
+    <Button
+        android:id="@+id/buttonConfirmar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:backgroundTint="@color/white"
+        android:fontFamily="@font/roboto_bold"
+        android:text="Confirmar"
+        android:textColor="@color/naranja_more"
+        android:textSize="16sp"
+        app:cornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNombreUsuario"
-        app:layout_constraintVertical_bias="0.114"
-        app:srcCompat="@drawable/confirmar" />
+        app:layout_constraintTop_toBottomOf="@+id/tilNombreUsuario" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

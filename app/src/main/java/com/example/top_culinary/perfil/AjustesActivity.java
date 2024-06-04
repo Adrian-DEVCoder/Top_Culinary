@@ -1,15 +1,14 @@
 package com.example.top_culinary.perfil;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.top_culinary.R;
 import com.example.top_culinary.login.LoginActivity;
@@ -21,55 +20,75 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class AjustesActivity extends AppCompatActivity {
-    // Declaracion de las variables
+    // Declaración de las variables
     private FirebaseFirestore firestoreDB;
     private String tipoInicioSesion;
-    // Declaracion de los widgets
-    ImageButton buttonAtras;
-    TextView textViewAjustes;
-    Button buttonCambiarNombre;
-    Button buttonCambiarContrasena;
-    Button buttonCerrarSesion;
+    private String nombreFormateado;
+
+    // Declaración de los widgets
+    private ImageButton buttonAtras;
+    private Button buttonCambiarNombre;
+    private Button buttonCambiarContrasena;
+    private Button buttonCerrarSesion;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ajustes);
-        // Inicializacion de Firestore
+
+        // Inicialización de Firestore
         firestoreDB = FirebaseFirestore.getInstance();
-        // Obtencion del usuario actual
+
+        // Obtención del usuario actual
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = auth.getCurrentUser();
-        String uidUsuario = currentUser.getUid();
-        // Comprobamos el tipo de inicio de sesion
-        comprobarInicioSesion(uidUsuario);
-        // Obtencion del nombre del intent
-        Intent intent = getIntent();
-        String nombreFormateado = intent.getStringExtra("nombreFormateado");
-        // Inicializacion de los widgets
+        if (currentUser == null) {
+            redirigirALogin();
+            return;
+        }
+
+        // Obtención del nombre del intent
+        nombreFormateado = getIntent().getStringExtra("nombreFormateado");
+
+        // Inicialización de los widgets
+        inicializarWidgets();
+
+        // Configuración de los listeners
+        configurarListeners();
+
+        // Comprobamos el tipo de inicio de sesión
+        comprobarInicioSesion(currentUser.getUid());
+    }
+
+    private void inicializarWidgets() {
         buttonAtras = findViewById(R.id.imageButtonAtras);
-        textViewAjustes = findViewById(R.id.textViewAjustes);
         buttonCambiarNombre = findViewById(R.id.buttonCambiarNombre);
         buttonCambiarContrasena = findViewById(R.id.buttonCambiarContrasena);
         buttonCerrarSesion = findViewById(R.id.buttonCerrarSesion);
-        // Listener de los diferentes botones
+    }
+
+    private void configurarListeners() {
         buttonAtras.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iniciarPerfil(nombreFormateado);
+                iniciarPerfil();
             }
         });
+
         buttonCambiarNombre.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iniciarCambiarNombre(nombreFormateado);
+                iniciarCambiarNombre();
             }
         });
+
         buttonCambiarContrasena.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iniciarCambiarContrasena(nombreFormateado);
+                iniciarCambiarContrasena();
             }
         });
+
         buttonCerrarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,9 +97,6 @@ public class AjustesActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Devuelve el tipo de inicio de sesion
-     */
     private void comprobarInicioSesion(String uidUsuario) {
         firestoreDB.collection("usuarios")
                 .document(uidUsuario)
@@ -88,62 +104,62 @@ public class AjustesActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if(task.isSuccessful()) {
+                        if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
-                            if(document.exists()){
-                                tipoInicioSesion = (String) document.get("tipo_inicio_de_sesion");
+                            if (document.exists()) {
+                                tipoInicioSesion = document.getString("tipo_inicio_de_sesion");
                                 actualizarUI();
                             }
+                        } else {
+                            mostrarToast("Error al obtener el tipo de inicio de sesión.");
                         }
                     }
                 });
     }
 
     private void actualizarUI() {
-        // Dependiendo del tipo de inicio de sesion mostramos un contenido u otro
-        if(tipoInicioSesion != null) {
-            if(tipoInicioSesion.equalsIgnoreCase("Google")){
-                buttonCambiarContrasena.setVisibility(View.GONE);
-                buttonCambiarNombre.setVisibility(View.VISIBLE);
-            } else {
-                buttonCambiarContrasena.setVisibility(View.VISIBLE);
-                buttonCambiarNombre.setVisibility(View.VISIBLE);
-            }
+        if (tipoInicioSesion != null && tipoInicioSesion.equalsIgnoreCase("Google")) {
+            buttonCambiarContrasena.setVisibility(View.GONE);
+        } else {
+            buttonCambiarContrasena.setVisibility(View.VISIBLE);
         }
     }
 
-    // Inicia el perfil del usuario actual
-    private void iniciarPerfil(String nombreFormateado) {
+    private void iniciarPerfil() {
         Intent intent = new Intent(this, PerfilActivity.class);
-        intent.putExtra("nombreFormateado",nombreFormateado);
+        intent.putExtra("nombreFormateado", nombreFormateado);
         startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         finish();
     }
-    // Modifica el nombre de usuario del usuario actual
-    private void iniciarCambiarNombre(String nombreFormateado) {
+
+    private void iniciarCambiarNombre() {
         Intent intent = new Intent(AjustesActivity.this, ModificacionNombreActivity.class);
-        intent.putExtra("nombreFormateado",nombreFormateado);
+        intent.putExtra("nombreFormateado", nombreFormateado);
         startActivity(intent);
         finish();
     }
-    // Cambia la contraseña del usuario actual
-    private void iniciarCambiarContrasena(String nombreFormateado) {
+
+    private void iniciarCambiarContrasena() {
         Intent intent = new Intent(AjustesActivity.this, ModificacionContrasenaActivity.class);
-        intent.putExtra("nombreFormateado",nombreFormateado);
+        intent.putExtra("nombreFormateado", nombreFormateado);
         startActivity(intent);
         finish();
     }
-    // Cierra la sesion del usuario actual y nos redirige al inicio de sesion
+
     private void cerrarSesion() {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         auth.signOut();
+        redirigirALogin();
+    }
+
+    private void redirigirALogin() {
         Intent intent = new Intent(AjustesActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
     }
-    // Muestra un toast con un mensaje introducido por parametro
+
     private void mostrarToast(String mensaje) {
-        Toast.makeText(this,mensaje,Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
     }
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,80 +8,86 @@
     android:background="@color/naranja_more"
     tools:context=".perfil.AjustesActivity">
 
+    <!-- Botón de retroceso -->
     <ImageButton
         android:id="@+id/imageButtonAtras"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/botones_redondos"
-        app:tint="@color/naranja_normal"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:srcCompat="@drawable/atras"
+        app:tint="@color/white"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/atras" />
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Título de Ajustes -->
     <TextView
         android:id="@+id/textViewAjustes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="88dp"
-        android:layout_marginTop="28dp"
-        android:fontFamily="@font/alegreya_sc"
-        android:text="AJUSTES"
-        android:textColor="#000000"
-        android:textSize="28sp"
-        android:textStyle="bold"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/roboto_bold"
+        android:text="Ajustes"
+        android:textColor="@color/white"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.023"
-        app:layout_constraintStart_toEndOf="@+id/imageButtonAtras"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageButtonAtras" />
 
+    <!-- Botón para cambiar nombre de usuario -->
     <Button
         android:id="@+id/buttonCambiarNombre"
-        android:layout_width="300dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="65dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
         android:backgroundTint="@color/white"
-        android:fontFamily="@font/alegreya_sc"
-        android:text="CAMBIAR NOMBRE DE USUARIO"
+        android:fontFamily="@font/roboto_bold"
+        android:text="Cambiar Nombre de Usuario"
         android:textColor="@color/naranja_more"
         android:textSize="16sp"
-        android:textStyle="bold"
+        app:cornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewAjustes" />
 
+    <!-- Botón para cambiar contraseña -->
     <Button
         android:id="@+id/buttonCambiarContrasena"
-        android:layout_width="300dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
         android:backgroundTint="@color/white"
-        android:fontFamily="@font/alegreya_sc"
-        android:text="CAMBIAR CONTRASEÑA"
+        android:fontFamily="@font/roboto_bold"
+        android:text="Cambiar Contraseña"
         android:textColor="@color/naranja_more"
         android:textSize="16sp"
-        android:textStyle="bold"
+        app:cornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonCambiarNombre" />
 
+    <!-- Botón para cerrar sesión -->
     <Button
         android:id="@+id/buttonCerrarSesion"
-        android:layout_width="300dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
         android:backgroundTint="@color/rojo"
-        android:fontFamily="@font/alegreya_sc"
-        android:text="CERRAR SESIÓN"
+        android:fontFamily="@font/roboto_bold"
+        android:text="Cerrar Sesión"
         android:textColor="@color/white"
         android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:cornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonCambiarContrasena"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonCambiarContrasena" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

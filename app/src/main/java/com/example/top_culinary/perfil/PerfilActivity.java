@@ -2,6 +2,7 @@ package com.example.top_culinary.perfil;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -52,23 +53,10 @@ public class PerfilActivity extends AppCompatActivity {
     private ListenerRegistration seguidorListenerRegistration;
 
     // Declaracion de los widgets
-    TextView textViewNomUsuario;
-    ImageButton buttonAjustes;
-    ImageView imageViewAvatar;
-    TextView textViewSeguidores;
-    TextView textViewNumSeguidores;
-    View viewLineaDivisora;
-    TextView textViewSeguidos;
-    TextView textViewNumSeguidos;
-    TextView textViewNumRecetas;
-    TextView textViewRecetasPublicadas;
-    Button buttonSeguir;
-    ImageButton buttonEnviarMensaje;
-    ImageButton buttonAniadirRecetas;
-    ImageButton buttonCesta;
-    ImageButton buttonCocina;
-    ImageButton buttonForo;
-    LinearLayout linearLayoutBotoneraInferior;
+    private TextView textViewNomUsuario, textViewNumSeguidores, textViewNumSeguidos, textViewNumRecetas;
+    private ImageButton buttonPerfil, buttonAjustes, buttonEnviarMensaje, buttonAniadirRecetas, buttonCesta, buttonCocina, buttonForo;
+    private Button buttonSeguir;
+    private RecyclerView recyclerViewRecetas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,24 +78,18 @@ public class PerfilActivity extends AppCompatActivity {
 
         // Inicializacion de los widgets
         textViewNomUsuario = findViewById(R.id.textViewNomUsuario);
-        buttonAjustes = findViewById(R.id.imageButtonAjustes);
-        textViewNomUsuario.setText(nombreFormateado);
-        imageViewAvatar = findViewById(R.id.imageViewAvatar);
-        imageViewAvatar.setImageResource(R.drawable.avatar);
-        textViewSeguidores = findViewById(R.id.textViewSeguidores);
         textViewNumSeguidores = findViewById(R.id.textViewNumSeguidores);
-        viewLineaDivisora = findViewById(R.id.viewLineaDivisora);
-        textViewSeguidos = findViewById(R.id.textViewSeguidos);
         textViewNumSeguidos = findViewById(R.id.textViewNumSeguidos);
         textViewNumRecetas = findViewById(R.id.textViewNumRecetas);
-        textViewRecetasPublicadas = findViewById(R.id.textViewRecetas);
-        buttonSeguir = findViewById(R.id.buttonSeguir);
-        buttonEnviarMensaje = findViewById(R.id.imageButtonEnviarMensaje);
+        buttonAjustes = findViewById(R.id.imageButtonAjustes);
         buttonAniadirRecetas = findViewById(R.id.imgBRecetas);
         buttonCesta = findViewById(R.id.imgBCesta);
         buttonCocina = findViewById(R.id.imgBCocina);
         buttonForo = findViewById(R.id.imgBForo);
-        linearLayoutBotoneraInferior = findViewById(R.id.linearLayoutBotoneraInferior);
+        buttonPerfil = findViewById(R.id.imgBPerfil);
+        buttonSeguir = findViewById(R.id.buttonSeguir);
+        buttonEnviarMensaje = findViewById(R.id.imageButtonEnviarMensaje);
+        recyclerViewRecetas = findViewById(R.id.recyclerViewRecetas);
 
         // Obtencion del uid del usuario actual
         obtenerUidActividad(nombreFormateado).addOnCompleteListener(new OnCompleteListener<String>() {

@@ -7,37 +7,20 @@
     android:background="@color/naranja_more"
     tools:context=".perfil.PerfilActivity">
 
-    <!-- Textview para el nombre de usuario -->
-    <TextView
-        android:id="@+id/textViewRecetas"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/alegreya_sc"
-        android:text="Recetas Publicadas"
-        android:textColor="#000000"
-        android:textSize="24sp"
-        android:textStyle="bold"
+    <!-- Botón de ajustes -->
+    <ImageButton
+        android:id="@+id/imageButtonAjustes"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="16dp"
+        android:scaleType="centerCrop"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ajustes"
+        app:tint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.51"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonSeguir" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textViewNumRecetas"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/alegreya_sc"
-        android:text="50"
-        android:textColor="#000000"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/textViewRecetas"
-        app:layout_constraintHorizontal_bias="0.917"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonSeguir" />
-
+    <!-- Nombre de usuario -->
     <TextView
         android:id="@+id/textViewNomUsuario"
         android:layout_width="wrap_content"
@@ -45,37 +28,38 @@
         android:layout_marginTop="28dp"
         android:fontFamily="@font/alegreya_sc"
         android:text="XXPEPEXX"
-        android:textColor="#000000"
+        android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-    <!-- Imageview para el avatar del usuario -->
+
+    <!-- Avatar del usuario -->
     <ImageView
         android:id="@+id/imageViewAvatar"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="34dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/avatar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewNomUsuario"
-        tools:srcCompat="@drawable/avatar" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewNomUsuario" />
+
     <!-- Seguidores -->
     <TextView
         android:id="@+id/textViewSeguidores"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="58dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/alegreya_sc"
-        android:text="SEGUIDORES"
-        android:textColor="#000000"
-        android:textSize="16sp"
+        android:text="Seguidores"
+        android:textColor="@color/white"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/viewLineaDivisora"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageViewAvatar" />
 
@@ -83,41 +67,39 @@
         android:id="@+id/textViewNumSeguidores"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="58dp"
-        android:layout_marginTop="12dp"
         android:fontFamily="@font/alegreya_sc"
         android:text="100"
-        android:textColor="#000000"
-        android:textSize="28sp"
+        android:textColor="@color/white"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/viewLineaDivisora"
-        app:layout_constraintHorizontal_bias="0.257"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewSeguidores" />
-    <!-- Linea divisora entre seguidores y seguidos -->
+
+    <!-- Línea divisora -->
     <View
         android:id="@+id/viewLineaDivisora"
-        android:layout_width="5dp"
+        android:layout_width="2dp"
         android:layout_height="80dp"
-        android:layout_marginTop="24dp"
-        android:background="@color/black"
+        android:layout_marginTop="16dp"
+        android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageViewAvatar" />
+
     <!-- Seguidos -->
     <TextView
         android:id="@+id/textViewSeguidos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/alegreya_sc"
-        android:text="SEGUIDOS"
-        android:textColor="#000000"
-        android:textSize="16sp"
+        android:text="Seguidos"
+        android:textColor="@color/white"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.014"
         app:layout_constraintStart_toEndOf="@+id/viewLineaDivisora"
         app:layout_constraintTop_toBottomOf="@+id/imageViewAvatar" />
 
@@ -125,138 +107,139 @@
         android:id="@+id/textViewNumSeguidos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="12dp"
         android:fontFamily="@font/alegreya_sc"
         android:text="50"
-        android:textColor="#000000"
-        android:textSize="28sp"
+        android:textColor="@color/white"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.224"
         app:layout_constraintStart_toEndOf="@+id/viewLineaDivisora"
         app:layout_constraintTop_toBottomOf="@+id/textViewSeguidos" />
-    <!-- Botonera inferior para moverse -->
 
-    <LinearLayout
-        android:id="@+id/linearLayoutBotoneraInferior"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginBottom="0dp"
-        android:background="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-        <!-- Actividad de Mis Recetas -->
-        <ImageButton
-            android:id="@+id/imgBRecetas"
-            android:layout_width="82dp"
-            android:layout_height="match_parent"
-            android:background="#0FFF"
-            android:scaleType="centerCrop"
-            android:scaleX="0.5"
-            android:scaleY="0.5"
-            android:src="@drawable/anadir"
-            app:tint="@color/naranja_normal" />
-        <!-- Actividad de Cesta -->
-        <ImageButton
-            android:id="@+id/imgBCesta"
-            android:layout_width="82dp"
-            android:layout_height="match_parent"
-            android:background="#0FFF"
-            android:scaleType="centerCrop"
-            android:scaleX="0.5"
-            android:scaleY="0.5"
-            android:src="@drawable/carrito"
-            app:tint="@color/naranja_normal" />
-        <!-- Actividad de Cocina -->
-        <ImageButton
-            android:id="@+id/imgBCocina"
-            android:layout_width="82dp"
-            android:layout_height="match_parent"
-            android:background="#0FFF"
-            android:scaleType="centerCrop"
-            android:scaleX="0.5"
-            android:scaleY="0.5"
-            android:src="@drawable/cocina"
-            app:tint="@color/naranja_normal" />
-        <!-- Actividad de Foro -->
-        <ImageButton
-            android:id="@+id/imgBForo"
-            android:layout_width="82dp"
-            android:layout_height="match_parent"
-            android:background="#0FFF"
-            android:scaleType="centerCrop"
-            android:scaleX="0.5"
-            android:scaleY="0.5"
-            android:src="@drawable/chat"
-            app:tint="@color/naranja_normal" />
-        <!-- Actividad de Perfil de Usuario -->
-        <ImageButton
-            android:id="@+id/imgBPerfil"
-            android:layout_width="82dp"
-            android:layout_height="match_parent"
-            android:background="#0FFF"
-            android:scaleType="centerCrop"
-            android:scaleX="0.5"
-            android:scaleY="0.5"
-            android:src="@drawable/usuario"
-            app:tint="@color/naranja_normal" />
-    </LinearLayout>
-
+    <!-- Botón seguir -->
     <Button
         android:id="@+id/buttonSeguir"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:backgroundTint="@color/naranja_less"
         android:fontFamily="@font/alegreya_sc"
         android:text="Seguir"
-        android:textColor="#000000"
+        android:textColor="@color/white"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:icon="@drawable/seguir"
-        app:iconTint="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.329"
+        app:layout_constraintEnd_toStartOf="@+id/imageButtonEnviarMensaje"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/viewLineaDivisora" />
 
+    <!-- Botón enviar mensaje -->
     <ImageButton
         android:id="@+id/imageButtonEnviarMensaje"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:scaleX="0.8"
-        android:scaleY="0.8"
-        android:background="@drawable/botones_redondos"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:src="@drawable/enviar_mensaje"
+        app:tint="@color/white"
         app:layout_constraintStart_toEndOf="@+id/buttonSeguir"
-        app:layout_constraintTop_toBottomOf="@+id/viewLineaDivisora"
-        app:tint="@color/naranja_more" />
+        app:layout_constraintTop_toBottomOf="@+id/viewLineaDivisora" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="409dp"
-        android:layout_height="348dp"
+    <!-- Textview recetas publicadas -->
+    <TextView
+        android:id="@+id/textViewRecetas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayoutBotoneraInferior"
+        android:fontFamily="@font/alegreya_sc"
+        android:text="Recetas Publicadas"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonSeguir" />
+
+    <TextView
+        android:id="@+id/textViewNumRecetas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/alegreya_sc"
+        android:text="50"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewRecetas" />
 
-    <ImageButton
-        android:id="@+id/imageButtonAjustes"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+    <!-- RecyclerView para mostrar recetas -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewRecetas"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:backgroundTint="#00FFFFFF"
-        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayoutBotoneraInferior"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/textViewNomUsuario"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ajustes" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewNumRecetas" />
+
+    <!-- Botonera inferior -->
+    <LinearLayout
+        android:id="@+id/linearLayoutBotoneraInferior"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:id="@+id/imgBRecetas"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/anadir"
+            app:tint="@color/naranja_normal" />
+
+        <ImageButton
+            android:id="@+id/imgBCesta"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/carrito"
+            app:tint="@color/naranja_normal" />
+
+        <ImageButton
+            android:id="@+id/imgBCocina"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/cocina"
+            app:tint="@color/naranja_normal" />
+
+        <ImageButton
+            android:id="@+id/imgBForo"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/chat"
+            app:tint="@color/naranja_normal" />
+
+        <ImageButton
+            android:id="@+id/imgBPerfil"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/usuario"
+            app:tint="@color/naranja_normal" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
