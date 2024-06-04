@@ -24,128 +24,99 @@ import com.google.firebase.storage.FirebaseStorage;
 import java.util.List;
 
 public class AniadirRecetasActivity extends AppCompatActivity {
-    // Declaracion de las variables
+    // Declaración de las variables
     private DBHandler dbHandler;
     private List<Receta> recetaUsuarioList;
     private AdapterRecetaUsuario adapterRecetaUsuario;
-    // Declaracion de los widgets
-    Button buttonAnadirReceta;
-    TextView textViewMisRecetas;
-    RecyclerView recyclerViewRecetasAnadidas;
-    ImageButton buttonCesta;
-    ImageButton buttonCocina;
-    ImageButton buttonForo;
-    ImageButton buttonPerfil;
+
+    // Declaración de los widgets
+    private Button buttonAnadirReceta;
+    private RecyclerView recyclerViewRecetasAnadidas;
+    private ImageButton buttonCesta;
+    private ImageButton buttonCocina;
+    private ImageButton buttonForo;
+    private ImageButton buttonPerfil;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aniadir_recetas);
-        // Inicializacion del Storage de Firebase
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        // Inicializacion de la DB Local
+
+        // Inicialización de la BD Local
         dbHandler = new DBHandler(this);
-        // Obtencion del nombre del usuario
+
+        // Inicialización de los widgets
+        initWidgets();
+
+        // Configuración de RecyclerView
+        setupRecyclerView();
+
+        // Configuración de los listeners de los botones
+        setupButtonListeners();
+
+        // Obtención del nombre del usuario
         Intent intent = getIntent();
         String nombreFormateado = intent.getStringExtra("nombreFormateado");
-        // Botones de la botonera inferior
+
+        // Listener del botón de añadir recetas
+        buttonAnadirReceta.setOnClickListener(v -> iniciarAnadirRecetas(nombreFormateado));
+    }
+
+    private void initWidgets() {
         buttonAnadirReceta = findViewById(R.id.buttonAnadirReceta);
-        textViewMisRecetas = findViewById(R.id.textViewMisRecetas);
         recyclerViewRecetasAnadidas = findViewById(R.id.recyclerViewMisRecetas);
-        recyclerViewRecetasAnadidas.setLayoutManager(new LinearLayoutManager(this));
-        recetaUsuarioList = dbHandler.obtenerRecetasUsuario();
-        adapterRecetaUsuario = new AdapterRecetaUsuario(recetaUsuarioList);
-        recyclerViewRecetasAnadidas.setAdapter(adapterRecetaUsuario);
         buttonCesta = findViewById(R.id.imgBCesta);
         buttonCocina = findViewById(R.id.imgBCocina);
         buttonForo = findViewById(R.id.imgBForo);
         buttonPerfil = findViewById(R.id.imgBPerfil);
-        // Listener del boton de añadir recetas
-        buttonAnadirReceta.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                iniciarAnadirRecetas(nombreFormateado);
-            }
-        });
-        // Listener de los botones inferiores
-        buttonCesta.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                iniciarCesta(nombreFormateado);
-            }
-        });
-        buttonCocina.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                iniciarCocina(nombreFormateado);
-            }
-        });
-        buttonForo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                iniciarForo(nombreFormateado);
-            }
-        });
-        buttonPerfil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                iniciarPerfil(nombreFormateado);
-            }
-        });
     }
 
-    /**
-     * Inicia la actividad Añadir Recetas
-     * @param nombreFormateado
-     */
+    private void setupRecyclerView() {
+        recyclerViewRecetasAnadidas.setLayoutManager(new LinearLayoutManager(this));
+        recetaUsuarioList = dbHandler.obtenerRecetasUsuario();
+        adapterRecetaUsuario = new AdapterRecetaUsuario(recetaUsuarioList);
+        recyclerViewRecetasAnadidas.setAdapter(adapterRecetaUsuario);
+    }
+
+    private void setupButtonListeners() {
+        buttonCesta.setOnClickListener(v -> iniciarCesta());
+        buttonCocina.setOnClickListener(v -> iniciarCocina());
+        buttonForo.setOnClickListener(v -> iniciarForo());
+        buttonPerfil.setOnClickListener(v -> iniciarPerfil());
+    }
+
     private void iniciarAnadirRecetas(String nombreFormateado) {
         Intent intent = new Intent(this, NombreImagenRecetaActivity.class);
-        intent.putExtra("nombreFormateado",nombreFormateado);
+        intent.putExtra("nombreFormateado", nombreFormateado);
         startActivity(intent);
         finish();
     }
 
-    /**
-     * Inicia la actividad Cesta
-     */
-    private void iniciarCesta(String nombreFormateado){
+    private void iniciarCesta() {
         Intent intent = new Intent(this, CestaActivity.class);
-        intent.putExtra("nombreFormateado",nombreFormateado);
         startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         finish();
     }
 
-    /**
-     * Inicia la actividad Cocina
-     */
-    private void iniciarCocina(String nombreFormateado){
+    private void iniciarCocina() {
         Intent intent = new Intent(this, CocinaActivity.class);
-        intent.putExtra("nombreFormateado",nombreFormateado);
         startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         finish();
     }
 
-    /**
-     * Inicia la actividad Chat
-     */
-    private void iniciarForo(String nombreFormateado){
+    private void iniciarForo() {
         Intent intent = new Intent(this, ChatActivity.class);
-        intent.putExtra("nombreFormateado",nombreFormateado);
         startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         finish();
     }
 
-    /**
-     * Inicia la actividad de Perfil
-     */
-    private void iniciarPerfil(String nombreFormateado){
+    private void iniciarPerfil() {
         Intent intent = new Intent(this, PerfilActivity.class);
-        intent.putExtra("nombreFormateado",nombreFormateado);
         startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         finish();
     }
-
 }

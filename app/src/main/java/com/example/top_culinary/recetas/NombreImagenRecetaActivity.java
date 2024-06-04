@@ -18,76 +18,78 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.top_culinary.R;
-
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Continuation;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-
-
 public class NombreImagenRecetaActivity extends AppCompatActivity {
-    // Declaracion de constantes
+    // Declaración de constantes
     private static final int REQUEST_CODE_SELECCIONAR_FOTO = 1001;
-    // Declaracion de las variables
+
+    // Declaración de variables
     private String nombreFormateado;
     private String nombreReceta;
     private String imagenRecetaUrl;
     private StorageReference storageRef;
-    // Declaracion de los widgets
-    ImageView imageViewReceta;
-    ImageButton buttonFoto;
-    EditText editTextNombreReceta;
-    ImageButton buttonSiguiente;
+
+    // Declaración de los widgets
+    private ImageView imageViewReceta;
+    private ImageButton buttonFoto;
+    private EditText editTextNombreReceta;
+    private ImageButton buttonSiguiente;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nombre_receta);
-        // Inicializacion del Storage de Firebase
+
+        // Inicialización del Storage de Firebase
         storageRef = FirebaseStorage.getInstance().getReference("imagenes/recetas/");
-        // Obtencion del nombre de usuario a traves del intent;
+
+        // Obtención del nombre de usuario a través del intent
         Intent intent = getIntent();
         nombreFormateado = intent.getStringExtra("nombreFormateado");
-        // Inicializacion de los widgets
+
+        // Inicialización de los widgets
+        initWidgets();
+
+        // Solicitar permisos al usuario
+        solicitarPermiso();
+
+        // Configuración de los listeners
+        setupListeners();
+    }
+
+    private void initWidgets() {
         imageViewReceta = findViewById(R.id.imageViewReceta);
         buttonFoto = findViewById(R.id.imageButtonFoto);
         editTextNombreReceta = findViewById(R.id.editTextNombreReceta);
         buttonSiguiente = findViewById(R.id.imageButtonSiguiente);
-        // Solicitamos permisos al usuario
-        solicitarPermiso();
-        // Listener de los diferentes botones
-        buttonFoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                seleccionarFoto();
-            }
-        });
-        buttonSiguiente.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Validacion de si el usuario a indicado un valor en el campo del nombre de la receta
-                if(editTextNombreReceta.getText().toString().trim().isEmpty()) {
-                    mostrarToast("Por favor, introduce el nombre de la receta.");
-                    editTextNombreReceta.requestFocus();
-                } else {
-                    nombreReceta = editTextNombreReceta.getText().toString().trim();
-                    Intent intent = new Intent(NombreImagenRecetaActivity.this,IngredientesActivity.class);
-                    intent.putExtra("nombreReceta",nombreReceta);
-                    intent.putExtra("nombreFormateado", nombreFormateado);
-                    intent.putExtra("imagenReceta",imagenRecetaUrl);
-                    startActivity(intent);
-                    finish();
-                }
+    }
+
+    private void setupListeners() {
+        buttonFoto.setOnClickListener(v -> seleccionarFoto());
+
+        buttonSiguiente.setOnClickListener(v -> {
+            if (editTextNombreReceta.getText().toString().trim().isEmpty()) {
+                mostrarToast("Por favor, introduce el nombre de la receta.");
+                editTextNombreReceta.requestFocus();
+            } else {
+                nombreReceta = editTextNombreReceta.getText().toString().trim();
+                Intent intent = new Intent(NombreImagenRecetaActivity.this, IngredientesActivity.class);
+                intent.putExtra("nombreReceta", nombreReceta);
+                intent.putExtra("nombreFormateado", nombreFormateado);
+                intent.putExtra("imagenReceta", imagenRecetaUrl);
+                startActivity(intent);
+                finish();
             }
         });
     }
 
     private void solicitarPermiso() {
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_SELECCIONAR_FOTO);
         } else {
             seleccionarFoto();
@@ -112,40 +114,21 @@ public class NombreImagenRecetaActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode,@NonNull Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @NonNull Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == REQUEST_CODE_SELECCIONAR_FOTO && resultCode == RESULT_OK && data != null) {
+        if (requestCode == REQUEST_CODE_SELECCIONAR_FOTO && resultCode == RESULT_OK && data != null) {
             Uri uri = data.getData();
             imageViewReceta.setImageURI(uri);
             uploadImageToFirebaseStorage(uri);
         }
     }
 
-    // Subira la imagen seleccionada por el usuario al storage de firebase
     private void uploadImageToFirebaseStorage(Uri imageUri) {
-        // Crea una referencia de almacenamiento para la imagen
         StorageReference imageRef = storageRef.child(System.currentTimeMillis() + ".jpg");
 
-        // Inicia la subida de la imagen
         UploadTask uploadTask = imageRef.putFile(imageUri);
-
-        // Encadena la operación de subida con la obtención de la URL de descarga
-        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        imagenRecetaUrl = uri.toString();
-                    }
-                });
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                e.printStackTrace();
-            }
-        });
+        uploadTask.addOnSuccessListener(taskSnapshot -> imageRef.getDownloadUrl().addOnSuccessListener(uri -> imagenRecetaUrl = uri.toString()))
+                .addOnFailureListener(e -> e.printStackTrace());
     }
 
     private void mostrarToast(String mensaje) {
