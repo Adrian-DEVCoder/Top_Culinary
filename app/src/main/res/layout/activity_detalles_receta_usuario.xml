@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,23 +5,24 @@
     android:layout_height="match_parent"
     tools:context=".recetas.DetallesRecetaUsuarioActivity">
 
+    <!-- Imagen de la receta -->
     <ImageView
         android:id="@+id/imageViewRecetaUsuario"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/macarrones" />
 
+    <!-- Botón para volver atrás -->
     <ImageButton
         android:id="@+id/imageButtonBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="24dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/botones_redondos"
         android:padding="10dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,39 +30,25 @@
         app:srcCompat="@drawable/atras"
         app:tint="@color/naranja_more" />
 
-    <ImageButton
-        android:id="@+id/imageButtonFavorito"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        android:background="@drawable/botones_redondos"
-        android:padding="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageViewRecetaUsuario"
-        app:srcCompat="@drawable/sin_favorito" />
-
+    <!-- Contenido principal en ScrollView -->
     <ScrollView
         android:id="@+id/scrollViewDetalles"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageViewRecetaUsuario"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
             android:id="@+id/llDetallesReceta"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="16dp"
+            android:gravity="center">
 
-            <!-- Textview para el titulo de la receta -->
-
+            <!-- Título de la receta -->
             <TextView
                 android:id="@+id/textviewTituloReceta"
                 android:layout_width="wrap_content"
@@ -72,51 +58,51 @@
                 android:text="Macarrones con Tomate"
                 android:textAlignment="center"
                 android:textColor="@color/naranja_more"
-                android:textSize="20dp"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
-            <!-- Textview para la descripcion de la receta -->
-
-            <!-- Textview para los ingredientes de la receta -->
-
-            <LinearLayout
-                android:id="@+id/llSeparacion"
+            <!-- Separador -->
+            <View
+                android:id="@+id/separador1"
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/naranja_more"
-                android:orientation="horizontal"></LinearLayout>
+                android:layout_height="1dp"
+                android:layout_marginBottom="16dp"
+                android:background="@color/naranja_more" />
 
+            <!-- Sección de ingredientes -->
             <TextView
                 android:id="@+id/textviewIngredientes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:fontFamily="@font/alegreya_sc"
                 android:text="Ingredientes"
                 android:textAlignment="center"
                 android:textColor="@color/naranja_more"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <!-- Textview para la lista de los ingredientes de la receta -->
             <TextView
                 android:id="@+id/textviewListaIngredientes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="16dp"
                 android:fontFamily="@font/alegreya_sc"
                 android:text="- Macarrones\n- Tomate"
                 android:textAlignment="viewStart"
                 android:textColor="@color/black"
-                android:textSize="17dp"
-                android:textStyle="bold" />
+                android:textSize="16sp"
+                android:textStyle="normal" />
 
-            <!-- Textview para el equipamiento recomendado/necesario -->
+            <!-- Separador -->
+            <View
+                android:id="@+id/separador2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="16dp"
+                android:background="@color/naranja_more" />
 
-            <!-- Textview para la lista del equipamiento para la receta -->
-
-            <!-- Textview para los pasos a realizar -->
+            <!-- Sección de pasos -->
             <TextView
                 android:id="@+id/textviewPasos"
                 android:layout_width="wrap_content"
@@ -126,34 +112,34 @@
                 android:text="Pasos"
                 android:textAlignment="center"
                 android:textColor="@color/naranja_more"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <!-- Textview para la lista de los pasos a realizar-->
             <TextView
                 android:id="@+id/textviewListaPasos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="14dp"
+                android:layout_marginBottom="16dp"
                 android:fontFamily="@font/alegreya_sc"
                 android:text="1. Cocer los Macarrones\n2. Comer los Macarrones"
                 android:textAlignment="viewStart"
                 android:textColor="@color/black"
-                android:textSize="17dp"
-                android:textStyle="bold" />
+                android:textSize="16sp"
+                android:textStyle="normal" />
 
-            <!-- Boton para comenzar a realizar la receta -->
+            <!-- Botón para comenzar a cocinar -->
             <Button
                 android:id="@+id/buttonComenzarReceta"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="14dp"
-                android:backgroundTint="@color/naranja_dark"
+                android:layout_marginBottom="24dp"
+                android:backgroundTint="@color/naranja_more"
                 android:fontFamily="@font/alegreya_sc"
                 android:text="¡A COCINAR!"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:padding="12dp" />
         </LinearLayout>
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

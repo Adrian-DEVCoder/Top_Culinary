@@ -5,14 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/naranja_more"
-    android:textAlignment="center"
-    android:layout_gravity="center"
+    android:padding="16dp"
     tools:context=".recetas.IngredientesActivity">
 
     <ScrollView
         android:id="@+id/scrollViewIngredientes"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,7 +28,7 @@
                 android:id="@+id/textViewCantidad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="48dp"
+                android:layout_marginTop="24dp"
                 android:fontFamily="@font/alegreya_sc"
                 android:text="CANTIDAD"
                 android:textColor="#FFFFFF"
@@ -40,9 +39,7 @@
                 android:id="@+id/editTextCantidad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="32dp"
+                android:layout_marginTop="8dp"
                 android:backgroundTint="@color/white"
                 android:ems="10"
                 android:fontFamily="@font/alegreya_sc"
@@ -58,7 +55,7 @@
                 android:id="@+id/textViewUnidad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="36dp"
+                android:layout_marginTop="16dp"
                 android:fontFamily="@font/alegreya_sc"
                 android:text="UNIDAD"
                 android:textColor="#FFFFFF"
@@ -72,6 +69,7 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="32dp"
+                android:popupBackground="@android:color/white"
                 android:backgroundTint="#FFFFFF"
                 android:foregroundTint="#FFFFFF" />
 
@@ -79,7 +77,7 @@
                 android:id="@+id/textViewIngrediente"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="36dp"
+                android:layout_marginTop="16dp"
                 android:fontFamily="@font/alegreya_sc"
                 android:text="INGREDIENTE"
                 android:textColor="#FFFFFF"
@@ -90,25 +88,23 @@
                 android:id="@+id/editTextIngrediente"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="32dp"
+                android:layout_marginTop="8dp"
                 android:backgroundTint="@color/white"
                 android:ems="10"
                 android:fontFamily="@font/alegreya_sc"
                 android:hint="Introduce el nombre del ingrediente"
                 android:inputType="text"
                 android:textAlignment="center"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/white"
                 android:textColorHint="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
             <ImageButton
                 android:id="@+id/imageButtonAgregarIngrediente"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_marginTop="48dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="24dp"
                 android:background="@drawable/botones_redondos"
                 android:scaleType="center"
                 app:srcCompat="@drawable/agregar_ingrediente_32"
@@ -118,7 +114,7 @@
                 android:id="@+id/textViewListaIngredientes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="36dp"
+                android:layout_marginTop="24dp"
                 android:fontFamily="@font/alegreya_sc"
                 android:text="LISTA DE INGREDIENTES"
                 android:textColor="@color/white"
@@ -129,9 +125,7 @@
                 android:id="@+id/textViewIngredientesAnadidos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="32dp"
+                android:layout_marginTop="12dp"
                 android:fontFamily="@font/alegreya_sc"
                 android:text="1 ml de Vino"
                 android:textColor="@color/white"
@@ -140,14 +134,15 @@
 
             <ImageButton
                 android:id="@+id/imageButtonSiguiente"
-                android:layout_width="130dp"
-                android:layout_height="130dp"
-                android:layout_marginTop="36dp"
-                android:layout_marginBottom="36dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
                 android:background="@drawable/botones_redondos"
                 app:srcCompat="@drawable/siguiente"
                 app:tint="@color/naranja_more" />
 
         </LinearLayout>
     </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

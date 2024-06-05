@@ -1,8 +1,6 @@
 package com.example.top_culinary.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -14,20 +12,25 @@ import java.util.List;
 
 public class UnidadSpinnerAdapter extends ArrayAdapter<String> {
 
-    private Typeface typeface;
-
     public UnidadSpinnerAdapter(Context context, int resource, List<String> objects) {
         super(context, resource, objects);
-        typeface = Typeface.createFromAsset(context.getAssets(), "font/alegreya_sc.xml");
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         TextView textViewUnidad = (TextView) super.getView(position, convertView, parent);
-        textViewUnidad.setTextColor(Color.WHITE);
-        textViewUnidad.setTextAppearance(R.style.BoldTextAppearance);
-        textViewUnidad.setTextSize(20);
-        textViewUnidad.setTypeface(typeface);
+        applyCustomStyle(textViewUnidad, R.style.SpinnerItemTextAppearance);
         return textViewUnidad;
+    }
+
+    @Override
+    public View getDropDownView(int position, View convertView, ViewGroup parent) {
+        TextView textViewUnidad = (TextView) super.getDropDownView(position, convertView, parent);
+        applyCustomStyle(textViewUnidad, R.style.SpinnerDropdownItemTextAppearance);
+        return textViewUnidad;
+    }
+
+    private void applyCustomStyle(TextView textView, int styleResId) {
+        textView.setTextAppearance(styleResId);
     }
 }

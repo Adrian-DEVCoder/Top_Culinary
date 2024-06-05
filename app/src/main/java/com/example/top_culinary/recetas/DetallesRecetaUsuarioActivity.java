@@ -1,21 +1,17 @@
 package com.example.top_culinary.recetas;
 
 import android.content.Intent;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.top_culinary.R;
@@ -31,7 +27,6 @@ public class DetallesRecetaUsuarioActivity extends AppCompatActivity {
 
     // Declaración de los widgets
     private ImageButton buttonAtras;
-    private ImageButton buttonFavoritos;
     private ImageView imageViewReceta;
     private TextView textViewTituloReceta;
     private TextView textViewListaIngredientes;
@@ -61,7 +56,6 @@ public class DetallesRecetaUsuarioActivity extends AppCompatActivity {
 
     private void initWidgets() {
         buttonAtras = findViewById(R.id.imageButtonBack);
-        buttonFavoritos = findViewById(R.id.imageButtonFavorito);
         imageViewReceta = findViewById(R.id.imageViewRecetaUsuario);
         textViewTituloReceta = findViewById(R.id.textviewTituloReceta);
         textViewListaIngredientes = findViewById(R.id.textviewListaIngredientes);
@@ -79,8 +73,6 @@ public class DetallesRecetaUsuarioActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
-
-        buttonFavoritos.setOnClickListener(v -> toggleFavorito(buttonFavoritos));
 
         buttonComenzarReceta.setOnClickListener(v -> {
             String nombreReceta = textViewTituloReceta.getText().toString();
@@ -129,17 +121,5 @@ public class DetallesRecetaUsuarioActivity extends AppCompatActivity {
             formattedSteps.append(i + 1).append(". ").append(steps.get(i)).append("\n");
         }
         return formattedSteps.toString();
-    }
-
-    private void toggleFavorito(ImageButton imageButton) {
-        int currentImageResource = imageButton.getDrawable().getConstantState().equals(ContextCompat.getDrawable(imageButton.getContext(), R.drawable.favorito).getConstantState()) ? R.drawable.sin_favorito : R.drawable.favorito;
-        imageButton.setImageResource(currentImageResource);
-
-        // Aplica un ColorFilter para cambiar el color de la imagen
-        int color = ContextCompat.getColor(imageButton.getContext(), currentImageResource == R.drawable.favorito ? R.color.naranja_more : R.color.black);
-        imageButton.setColorFilter(color, PorterDuff.Mode.SRC_IN);
-
-        // Aplica una animación de desvanecimiento
-        imageButton.animate().alpha(0.5f).setDuration(300).withEndAction(() -> imageButton.animate().alpha(1f).setDuration(300));
     }
 }

@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,23 +6,27 @@
     android:background="@color/naranja_more"
     tools:context=".recetas.AniadirRecetasActivity">
 
-    <!-- Botonera inferior para moverse -->
-
+    <!-- Botón para añadir receta -->
     <Button
         android:id="@+id/buttonAnadirReceta"
-        android:layout_width="300dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:backgroundTint="#FFFFFF"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/white"
         android:fontFamily="@font/alegreya_sc"
         android:text="AÑADIR RECETA"
         android:textColor="@color/naranja_more"
         android:textSize="20sp"
         android:textStyle="bold"
+        android:elevation="4dp"
+        android:padding="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Título de la sección Mis Recetas -->
     <TextView
         android:id="@+id/textViewMisRecetas"
         android:layout_width="wrap_content"
@@ -31,87 +34,90 @@
         android:layout_marginTop="24dp"
         android:fontFamily="@font/alegreya_sc"
         android:text="MIS RECETAS"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonAnadirReceta" />
 
+    <!-- RecyclerView para mostrar las recetas -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewMisRecetas"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="12dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayoutBotoneraInferior"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewMisRecetas"
-        app:layout_constraintVertical_bias="0.461"
+        app:layout_constraintVertical_bias="0.0"
         tools:listitem="@layout/receta_anadida" />
 
+    <!-- Botonera inferior para moverse -->
     <LinearLayout
         android:id="@+id/linearLayoutBotoneraInferior"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:background="@color/white"
+        android:elevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-        <!-- Actividad de Mis Recetas -->
+        app:layout_constraintStart_toStartOf="parent"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <!-- Botones de navegación -->
         <ImageButton
             android:id="@+id/imgBRecetas"
-            android:layout_width="82dp"
-            android:layout_height="match_parent"
-            android:background="#0FFF"
-            android:scaleType="centerCrop"
-            android:scaleX="0.5"
-            android:scaleY="0.5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:padding="12dp"
             android:src="@drawable/anadir"
             app:tint="@color/naranja_normal" />
-        <!-- Actividad de Cesta -->
+
         <ImageButton
             android:id="@+id/imgBCesta"
-            android:layout_width="82dp"
-            android:layout_height="match_parent"
-            android:background="#0FFF"
-            android:scaleType="centerCrop"
-            android:scaleX="0.5"
-            android:scaleY="0.5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:padding="12dp"
             android:src="@drawable/carrito"
             app:tint="@color/naranja_normal" />
-        <!-- Actividad de Cocina -->
+
         <ImageButton
             android:id="@+id/imgBCocina"
-            android:layout_width="82dp"
-            android:layout_height="match_parent"
-            android:background="#0FFF"
-            android:scaleType="centerCrop"
-            android:scaleX="0.5"
-            android:scaleY="0.5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:padding="12dp"
             android:src="@drawable/cocina"
             app:tint="@color/naranja_normal" />
-        <!-- Actividad de Foro -->
+
         <ImageButton
             android:id="@+id/imgBForo"
-            android:layout_width="82dp"
-            android:layout_height="match_parent"
-            android:background="#0FFF"
-            android:scaleType="centerCrop"
-            android:scaleX="0.5"
-            android:scaleY="0.5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:padding="12dp"
             android:src="@drawable/chat"
             app:tint="@color/naranja_normal" />
-        <!-- Actividad de Perfil de Usuario -->
+
         <ImageButton
             android:id="@+id/imgBPerfil"
-            android:layout_width="82dp"
-            android:layout_height="match_parent"
-            android:background="#0FFF"
-            android:scaleType="centerCrop"
-            android:scaleX="0.5"
-            android:scaleY="0.5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:padding="12dp"
             android:src="@drawable/usuario"
             app:tint="@color/naranja_normal" />
     </LinearLayout>

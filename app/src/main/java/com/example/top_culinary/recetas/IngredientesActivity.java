@@ -1,10 +1,9 @@
 package com.example.top_culinary.recetas;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -12,6 +11,8 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.top_culinary.R;
 import com.example.top_culinary.adapter.UnidadSpinnerAdapter;
@@ -79,9 +80,17 @@ public class IngredientesActivity extends AppCompatActivity {
     }
 
     private void setupListeners() {
-        buttonAgregarIngrediente.setOnClickListener(v -> agregarIngrediente());
+        buttonAgregarIngrediente.setOnClickListener(v -> {
+            agregarIngrediente();
+            Animation bounceAnimation = AnimationUtils.loadAnimation(this, R.anim.bounce_animation);
+            buttonAgregarIngrediente.startAnimation(bounceAnimation);
+        });
 
-        buttonSiguiente.setOnClickListener(v -> iniciarAnadirPasos());
+        buttonSiguiente.setOnClickListener(v -> {
+            iniciarAnadirPasos();
+            Animation bounceAnimation = AnimationUtils.loadAnimation(this, R.anim.bounce_animation);
+            buttonSiguiente.startAnimation(bounceAnimation);
+        });
     }
 
     private void agregarIngrediente() {

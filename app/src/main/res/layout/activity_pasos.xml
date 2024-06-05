@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -11,12 +10,13 @@
 
     <ScrollView
         android:id="@+id/scrollViewPasos"
-        android:layout_width="409dp"
-        android:layout_height="912dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:padding="16dp">
 
         <LinearLayout
             android:id="@+id/linearLayoutPasos"
@@ -25,22 +25,21 @@
             android:gravity="center"
             android:orientation="vertical">
 
-
             <EditText
                 android:id="@+id/editTextPaso"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="150dp"
+                android:layout_marginTop="48dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="32dp"
                 android:ems="10"
                 android:fontFamily="@font/alegreya_sc"
-                android:textColor="@color/white"
+                android:textColor="@color/naranja_more"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textAlignment="center"
-                android:textColorHint="@color/white"
-                android:backgroundTint="@color/white"
+                android:textColorHint="@color/naranja_more"
+                android:background="@drawable/edittext_background"
                 android:inputType="text"
                 android:hint="Ingresa el paso a realizar" />
 
