@@ -93,8 +93,6 @@ public class AdapterIngredientesComprados extends RecyclerView.Adapter<AdapterIn
     }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
-        // Declaracion de las variables
-        // private DBHandler dbHandler;  // No parece necesario
         // Declaracion de los widgets
         LinearLayout linearLayoutItem;
         ImageView imageViewItem;

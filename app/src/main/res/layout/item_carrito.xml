@@ -5,93 +5,126 @@
     android:id="@+id/cesta_item_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp"
-    android:background="@color/naranja_more">
+    android:background="@color/naranja_more"
+    android:padding="16dp">
+
     <!-- Contenedor principal para cada artículo -->
-    <LinearLayout
-        android:id="@+id/item_layout"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="8dp"
-        android:paddingTop="8dp">
-        <!-- Imagen del artículo -->
-        <ImageView
-            android:id="@+id/imagen_item"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:paddingEnd="16dp"/>
-        <!-- Detalles del artículo -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-            <!-- Nombre del artículo -->
-            <TextView
-                android:id="@+id/nombre_item"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/alegreya_sc"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold"/>
-            <!-- Precio del artículo -->
-            <TextView
-                android:id="@+id/precio_item"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/alegreya_sc"
-                android:textColor="@color/black"
-                android:textSize="14sp"/>
-        </LinearLayout>
-        <!-- Controles de cantidad -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
+        android:layout_marginBottom="8dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        android:padding="8dp">
 
-            <ImageButton
-                android:id="@+id/delete_button"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/eliminar"
-                app:tint="@color/rojo" />
+        <LinearLayout
+            android:id="@+id/item_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
+            <!-- Imagen del artículo -->
+            <ImageView
+                android:id="@+id/imagen_item"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:scaleType="centerCrop"
+                android:layout_marginEnd="16dp"
+                tools:srcCompat="@drawable/avatar" />
+
+            <!-- Detalles del artículo -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <!-- Nombre del artículo -->
+                <TextView
+                    android:id="@+id/nombre_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/alegreya_sc"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    tools:text="Aceite de Oliva" />
+
+                <!-- Precio del artículo -->
+                <TextView
+                    android:id="@+id/precio_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/alegreya_sc"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    tools:text="3.50€" />
+            </LinearLayout>
+
+            <!-- Controles de cantidad -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <!-- Botón para decrementar cantidad -->
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <!-- Botón para eliminar artículo -->
                 <ImageButton
-                    android:id="@+id/decrement_button"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/decrementar"
-                    app:tint="@color/white" />
-                <!-- Texto para mostrar la cantidad -->
-                <TextView
-                    android:id="@+id/item_quantity"
+                    android:id="@+id/delete_button"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="8dp"
+                    app:srcCompat="@drawable/eliminar"
+                    app:tint="@color/rojo"
+                    tools:ignore="ImageContrastCheck" />
+
+                <!-- Contenedor para los botones de cantidad -->
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginEnd="4dp"
-                    android:fontFamily="@font/alegreya_sc"
-                    android:gravity="center"
-                    android:text="1"
-                    android:textColor="@color/black"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
-                <!-- Botón para incrementar cantidad -->
-                <ImageButton
-                    android:id="@+id/increment_button"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/incrementar"
-                    app:tint="@color/white" />
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <!-- Botón para decrementar cantidad -->
+                    <ImageButton
+                        android:id="@+id/decrement_button"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:padding="8dp"
+                        app:srcCompat="@drawable/decrementar"
+                        app:tint="@color/naranja_more"
+                        tools:ignore="ImageContrastCheck" />
+
+                    <!-- Texto para mostrar la cantidad -->
+                    <TextView
+                        android:id="@+id/item_quantity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:fontFamily="@font/alegreya_sc"
+                        android:gravity="center"
+                        android:text="1"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <!-- Botón para incrementar cantidad -->
+                    <ImageButton
+                        android:id="@+id/increment_button"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:padding="8dp"
+                        app:srcCompat="@drawable/incrementar"
+                        app:tint="@color/naranja_more"
+                        tools:ignore="ImageContrastCheck" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
