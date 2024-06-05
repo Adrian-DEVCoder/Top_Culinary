@@ -1,154 +1,135 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <!-- COMIENZO PAGINA -->
-    
+    tools:context=".adapter.AdapterReceta">
+
     <!-- Cardview para las recetas-->
     <androidx.cardview.widget.CardView
         android:id="@+id/cardReceta"
-        android:layout_width="374dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        app:cardCornerRadius="30dp"
+        android:layout_margin="16dp"
+        android:layout_marginBottom="40dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-        
+
         <!-- Linear layout para el cardview -->
         <LinearLayout
             android:id="@+id/llReceta"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            
+
             <!-- Imageview para la receta -->
             <ImageView
                 android:id="@+id/imgReceta"
-                android:layout_width="374dp"
+                android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:background="#FFFFFF"
                 android:scaleType="centerCrop"
                 android:src="@drawable/macarrones" />
-            
+
             <!-- Linear layout para los detalles de la receta -->
             <LinearLayout
                 android:id="@+id/llDetalles"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="bottom"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:orientation="vertical">
-                
+                android:orientation="vertical"
+                android:padding="16dp">
+
                 <!-- Textview del nombre de la receta -->
                 <TextView
                     android:id="@+id/txvNombreReceta"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" 
-                    android:layout_marginTop="8dp"
-                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
                     android:fontFamily="@font/alegreya_sc"
                     android:text="Macarrones con Tomate"
                     android:textAlignment="center"
-                    android:textSize="16sp"
                     android:textColor="@color/black"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
-                
+
                 <!-- Linear layout de los detalles -->
                 <LinearLayout
                     android:id="@+id/llDetallesGeneral"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-                    
-                    <!-- Linear layout para el tiempo y el tipo de plato-->
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <!-- Linear layout del tiempo -->
                     <LinearLayout
+                        android:id="@+id/llTiempo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="12dp"
-                        android:orientation="horizontal"
-                        android:layout_gravity="center">
-                        
-                        <!-- Linear layout del tiempo -->
-                        <LinearLayout
-                            android:id="@+id/llTiempo"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                        android:layout_marginEnd="16dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <!-- Image view del icono del tiempo -->
+                        <ImageView
+                            android:id="@+id/imgTiempo"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_marginEnd="4dp"
-                            android:layout_weight="1"
-                            android:orientation="horizontal">
-                            
-                            <!-- Image view del icono del tiempo -->
-                            <ImageView
-                                android:id="@+id/imgTiempo"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="4dp"
-                                android:layout_weight="1"
-                                android:src="@drawable/ic_tiempo_receta" />
-                            
-                            <!-- Textview del tiempo -->
-                            <TextView
-                                android:id="@+id/txvTiempo"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:fontFamily="@font/alegreya_sc"
-                                android:layout_marginRight="16dp"
-                                android:paddingTop="6dp"
-                                android:paddingBottom="8dp"
-                                android:text="20 min"
-                                android:textAlignment="center"
-                                android:textColor="#000000"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
-                            
-                        </LinearLayout>
-                        
-                        <!-- Linear layout del tipo de plato-->
-                        <LinearLayout
-                            android:id="@+id/llTipoPlato"
+                            android:src="@drawable/ic_tiempo_receta" />
+
+                        <!-- Textview del tiempo -->
+                        <TextView
+                            android:id="@+id/txvTiempo"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal">
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/alegreya_sc"
+                            android:text="20 min"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
 
-                            <!-- Image view del tipo de plato -->
-                            <ImageView
-                                android:id="@+id/imgTipoPlato"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="4dp"
-                                android:layout_weight="1"
-                                android:src="@drawable/ic_tipo_plato" />
-
-                            <!-- Textview del tipo de plato -->
-                            <TextView
-                                android:id="@+id/txvTipoPlato"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:fontFamily="@font/alegreya_sc"
-                                android:paddingTop="6dp"
-                                android:paddingBottom="8dp"
-                                android:text="Principal"
-                                android:textAlignment="center"
-                                android:textColor="#000000"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
                     </LinearLayout>
-                    
+
+                    <!-- Linear layout del tipo de plato-->
+                    <LinearLayout
+                        android:id="@+id/llTipoPlato"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <!-- Image view del tipo de plato -->
+                        <ImageView
+                            android:id="@+id/imgTipoPlato"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginEnd="4dp"
+                            android:src="@drawable/ic_tipo_plato" />
+
+                        <!-- Textview del tipo de plato -->
+                        <TextView
+                            android:id="@+id/txvTipoPlato"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/alegreya_sc"
+                            android:text="Principal"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
                 </LinearLayout>
-                
+
             </LinearLayout>
-            
+
         </LinearLayout>
-        
+
     </androidx.cardview.widget.CardView>
-    <!-- FINAL PAGINA-->
+
 </androidx.constraintlayout.widget.ConstraintLayout>

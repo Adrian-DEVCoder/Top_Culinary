@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -22,12 +21,8 @@ import com.example.top_culinary.model.Receta;
 import java.util.List;
 
 public class AdapterReceta extends RecyclerView.Adapter<AdapterReceta.ItemViewHolder> {
-    // Inicializamos las variables
     private List<Receta> recetaList;
-    /**
-     * Constructor
-     * @param recetaList lista de las recetas
-     */
+
     public AdapterReceta(List<Receta> recetaList) {
         this.recetaList = recetaList;
     }
@@ -56,23 +51,18 @@ public class AdapterReceta extends RecyclerView.Adapter<AdapterReceta.ItemViewHo
         holder.textViewTipoPlato.setText(receta.getTipoPlato());
     }
 
-    /**
-     * Obtenemos el tamaño de la lista de recetas
-     * @return Tamaño de la lista
-     */
     @Override
     public int getItemCount() {
         return recetaList.size();
     }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        // Declaracion de las variables
         private DBHandler dbHandler;
-        // Declaracion de los widgets
+
         CardView cardViewReceta;
         LinearLayout linearLayoutReceta;
-        LinearLayout linearLayoutDetallesGeneral;
         LinearLayout linearLayoutDetalles;
+        LinearLayout linearLayoutDetallesGeneral;
         LinearLayout linearLayoutTiempo;
         LinearLayout linearLayoutTipoPlato;
         ImageView imageViewReceta;
@@ -103,7 +93,7 @@ public class AdapterReceta extends RecyclerView.Adapter<AdapterReceta.ItemViewHo
         @Override
         public void onClick(View v) {
             int pos = getAdapterPosition();
-            if(pos != RecyclerView.NO_POSITION){
+            if (pos != RecyclerView.NO_POSITION) {
                 String nomReceta = textViewNombre.getText().toString();
                 obtenerReceta(nomReceta);
             }
@@ -111,7 +101,7 @@ public class AdapterReceta extends RecyclerView.Adapter<AdapterReceta.ItemViewHo
 
         private void obtenerReceta(String nombreReceta) {
             Intent intent = new Intent(itemView.getContext(), DetallesRecetaActivity.class);
-            intent.putExtra("nombreReceta",nombreReceta);
+            intent.putExtra("nombreReceta", nombreReceta);
             itemView.getContext().startActivity(intent);
         }
     }
