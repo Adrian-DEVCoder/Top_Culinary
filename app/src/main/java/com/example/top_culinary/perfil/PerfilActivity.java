@@ -66,7 +66,7 @@ public class PerfilActivity extends AppCompatActivity {
         // Obtencion del usuario actualmente en la sesion
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = auth.getCurrentUser();
-        uidUsuarioSesion = currentUser.getUid();
+        uidUsuarioSesion = currentUser != null ? currentUser.getUid() : null;
 
         // Obtenemos el nombre del usuario del intent
         if (getIntent().getParcelableExtra("usuario") != null) {
@@ -74,6 +74,10 @@ public class PerfilActivity extends AppCompatActivity {
             nombreFormateado = usuario.getDisplay_name();
         } else {
             nombreFormateado = getIntent().getStringExtra("nombreFormateado");
+            if (nombreFormateado == null) {
+                Log.e("PerfilActivity", "nombreFormateado no recibido.");
+                return;
+            }
         }
 
         // Inicializacion de los widgets
@@ -117,6 +121,7 @@ public class PerfilActivity extends AppCompatActivity {
                                     }
 
                                     if (snapshot != null && snapshot.exists()) {
+                                        textViewNomUsuario.setText(nombreFormateado);
                                         List<String> seguidores = (List<String>) snapshot.get("seguidores");
                                         List<String> seguidos = (List<String>) snapshot.get("seguidos");
                                         List<String> recetasPublicadas = (List<String>) snapshot.get("recetasPublicadas");

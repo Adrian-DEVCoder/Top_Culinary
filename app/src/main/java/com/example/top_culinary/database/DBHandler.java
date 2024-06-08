@@ -148,6 +148,12 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL(queryRecetasUsuario);
     }
 
+    public void eliminarRecetaDeUsuario(String nombre) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(NOMBRE_TABLA_USUARIO,TITULO_USUARIO_COL + "= ?", new String[]{nombre});
+        db.close();
+    }
+
     private void creacionTablaIngredientes(SQLiteDatabase db) {
         String queryIngredientes = "CREATE TABLE IF NOT EXISTS " + NOMBRE_TABLA_INGREDIENTES + "("
                 + ID_INGREDIENTES_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "

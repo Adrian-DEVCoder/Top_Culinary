@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
@@ -31,6 +32,7 @@ public class DetallesRecetaUsuarioActivity extends AppCompatActivity {
     private TextView textViewTituloReceta;
     private TextView textViewListaIngredientes;
     private TextView textViewListaPasos;
+    private Button buttonEliminarReceta;
     private Button buttonComenzarReceta;
 
     @Override
@@ -60,6 +62,7 @@ public class DetallesRecetaUsuarioActivity extends AppCompatActivity {
         textViewTituloReceta = findViewById(R.id.textviewTituloReceta);
         textViewListaIngredientes = findViewById(R.id.textviewListaIngredientes);
         textViewListaPasos = findViewById(R.id.textviewListaPasos);
+        buttonEliminarReceta = findViewById(R.id.buttonEliminarReceta);
         buttonComenzarReceta = findViewById(R.id.buttonComenzarReceta);
 
         // Animación del botón de comenzar receta
@@ -81,6 +84,27 @@ public class DetallesRecetaUsuarioActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
+
+        buttonEliminarReceta.setOnClickListener(v -> {
+            String nombreReceta = textViewTituloReceta.getText().toString();
+            mostrarDialogoConfirmacionEliminacionReceta(nombreReceta);
+        });
+    }
+
+    private void mostrarDialogoConfirmacionEliminacionReceta(String nombreReceta) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Eliminar Receta");
+        builder.setMessage("¿Estás seguro de que deseas eliminar esta receta?");
+        builder.setPositiveButton("Si", (dialog, which) -> eliminarReceta(nombreReceta));
+        builder.setNegativeButton("No", (dialog, which) -> dialog.dismiss());
+        builder.create().show();
+    }
+
+    private void eliminarReceta(String nombreReceta) {
+        dbHandler.eliminarRecetaDeUsuario(nombreReceta);
+        Intent intent = new Intent(DetallesRecetaUsuarioActivity.this, AniadirRecetasActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void displayRecetaDetails(String nombreReceta) {
