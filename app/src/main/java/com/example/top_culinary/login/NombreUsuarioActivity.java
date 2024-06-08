@@ -6,9 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 import com.example.top_culinary.R;
 import com.example.top_culinary.cocina.CocinaActivity;
+import com.example.top_culinary.model.Dialogo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -21,7 +21,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.android.material.textfield.TextInputEditText;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class NombreUsuarioActivity extends AppCompatActivity {
@@ -48,7 +47,7 @@ public class NombreUsuarioActivity extends AppCompatActivity {
                 if (!nombreUsuario.isEmpty()) {
                     verificarNombreUsuario(inicioDeSesion, nombreUsuario);
                 } else {
-                    Toast.makeText(NombreUsuarioActivity.this, "Por favor, introduce tu nombre de usuario.", Toast.LENGTH_SHORT).show();
+                    Dialogo.showDialog(NombreUsuarioActivity.this,"Error","Por favor, introduce un nombre de usuario");
                 }
             }
         });
@@ -64,13 +63,13 @@ public class NombreUsuarioActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             if (!task.getResult().isEmpty()) {
-                                Toast.makeText(NombreUsuarioActivity.this, "El nombre de usuario ya existe, introduce otro por favor", Toast.LENGTH_SHORT).show();
+                                Dialogo.showDialog(NombreUsuarioActivity.this,"Error","El nombre de usuario ya existe introduce otro diferente.");
                             } else {
                                 agregarUsuarioFirestore(inicioDeSesion, nombreUsuario);
                             }
                         } else {
                             Log.e("Firestore", "Error al verificar el nombre de usuario", task.getException());
-                            Toast.makeText(NombreUsuarioActivity.this, "Error al verificar el nombre de usuario", Toast.LENGTH_SHORT).show();
+                            Dialogo.showDialog(NombreUsuarioActivity.this,"Error","Error al verificar el nombre de usuario");
                         }
                     }
                 });

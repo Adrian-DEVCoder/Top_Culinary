@@ -8,10 +8,10 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.example.top_culinary.cocina.CocinaActivity;
 import com.example.top_culinary.R;
+import com.example.top_culinary.model.Dialogo;
 import com.example.top_culinary.registro.RegistroActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -90,7 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         verificarUsuarioEnFirestore();
                     } else {
-                        mostrarToast("Inicio de sesión incorrecto.");
+                        mostrarDialogo("Error de inicio de sesión", "Inicio de sesión incorrecto.");
                     }
                 });
     }
@@ -141,7 +141,7 @@ public class LoginActivity extends AppCompatActivity {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             firebaseAuthWithGoogle(account);
         } catch (ApiException e) {
-            mostrarToast(e.getMessage());
+            Log.d("Google", "Error al iniciar sesión con Google");
         }
     }
 
@@ -152,7 +152,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         verificarUsuarioEnFirestore();
                     } else {
-                        mostrarToast("Error en el inicio de sesión con Google.");
+                        mostrarDialogo("Error","Error en el inicio de sesión con Google.");
                     }
                 });
     }
@@ -170,7 +170,7 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
-    private void mostrarToast(String mensaje) {
-        Toast.makeText(LoginActivity.this, mensaje, Toast.LENGTH_SHORT).show();
+    private void mostrarDialogo(String titulo, String contenido) {
+        Dialogo.showDialog(this, titulo, contenido);
     }
 }

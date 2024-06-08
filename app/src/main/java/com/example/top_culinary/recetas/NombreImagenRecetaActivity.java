@@ -11,15 +11,12 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.top_culinary.R;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.example.top_culinary.model.Dialogo;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -74,7 +71,7 @@ public class NombreImagenRecetaActivity extends AppCompatActivity {
 
         buttonSiguiente.setOnClickListener(v -> {
             if (editTextNombreReceta.getText().toString().trim().isEmpty()) {
-                mostrarToast("Por favor, introduce el nombre de la receta.");
+                mostrarDialogo("Error","Por favor, introduce el nombre de la receta.");
                 editTextNombreReceta.requestFocus();
             } else {
                 nombreReceta = editTextNombreReceta.getText().toString().trim();
@@ -102,8 +99,6 @@ public class NombreImagenRecetaActivity extends AppCompatActivity {
         if (requestCode == REQUEST_CODE_SELECCIONAR_FOTO) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 seleccionarFoto();
-            } else {
-                mostrarToast("No se ha podido acceder a la galería.");
             }
         }
     }
@@ -131,7 +126,7 @@ public class NombreImagenRecetaActivity extends AppCompatActivity {
                 .addOnFailureListener(e -> e.printStackTrace());
     }
 
-    private void mostrarToast(String mensaje) {
-        Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
+    private void mostrarDialogo(String titulo, String contenido) {
+        Dialogo.showDialog(this, titulo, contenido);
     }
 }

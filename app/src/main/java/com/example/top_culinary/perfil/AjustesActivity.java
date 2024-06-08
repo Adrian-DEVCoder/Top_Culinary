@@ -5,13 +5,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.top_culinary.R;
 import com.example.top_culinary.login.LoginActivity;
+import com.example.top_culinary.model.Dialogo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -111,7 +111,7 @@ public class AjustesActivity extends AppCompatActivity {
                                 actualizarUI();
                             }
                         } else {
-                            mostrarToast("Error al obtener el tipo de inicio de sesión.");
+                            mostrarDialogo("Error","Error al obtener el tipo de inicio de sesión.");
                         }
                     }
                 });
@@ -159,7 +159,7 @@ public class AjustesActivity extends AppCompatActivity {
         finish();
     }
 
-    private void mostrarToast(String mensaje) {
-        Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
+    private void mostrarDialogo(String titulo, String contenido) {
+        Dialogo.showDialog(this, titulo, contenido);
     }
 }

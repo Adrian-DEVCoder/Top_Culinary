@@ -4,16 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.top_culinary.R;
 import com.example.top_culinary.database.DBHandler;
+import com.example.top_culinary.model.Dialogo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,7 +84,7 @@ public class PasosActivity extends AppCompatActivity {
     private boolean verificarPaso() {
         String paso = editTextPaso.getText().toString().trim();
         if (paso.isEmpty()) {
-            mostrarToast("Por favor, ingresa un paso a realizar");
+            mostrarDialogo("Error","Por favor, ingresa un paso a realizar");
             editTextPaso.setError("Ingresa un paso a realizar");
             editTextPaso.requestFocus();
             return false;
@@ -114,7 +113,7 @@ public class PasosActivity extends AppCompatActivity {
         String pasosConcatenados = convertirListaAString(pasos);
 
         dbHandler.insertarRecetaUsuario(imagenReceta, nombreReceta, ingredientes, pasosConcatenados);
-        mostrarToast("Receta añadida con éxito");
+        mostrarDialogo("Operación Exitosa","Receta añadida con éxito");
         iniciarAnadirRecetas();
     }
 
@@ -137,7 +136,7 @@ public class PasosActivity extends AppCompatActivity {
         editTextPaso.setText("");
     }
 
-    private void mostrarToast(String mensaje) {
-        Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
+    private void mostrarDialogo(String titulo, String contenido) {
+        Dialogo.showDialog(this, titulo, contenido);
     }
 }

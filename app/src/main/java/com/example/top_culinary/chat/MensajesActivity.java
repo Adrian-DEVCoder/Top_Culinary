@@ -4,17 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.top_culinary.R;
 import com.example.top_culinary.adapter.AdapterMensajes;
 import com.example.top_culinary.model.Chat;
@@ -25,12 +21,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -136,7 +128,6 @@ public class MensajesActivity extends AppCompatActivity {
                     TextView userName = findViewById(R.id.user_name);
                     ImageView userProfileImage = findViewById(R.id.user_profile_image);
                     userName.setText(usuario.getDisplay_name());
-                    /*Picasso.get().load(usuario.getUrlImagenUsuario()).into(userProfileImage);*/
                 }
             }
         }).addOnFailureListener(e -> Log.e("MensajesActivity", "Error al cargar datos del usuario", e));

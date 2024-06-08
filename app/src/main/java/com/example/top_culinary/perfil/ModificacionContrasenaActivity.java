@@ -4,16 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.top_culinary.R;
-import com.example.top_culinary.login.LoginActivity;
+import com.example.top_culinary.model.Dialogo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -92,12 +90,12 @@ public class ModificacionContrasenaActivity extends AppCompatActivity {
         String nuevaContrasena = editTextContrasena.getText().toString().trim();
 
         if (nuevaContrasena.isEmpty()) {
-            mostrarToast("Por favor, introduce una contraseña válida.");
+            mostrarDialogo("Error","Por favor, introduce una contraseña válida.");
             return;
         }
 
         if (nuevaContrasena.length() < 8 || !PASSWORD_PATTERN.matcher(nuevaContrasena).matches()) {
-            mostrarToast("La contraseña debe contener más de 8 caracteres, incluyendo mayúsculas, minúsculas y números.");
+            mostrarDialogo("Error","La contraseña debe contener más de 8 caracteres, incluyendo mayúsculas, minúsculas y números.");
             return;
         }
 
@@ -111,10 +109,10 @@ public class ModificacionContrasenaActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
-                        mostrarToast("Contraseña actualizada correctamente.");
+                        mostrarDialogo("Operacion Exitosa","Contraseña actualizada correctamente.");
                         regresarAjustes();
                     } else {
-                        mostrarToast("Error al actualizar la contraseña del usuario.");
+                        mostrarDialogo("Error","Error al actualizar la contraseña del usuario.");
                     }
                 }
             });
@@ -128,7 +126,7 @@ public class ModificacionContrasenaActivity extends AppCompatActivity {
         finish();
     }
 
-    private void mostrarToast(String mensaje) {
-        Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
+    private void mostrarDialogo(String titulo, String contenido) {
+        Dialogo.showDialog(this,titulo,contenido);
     }
 }

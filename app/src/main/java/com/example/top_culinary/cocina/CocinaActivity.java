@@ -1,31 +1,26 @@
 package com.example.top_culinary.cocina;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.top_culinary.R;
 import com.example.top_culinary.adapter.AdapterReceta;
 import com.example.top_culinary.cesta.CestaActivity;
 import com.example.top_culinary.database.DBHandler;
 import com.example.top_culinary.chat.ChatActivity;
+import com.example.top_culinary.model.Dialogo;
 import com.example.top_culinary.model.Receta;
 import com.example.top_culinary.perfil.PerfilActivity;
 import com.example.top_culinary.recetas.AniadirRecetasActivity;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -33,7 +28,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class CocinaActivity extends AppCompatActivity {
     // Declaracion de las variables
@@ -194,17 +188,18 @@ public class CocinaActivity extends AppCompatActivity {
         }
         // Comprobamos si la lista de las recetas filtradas está vacía
         if (recetasFiltradas.isEmpty()) {
-            mostrarToast("No hay datos");
+            mostrarDialogo("Error","No hay resultados para tu busqueda." );
         } else {
             adapterReceta.setListaRecetasFiltradas(recetasFiltradas);
         }
     }
 
     /**
-     * Mostramos Toast al usuario dependiendo del mensaje introducido
-     * @param mensaje introducido por el programador
+     * Mostramos Dialogo al usuario dependiendo del mensaje introducido
+     * @param titulo introducido por el programador
+     * @param contenido introducido por el programador
      */
-    private void mostrarToast(String mensaje){
-        Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
+    private void mostrarDialogo(String titulo, String contenido){
+        Dialogo.showDialog(this,titulo,contenido);
     }
 }

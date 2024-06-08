@@ -9,9 +9,9 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.example.top_culinary.R;
 import com.example.top_culinary.database.DBHandler;
+import com.example.top_culinary.model.Dialogo;
 import com.example.top_culinary.model.Receta;
 import com.example.top_culinary.recetas.DetallesRecetaUsuarioActivity;
 import java.util.ArrayList;
@@ -50,7 +50,7 @@ public class RecetacionActivity extends AppCompatActivity {
         // Obtención de datos de la receta
         Receta receta = obtenerReceta();
         if (receta == null) {
-            mostrarToast("No se ha podido recuperar los detalles de la receta.");
+            mostrarDialogo("Error","No se han podido recuperar los detalles de la receta.");
             return;
         }
 
@@ -217,7 +217,7 @@ public class RecetacionActivity extends AppCompatActivity {
         animation.start();
     }
 
-    private void mostrarToast(String mensaje) {
-        Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
+    private void mostrarDialogo(String titulo, String contenido) {
+        Dialogo.showDialog(this,titulo,contenido);
     }
 }

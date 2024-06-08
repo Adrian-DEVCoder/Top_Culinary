@@ -42,9 +42,6 @@ public class AdapterBuscadorUsuarios extends RecyclerView.Adapter<AdapterBuscado
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Usuario usuario = usuarios.get(position);
-        /*Glide.with(holder.itemView.getContext())
-                .load(usuario.getUrlImagenUsuario())
-                .into(holder.imageViewUsuario);*/
         holder.textViewNombreUsuario.setText(usuario.getDisplay_name());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

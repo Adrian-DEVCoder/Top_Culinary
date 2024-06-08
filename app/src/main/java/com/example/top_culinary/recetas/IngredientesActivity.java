@@ -10,12 +10,12 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.top_culinary.R;
 import com.example.top_culinary.adapter.UnidadSpinnerAdapter;
+import com.example.top_culinary.model.Dialogo;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -99,14 +99,14 @@ public class IngredientesActivity extends AppCompatActivity {
         String unidad = spinnerUnidad.getSelectedItem().toString();
 
         if (cantidad.isEmpty()) {
-            mostrarToast("Por favor, introduce una cantidad.");
+            mostrarDialogo("Error","Por favor, introduce una cantidad.");
             editTextCantidad.setError("Introduce una cantidad");
             editTextCantidad.requestFocus();
             return;
         }
 
         if (nombre.isEmpty()) {
-            mostrarToast("Por favor, introduce un ingrediente.");
+            mostrarDialogo("Error","Por favor, introduce un ingrediente.");
             editTextIngrediente.setError("Introduce un ingrediente");
             editTextIngrediente.requestFocus();
             return;
@@ -149,8 +149,8 @@ public class IngredientesActivity extends AppCompatActivity {
         editTextCantidad.requestFocus();
     }
 
-    private void mostrarToast(String mensaje) {
-        Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
+    private void mostrarDialogo(String titulo, String contenido) {
+        Dialogo.showDialog(this,titulo,contenido);
     }
 
     private void iniciarAnadirPasos() {

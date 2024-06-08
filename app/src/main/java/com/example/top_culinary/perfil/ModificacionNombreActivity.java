@@ -5,12 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.top_culinary.R;
+import com.example.top_culinary.model.Dialogo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -69,7 +69,7 @@ public class ModificacionNombreActivity extends AppCompatActivity {
     private void validarActualizarNombreUsuario() {
         String nuevoNomUsuario = editTextNombreUsuario.getText().toString().trim();
         if (nuevoNomUsuario.isEmpty()) {
-            mostrarToast("Por favor, introduce un nombre de usuario válido.");
+            mostrarDialogo("Error","Por favor, introduce un nombre de usuario válido.");
             return;
         }
         verificarNombreUsuarioRegistrado(nuevoNomUsuario);
@@ -84,12 +84,12 @@ public class ModificacionNombreActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             if (!task.getResult().isEmpty()) {
-                                mostrarToast("El nombre de usuario ya está registrado.");
+                                mostrarDialogo("Error","El nombre de usuario ya está registrado.");
                             } else {
                                 actualizarNombreUsuario(nuevoNomUsuario);
                             }
                         } else {
-                            mostrarToast("Error al verificar el nombre de usuario.");
+                            mostrarDialogo("Error","Error al verificar el nombre de usuario.");
                         }
                     }
                 });
@@ -105,10 +105,10 @@ public class ModificacionNombreActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                mostrarToast("Nombre de usuario actualizado correctamente.");
+                                mostrarDialogo("Operacion Exitosa","Nombre de usuario actualizado correctamente.");
                                 regresarAjustes(nuevoNomUsuario);
                             } else {
-                                mostrarToast("Error al actualizar el nombre de usuario.");
+                                mostrarDialogo("Error","Error al actualizar el nombre de usuario.");
                             }
                         }
                     });
@@ -129,7 +129,7 @@ public class ModificacionNombreActivity extends AppCompatActivity {
         finish();
     }
 
-    private void mostrarToast(String mensaje) {
-        Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
+    private void mostrarDialogo(String titulo, String contenido) {
+        Dialogo.showDialog(this, titulo, contenido);
     }
 }

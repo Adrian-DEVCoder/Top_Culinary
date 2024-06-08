@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.top_culinary.R;
 import com.example.top_culinary.login.LoginActivity;
+import com.example.top_culinary.model.Dialogo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -90,7 +91,7 @@ public class RegistroActivity extends AppCompatActivity {
                         inicioSesion(); // Redirigir al inicio de sesión
                     } else {
                         Log.w("REGISTRO", "Registro incorrecto", task.getException());
-                        Toast.makeText(RegistroActivity.this, "Registro erróneo", Toast.LENGTH_SHORT).show();
+                        Dialogo.showDialog(this,"Error","Registro erroneo. Vuelve a introducir los datos.");
                     }
                 });
     }

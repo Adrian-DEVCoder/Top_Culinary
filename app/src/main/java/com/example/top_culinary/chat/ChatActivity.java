@@ -8,14 +8,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageButton;
-import android.widget.SearchView;
-import android.widget.Toast;
 
 import com.example.top_culinary.R;
 import com.example.top_culinary.adapter.AdapterChatsUsuario;
 import com.example.top_culinary.cesta.CestaActivity;
 import com.example.top_culinary.cocina.CocinaActivity;
 import com.example.top_culinary.model.Chat;
+import com.example.top_culinary.model.Dialogo;
 import com.example.top_culinary.perfil.PerfilActivity;
 import com.example.top_culinary.recetas.AniadirRecetasActivity;
 import com.google.android.gms.tasks.Task;
@@ -35,7 +34,6 @@ public class ChatActivity extends AppCompatActivity {
     private FirebaseFirestore firebaseFirestore;
     private List<Chat> chats = new ArrayList<>();
     private AdapterChatsUsuario adapterChatsUsuario;
-
     ImageButton buttonBuscarUsuarios;
     RecyclerView recyclerViewChats;
     ImageButton buttonAniadirRecetas;
@@ -73,7 +71,7 @@ public class ChatActivity extends AppCompatActivity {
     private void cargarChats() {
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
         if (currentUser == null) {
-            Toast.makeText(this, "No hay un usuario actual seleccionado.", Toast.LENGTH_SHORT).show();
+            Dialogo.showDialog(this, "Error", "No hay un usuario actual seleccionado.");
             return;
         }
 
@@ -84,7 +82,7 @@ public class ChatActivity extends AppCompatActivity {
         query.addSnapshotListener((snapshots, e) -> {
             if (e != null) {
                 Log.e("ChatActivity", "Error al obtener chats de Firebase", e);
-                Toast.makeText(this, "Error al cargar chats.", Toast.LENGTH_SHORT).show();
+                Dialogo.showDialog(this, "Error", "No hemos podido recuperar los chats.");
                 return;
             }
 
@@ -120,8 +118,6 @@ public class ChatActivity extends AppCompatActivity {
                         Log.e("ChatActivity", "Error en las tareas de carga de usuario", task.getException());
                     }
                 });
-            } else {
-                Toast.makeText(this, "No hay chats iniciados.", Toast.LENGTH_SHORT).show();
             }
         });
     }

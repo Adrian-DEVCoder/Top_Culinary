@@ -1,13 +1,9 @@
 package com.example.top_culinary.cesta;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +18,7 @@ import com.example.top_culinary.R;
 import com.example.top_culinary.adapter.AdapterIngredienteBuscador;
 import com.example.top_culinary.database.DBHandler;
 import com.example.top_culinary.interfaces.OnItemSelectListener;
+import com.example.top_culinary.model.Dialogo;
 import com.example.top_culinary.model.Ingrediente;
 
 import java.util.ArrayList;
@@ -109,19 +106,20 @@ public class BuscarIngredientesActivity extends AppCompatActivity implements OnI
             }
         }
         if (ingredientesFiltrados.isEmpty()) {
-            mostrarToast("No hay datos");
+            mostrarDialogo("Información","No hay resultados para la busqueda");
         } else {
             adapterIngredienteBuscador.setListaIngredientesFiltrados(ingredientesFiltrados);
         }
     }
 
     /**
-     * Muestra un toast al usuario
+     * Muestra un dialogo al usuario
      *
-     * @param mensaje a incluir en el toast
+     * @param titulo a incluir en el dialogo
+     * @param contenido a incluir en el dialogo
      */
-    private void mostrarToast(String mensaje) {
-        Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
+    private void mostrarDialogo(String titulo, String contenido) {
+        Dialogo.showDialog(this,titulo,contenido);
     }
 
     /**
