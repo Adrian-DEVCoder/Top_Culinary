@@ -30,8 +30,7 @@
                 android:layout_width="374dp"
                 android:layout_height="200dp"
                 android:background="#FFFFFF"
-                android:scaleType="centerCrop"
-                android:src="@drawable/macarrones" />
+                android:scaleType="centerCrop"/>
             
             <!-- Linear layout para los detalles de la receta -->
             <LinearLayout
