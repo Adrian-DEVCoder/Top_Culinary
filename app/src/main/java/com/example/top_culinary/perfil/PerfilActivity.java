@@ -11,9 +11,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.top_culinary.R;
 import com.example.top_culinary.cesta.CestaActivity;
 import com.example.top_culinary.chat.MensajesActivity;
@@ -21,14 +21,12 @@ import com.example.top_culinary.cocina.CocinaActivity;
 import com.example.top_culinary.chat.ChatActivity;
 import com.example.top_culinary.model.Usuario;
 import com.example.top_culinary.recetas.AniadirRecetasActivity;
-import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
@@ -42,7 +40,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 public class PerfilActivity extends AppCompatActivity {
-    // Declaracion de las variables
+    // Declaración de las variables
     private FirebaseFirestore firestoreDB = FirebaseFirestore.getInstance();
     private boolean esUsuarioActual = true;
     private String uidUsuarioActividad;
@@ -52,23 +50,24 @@ public class PerfilActivity extends AppCompatActivity {
     private ListenerRegistration listenerRegistration;
     private ListenerRegistration seguidorListenerRegistration;
 
-    // Declaracion de los widgets
+    // Declaración de los widgets
     private TextView textViewNomUsuario, textViewNumSeguidores, textViewNumSeguidos, textViewNumRecetas;
     private ImageButton buttonPerfil, buttonAjustes, buttonEnviarMensaje, buttonAniadirRecetas, buttonCesta, buttonCocina, buttonForo;
     private Button buttonSeguir;
     private RecyclerView recyclerViewRecetas;
+    private ImageView imageViewPerfil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
 
-        // Obtencion del usuario actualmente en la sesion
+        // Obtención del usuario actualmente en la sesión
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = auth.getCurrentUser();
         uidUsuarioSesion = currentUser != null ? currentUser.getUid() : null;
 
-        // Obtenemos el nombre del usuario del intent
+        // Obtención del nombre del usuario del intent
         if (getIntent().getParcelableExtra("usuario") != null) {
             usuario = getIntent().getParcelableExtra("usuario");
             nombreFormateado = usuario.getDisplay_name();
@@ -80,7 +79,7 @@ public class PerfilActivity extends AppCompatActivity {
             }
         }
 
-        // Inicializacion de los widgets
+        // Inicialización de los widgets
         textViewNomUsuario = findViewById(R.id.textViewNomUsuario);
         textViewNumSeguidores = findViewById(R.id.textViewNumSeguidores);
         textViewNumSeguidos = findViewById(R.id.textViewNumSeguidos);
@@ -94,8 +93,9 @@ public class PerfilActivity extends AppCompatActivity {
         buttonSeguir = findViewById(R.id.buttonSeguir);
         buttonEnviarMensaje = findViewById(R.id.imageButtonEnviarMensaje);
         recyclerViewRecetas = findViewById(R.id.recyclerViewRecetas);
+        imageViewPerfil = findViewById(R.id.imageViewAvatar);
 
-        // Obtencion del uid del usuario actual
+        // Obtención del uid del usuario actual
         obtenerUidActividad(nombreFormateado).addOnCompleteListener(new OnCompleteListener<String>() {
             @Override
             public void onComplete(@NonNull Task<String> task) {
@@ -121,14 +121,26 @@ public class PerfilActivity extends AppCompatActivity {
                                     }
 
                                     if (snapshot != null && snapshot.exists()) {
+                                        usuario = snapshot.toObject(Usuario.class);
                                         textViewNomUsuario.setText(nombreFormateado);
-                                        List<String> seguidores = (List<String>) snapshot.get("seguidores");
-                                        List<String> seguidos = (List<String>) snapshot.get("seguidos");
-                                        List<String> recetasPublicadas = (List<String>) snapshot.get("recetasPublicadas");
+                                        List<String> seguidores = usuario.getSeguidores();
+                                        List<String> seguidos = usuario.getSeguidos();
+                                        List<String> recetasPublicadas = usuario.getRecetasPublicadas();
 
                                         textViewNumSeguidores.setText(seguidores != null ? String.valueOf(seguidores.size()) : "0");
                                         textViewNumSeguidos.setText(seguidos != null ? String.valueOf(seguidos.size()) : "0");
                                         textViewNumRecetas.setText(recetasPublicadas != null ? String.valueOf(recetasPublicadas.size()) : "0");
+
+                                        String urlImagenUsuario = usuario.getUrlImagenUsuario();
+                                        if (urlImagenUsuario != null && !urlImagenUsuario.isEmpty()) {
+                                            Glide.with(PerfilActivity.this)
+                                                    .load(urlImagenUsuario)
+                                                    .placeholder(R.drawable.avatar) // Imagen de carga
+                                                    .error(R.drawable.avatar) // Imagen de error
+                                                    .into(imageViewPerfil);
+                                        } else {
+                                            imageViewPerfil.setImageResource(R.drawable.avatar); // Imagen por defecto
+                                        }
                                     }
                                 }
                             });
@@ -137,108 +149,13 @@ public class PerfilActivity extends AppCompatActivity {
         });
 
         // Listener de los botones inferiores
-        buttonAjustes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                iniciarAjustes(nombreFormateado);
-            }
-        });
-        buttonAniadirRecetas.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                iniciarAniadirRecetas(nombreFormateado);
-            }
-        });
-        buttonCesta.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                iniciarCesta(nombreFormateado);
-            }
-        });
-        buttonCocina.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                iniciarCocina(nombreFormateado);
-            }
-        });
-        buttonForo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                iniciarForo(nombreFormateado);
-            }
-        });
-        buttonSeguir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String uidUsuarioSesionActual = uidUsuarioSesion;
-                String uidUsuarioSeguido = uidUsuarioActividad;
-                firestoreDB.collection("usuarios")
-                        .document(uidUsuarioSesionActual)
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    DocumentSnapshot document = task.getResult();
-                                    if (document.exists()) {
-                                        List<String> seguidos = (List<String>) document.get("seguidos");
-                                        if (seguidos != null) {
-                                            if (seguidos.contains(uidUsuarioSeguido)) {
-                                                firestoreDB.collection("usuarios")
-                                                        .document(uidUsuarioSesionActual)
-                                                        .update("seguidos", FieldValue.arrayRemove(uidUsuarioSeguido))
-                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                            @Override
-                                                            public void onSuccess(Void unused) {
-                                                                buttonSeguir.setText("Seguir");
-                                                            }
-                                                        })
-                                                        .addOnFailureListener(new OnFailureListener() {
-                                                            @Override
-                                                            public void onFailure(@NonNull Exception e) {
-                                                                Log.e("PerfilActivity", "Error al dejar de seguir al usuario", e);
-                                                            }
-                                                        });
-                                                firestoreDB.collection("usuarios")
-                                                        .document(uidUsuarioSeguido)
-                                                        .update("seguidores", FieldValue.arrayRemove(uidUsuarioSesionActual));
-                                            } else {
-                                                firestoreDB.collection("usuarios")
-                                                        .document(uidUsuarioSesionActual)
-                                                        .update("seguidos", FieldValue.arrayUnion(uidUsuarioSeguido))
-                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                            @Override
-                                                            public void onSuccess(Void unused) {
-                                                                buttonSeguir.setText("Siguiendo");
-                                                            }
-                                                        })
-                                                        .addOnFailureListener(new OnFailureListener() {
-                                                            @Override
-                                                            public void onFailure(@NonNull Exception e) {
-                                                                Log.e("PerfilActivity", "Error al seguir al usuario", e);
-                                                            }
-                                                        });
-                                                firestoreDB.collection("usuarios")
-                                                        .document(uidUsuarioSeguido)
-                                                        .update("seguidores", FieldValue.arrayUnion(uidUsuarioSesionActual));
-                                            }
-                                        }
-                                    } else {
-                                        Log.e("PerfilActivity", "Error al obtener el documento del usuario", task.getException());
-                                    }
-                                } else {
-                                    Log.e("PerfilActivity", "Error al obtener el documento del usuario", task.getException());
-                                }
-                            }
-                        });
-            }
-        });
-        buttonEnviarMensaje.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                iniciarEnviarMensajes(uidUsuarioActividad);
-            }
-        });
+        buttonAjustes.setOnClickListener(v -> iniciarAjustes(nombreFormateado));
+        buttonAniadirRecetas.setOnClickListener(v -> iniciarAniadirRecetas(nombreFormateado));
+        buttonCesta.setOnClickListener(v -> iniciarCesta(nombreFormateado));
+        buttonCocina.setOnClickListener(v -> iniciarCocina(nombreFormateado));
+        buttonForo.setOnClickListener(v -> iniciarForo(nombreFormateado));
+        buttonSeguir.setOnClickListener(v -> seguirUsuario());
+        buttonEnviarMensaje.setOnClickListener(v -> iniciarEnviarMensajes(uidUsuarioActividad));
     }
 
     @Override
@@ -258,24 +175,21 @@ public class PerfilActivity extends AppCompatActivity {
         firestoreDB.collection("usuarios")
                 .document(uidUsuarioSesionActual)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                List<String> seguidos = (List<String>) document.get("seguidos");
-                                if (seguidos != null && seguidos.contains(uidUsuarioSeguido)) {
-                                    buttonSeguir.setText("Siguiendo");
-                                } else {
-                                    buttonSeguir.setText("Seguir");
-                                }
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            List<String> seguidos = (List<String>) document.get("seguidos");
+                            if (seguidos != null && seguidos.contains(uidUsuarioSeguido)) {
+                                buttonSeguir.setText("Siguiendo");
                             } else {
-                                Log.e("PerfilActivity", "Error al obtener el documento del usuario", task.getException());
+                                buttonSeguir.setText("Seguir");
                             }
                         } else {
                             Log.e("PerfilActivity", "Error al obtener el documento del usuario", task.getException());
                         }
+                    } else {
+                        Log.e("PerfilActivity", "Error al obtener el documento del usuario", task.getException());
                     }
                 });
     }
@@ -284,20 +198,58 @@ public class PerfilActivity extends AppCompatActivity {
         return firestoreDB.collection("usuarios")
                 .whereEqualTo("display_name", nombreUsuario)
                 .get()
-                .continueWith(new Continuation<QuerySnapshot, String>() {
-                    @Override
-                    public String then(@NonNull Task<QuerySnapshot> task) throws Exception {
-                        if (task.isSuccessful()) {
-                            QuerySnapshot querySnapshot = task.getResult();
-                            if (!querySnapshot.isEmpty()) {
-                                DocumentSnapshot document = querySnapshot.getDocuments().get(0);
-                                return document.getId();
-                            } else {
-                                return null;
+                .continueWith(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot querySnapshot = task.getResult();
+                        if (!querySnapshot.isEmpty()) {
+                            DocumentSnapshot document = querySnapshot.getDocuments().get(0);
+                            return document.getId();
+                        } else {
+                            return null;
+                        }
+                    } else {
+                        throw new Exception("Error al obtener el uid del usuario");
+                    }
+                });
+    }
+
+    private void seguirUsuario() {
+        String uidUsuarioSesionActual = uidUsuarioSesion;
+        String uidUsuarioSeguido = uidUsuarioActividad;
+        firestoreDB.collection("usuarios")
+                .document(uidUsuarioSesionActual)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            List<String> seguidos = (List<String>) document.get("seguidos");
+                            if (seguidos != null) {
+                                if (seguidos.contains(uidUsuarioSeguido)) {
+                                    firestoreDB.collection("usuarios")
+                                            .document(uidUsuarioSesionActual)
+                                            .update("seguidos", FieldValue.arrayRemove(uidUsuarioSeguido))
+                                            .addOnSuccessListener(unused -> buttonSeguir.setText("Seguir"))
+                                            .addOnFailureListener(e -> Log.e("PerfilActivity", "Error al dejar de seguir al usuario", e));
+                                    firestoreDB.collection("usuarios")
+                                            .document(uidUsuarioSeguido)
+                                            .update("seguidores", FieldValue.arrayRemove(uidUsuarioSesionActual));
+                                } else {
+                                    firestoreDB.collection("usuarios")
+                                            .document(uidUsuarioSesionActual)
+                                            .update("seguidos", FieldValue.arrayUnion(uidUsuarioSeguido))
+                                            .addOnSuccessListener(unused -> buttonSeguir.setText("Siguiendo"))
+                                            .addOnFailureListener(e -> Log.e("PerfilActivity", "Error al seguir al usuario", e));
+                                    firestoreDB.collection("usuarios")
+                                            .document(uidUsuarioSeguido)
+                                            .update("seguidores", FieldValue.arrayUnion(uidUsuarioSesionActual));
+                                }
                             }
                         } else {
-                            throw new Exception("Error al obtener el uid del usuario");
+                            Log.e("PerfilActivity", "Error al obtener el documento del usuario", task.getException());
                         }
+                    } else {
+                        Log.e("PerfilActivity", "Error al obtener el documento del usuario", task.getException());
                     }
                 });
     }

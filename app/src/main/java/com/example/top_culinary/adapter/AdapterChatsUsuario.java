@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.top_culinary.R;
 import com.example.top_culinary.model.Chat;
 
@@ -41,11 +42,13 @@ public class AdapterChatsUsuario extends RecyclerView.Adapter<AdapterChatsUsuari
         Chat chat = chats.get(position);
         holder.nombreUsuario.setText(chat.getNombreUsuario());
         holder.ultimoMensaje.setText(chat.getUltimoMensaje());
-        /*if (chat.getAvatarUrl() != null && !chat.getAvatarUrl().isEmpty()) {
-            Picasso.get().load(chat.getAvatarUrl()).into(holder.avatar);
+
+        // Cargar la imagen de perfil usando Glide
+        if (chat.getAvatarUrl() != null && !chat.getAvatarUrl().isEmpty()) {
+            Glide.with(context).load(chat.getAvatarUrl()).into(holder.avatar);
         } else {
-            holder.avatar.setImageResource(R.drawable.default_avatar); // Asegúrate de tener un avatar predeterminado en tus recursos
-        }*/
+            holder.avatar.setImageResource(R.drawable.avatar);
+        }
 
         holder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(chat));
     }

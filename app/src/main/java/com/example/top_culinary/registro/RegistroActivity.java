@@ -87,8 +87,8 @@ public class RegistroActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         Log.d("REGISTRO", "Registro satisfactorio");
-                        firebaseAuth.signOut(); // Cerrar la sesión del usuario recién registrado
-                        inicioSesion(); // Redirigir al inicio de sesión
+                        firebaseAuth.signOut();
+                        inicioSesion();
                     } else {
                         Log.w("REGISTRO", "Registro incorrecto", task.getException());
                         Dialogo.showDialog(this,"Error","Registro erroneo. Vuelve a introducir los datos.");

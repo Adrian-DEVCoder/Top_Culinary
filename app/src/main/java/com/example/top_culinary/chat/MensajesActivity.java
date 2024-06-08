@@ -8,9 +8,12 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 import com.example.top_culinary.R;
 import com.example.top_culinary.adapter.AdapterMensajes;
 import com.example.top_culinary.model.Chat;
@@ -31,6 +34,7 @@ import java.util.List;
 public class MensajesActivity extends AppCompatActivity {
     private FirebaseFirestore firebaseFirestore;
     private AdapterMensajes adapterMensajes;
+    private ImageView imageViewPerfil;
     private String uidUsuarioRecibidor;
     private String uidUsuarioEnviador;
     private RecyclerView recyclerViewMensajes;
@@ -39,6 +43,7 @@ public class MensajesActivity extends AppCompatActivity {
     private List<Mensaje> mensajes = new ArrayList<>();
     private String chatId;
     private String otherUserId;
+    private TextView textViewNombreUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +56,8 @@ public class MensajesActivity extends AppCompatActivity {
         uidUsuarioRecibidor = getIntent().getStringExtra("uidUsuarioActividad");
 
         recyclerViewMensajes = findViewById(R.id.recyclerViewMensajes);
+        imageViewPerfil = findViewById(R.id.user_profile_image);
+        textViewNombreUsuario = findViewById(R.id.user_name);
         recyclerViewMensajes.setLayoutManager(new LinearLayoutManager(this));
 
         adapterMensajes = new AdapterMensajes(mensajes);
@@ -119,18 +126,27 @@ public class MensajesActivity extends AppCompatActivity {
         });
     }
 
-    private void cargarDatosUsuario(String userId) {
-        DocumentReference docRef = firebaseFirestore.collection("usuarios").document(userId);
-        docRef.get().addOnSuccessListener(documentSnapshot -> {
-            if (documentSnapshot.exists()) {
-                Usuario usuario = documentSnapshot.toObject(Usuario.class);
-                if (usuario != null) {
-                    TextView userName = findViewById(R.id.user_name);
-                    ImageView userProfileImage = findViewById(R.id.user_profile_image);
-                    userName.setText(usuario.getDisplay_name());
-                }
-            }
-        }).addOnFailureListener(e -> Log.e("MensajesActivity", "Error al cargar datos del usuario", e));
+    private void cargarDatosUsuario(String uid) {
+        firebaseFirestore.collection("usuarios").document(uid).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        DocumentSnapshot document = task.getResult();
+                        Usuario usuario = document.toObject(Usuario.class);
+
+                        if (usuario != null) {
+                            textViewNombreUsuario.setText(usuario.getDisplay_name());
+
+                            // Cargar la imagen de perfil usando Glide
+                            if (usuario.getUrlImagenUsuario() != null && !usuario.getUrlImagenUsuario().isEmpty()) {
+                                Glide.with(this).load(usuario.getUrlImagenUsuario()).into(imageViewPerfil);
+                            } else {
+                                imageViewPerfil.setImageResource(R.drawable.avatar); // Imagen por defecto
+                            }
+                        }
+                    } else {
+                        Log.e("MensajesActivity", "Error al cargar los datos del usuario", task.getException());
+                    }
+                });
     }
 
     private String construirChatId(String idUsuario1, String idUsuario2) {

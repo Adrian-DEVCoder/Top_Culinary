@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/alegreya_sc"
-            android:textColor="@android:color/darker_gray"
+            android:textColor="@android:color/system_accent2_700"
             android:textSize="14sp"
             tools:text="Este es el último mensaje del usuario" />
     </LinearLayout>

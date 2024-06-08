@@ -7,67 +7,67 @@
     android:background="@color/naranja_more"
     tools:context=".login.NombreUsuarioActivity">
 
-    <!-- Texto de instrucción -->
-    <TextView
-        android:id="@+id/textViewIntroduceNombre"
-        android:layout_width="wrap_content"
+    <ImageView
+        android:id="@+id/imageViewPerfil"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/botones_redondos"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/avatar" />
+
+    <ImageButton
+        android:id="@+id/buttonSeleccionarImagen"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="-40dp"
+        android:layout_marginEnd="40dp"
+        android:background="@drawable/botones_redondos"
+        android:scaleType="center"
+        app:layout_constraintEnd_toEndOf="@+id/imageViewPerfil"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewPerfil"
+        app:srcCompat="@drawable/camara"
+        app:tint="@color/naranja_more" />
+
+    <EditText
+        android:id="@+id/editTextNombreUsuario"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="52dp"
+        android:backgroundTint="#FFFFFF"
+        android:ems="10"
         android:fontFamily="@font/alegreya_sc"
-        android:text="INTRODUCE TU NOMBRE DE USUARIO"
+        android:hint="Introduce tu Nombre de Usuario"
+        android:inputType="text"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
-        android:textSize="24sp"
+        android:textColorHint="@color/white"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewPerfil" />
 
-    <!-- Campo de texto para el nombre de usuario -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutNomUsuario"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        app:boxBackgroundColor="@color/white"
-        app:boxCornerRadiusTopStart="10dp"
-        app:boxCornerRadiusTopEnd="10dp"
-        app:boxCornerRadiusBottomStart="10dp"
-        app:boxCornerRadiusBottomEnd="10dp"
-        app:boxStrokeColor="@color/naranja_normal"
-        app:boxStrokeWidth="2dp"
-        app:hintTextColor="@color/naranja_normal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewIntroduceNombre">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextNomUsuario"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/alegreya_sc"
-            android:hint="Nombre de usuario"
-            android:inputType="text"
-            android:textAlignment="center"
-            android:textColor="@color/naranja_more"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <!-- Botón de confirmación -->
     <ImageButton
-        android:id="@+id/imageButtonConfirmar"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:id="@+id/imageButtonSiguiente"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
         android:layout_marginTop="32dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:backgroundTint="@color/naranja_normal"
+        android:background="@drawable/botones_redondos"
         android:scaleType="centerInside"
+        app:tint="@color/naranja_more"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textInputLayoutNomUsuario"
-        app:srcCompat="@drawable/confirmar" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextNombreUsuario"
+        app:layout_constraintVertical_bias="0.22"
+        app:srcCompat="@drawable/flecha_derecha" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

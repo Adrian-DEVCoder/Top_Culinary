@@ -1,131 +1,148 @@
 package com.example.top_culinary.login;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 import com.example.top_culinary.R;
 import com.example.top_culinary.cocina.CocinaActivity;
 import com.example.top_culinary.model.Dialogo;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+import com.example.top_culinary.model.Usuario;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class NombreUsuarioActivity extends AppCompatActivity {
-    // Declaración de las variables
+    private static final int PICK_IMAGE_REQUEST = 1;
+    private StorageReference storageReference;
+    private FirebaseAuth firebaseAuth;
     private FirebaseFirestore firestoreDB;
-    // Declaración de los widgets
-    private TextInputEditText editTextNombre;
+    private ImageView imageViewPerfil;
+    private ImageButton buttonSeleccionarImagen;
+    private ImageButton buttonSiguiente;
+    private Uri imageUri;
+    private String urlImagenUsuario;
+    private EditText editTextNombre;
     private String inicioDeSesion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nombre_usuario);
-        // Obtención del tipo de inicio de sesión
         inicioDeSesion = getIntent().getStringExtra("inicioDeSesion");
-        // Inicialización de la BD Online
         firestoreDB = FirebaseFirestore.getInstance();
-        // Inicialización de los widgets
-        editTextNombre = findViewById(R.id.editTextNomUsuario);
-        findViewById(R.id.imageButtonConfirmar).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String nombreUsuario = editTextNombre.getText().toString().trim();
-                if (!nombreUsuario.isEmpty()) {
-                    verificarNombreUsuario(inicioDeSesion, nombreUsuario);
-                } else {
-                    Dialogo.showDialog(NombreUsuarioActivity.this,"Error","Por favor, introduce un nombre de usuario");
-                }
+        storageReference = FirebaseStorage.getInstance().getReference("perfil_imagenes");
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        imageViewPerfil = findViewById(R.id.imageViewPerfil);
+        buttonSeleccionarImagen = findViewById(R.id.buttonSeleccionarImagen);
+        buttonSiguiente = findViewById(R.id.imageButtonSiguiente);
+        editTextNombre = findViewById(R.id.editTextNombreUsuario);
+
+        buttonSeleccionarImagen.setOnClickListener(v -> mostrarFileChooser());
+
+        buttonSiguiente.setOnClickListener(v -> {
+            String nombreUsuario = editTextNombre.getText().toString().trim();
+            if (nombreUsuario.isEmpty()) {
+                Dialogo.showDialog(NombreUsuarioActivity.this, "Error", "Por favor, introduce un nombre de usuario");
+                return;
+            }
+            if (imageUri != null) {
+                subirImagenPerfil(nombreUsuario);
+            } else {
+                verificarNombreUsuario(nombreUsuario, null);
             }
         });
     }
 
-    // Método para verificar si existe el nombre de usuario, en caso contrario agregamos al usuario
-    private void verificarNombreUsuario(String inicioDeSesion, String nombreUsuario) {
+    private void mostrarFileChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
+            imageUri = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                Glide.with(this).load(bitmap).into(imageViewPerfil);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void subirImagenPerfil(String nombreUsuario) {
+        if (imageUri != null) {
+            StorageReference fileReference = storageReference.child(firebaseAuth.getCurrentUser().getUid() + ".jpg");
+            fileReference.putFile(imageUri)
+                    .addOnSuccessListener(taskSnapshot -> fileReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                        urlImagenUsuario = uri.toString();
+                        verificarNombreUsuario(nombreUsuario, urlImagenUsuario);
+                    }).addOnFailureListener(e -> Log.e("NombreUsuarioActivity", "Error al obtener la URL de descarga", e)))
+                    .addOnFailureListener(e -> {
+                        Dialogo.showDialog(this, "Error", "Error al subir la imagen");
+                        Log.e("NombreUsuarioActivity", "Error al subir la imagen", e);
+                    });
+        }
+    }
+
+    private void verificarNombreUsuario(String nombreUsuario, @Nullable String imageUrl) {
         firestoreDB.collection("usuarios")
                 .whereEqualTo("display_name", nombreUsuario)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            if (!task.getResult().isEmpty()) {
-                                Dialogo.showDialog(NombreUsuarioActivity.this,"Error","El nombre de usuario ya existe introduce otro diferente.");
-                            } else {
-                                agregarUsuarioFirestore(inicioDeSesion, nombreUsuario);
-                            }
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        if (!task.getResult().isEmpty()) {
+                            Dialogo.showDialog(NombreUsuarioActivity.this, "Error", "El nombre de usuario ya existe, introduce otro diferente.");
                         } else {
-                            Log.e("Firestore", "Error al verificar el nombre de usuario", task.getException());
-                            Dialogo.showDialog(NombreUsuarioActivity.this,"Error","Error al verificar el nombre de usuario");
+                            agregarUsuarioFirestore(nombreUsuario, imageUrl);
                         }
+                    } else {
+                        Log.e("Firestore", "Error al verificar el nombre de usuario", task.getException());
+                        Dialogo.showDialog(NombreUsuarioActivity.this, "Error", "Error al verificar el nombre de usuario");
                     }
                 });
     }
 
-    // Método para agregar el usuario a Firestore
-    private void agregarUsuarioFirestore(String inicioDeSesion, String nombreUsuario) {
+    private void agregarUsuarioFirestore(String nombreUsuario, @Nullable String imageUrl) {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             String uid = currentUser.getUid();
             String email = currentUser.getEmail();
             String tipoInicioDeSesion = (inicioDeSesion == null) ? "Google" : "Custom";
-            // Insertamos los datos del usuario
-            Map<String, Object> usuario = new HashMap<>();
-            usuario.put("display_name", nombreUsuario);
-            usuario.put("email", email);
-            usuario.put("tipo_inicio_de_sesion", tipoInicioDeSesion);
-            usuario.put("tema_favorito", "Default");
-            usuario.put("seguidores", new ArrayList<String>());
-            usuario.put("seguidos", new ArrayList<String>());
-            usuario.put("recetas", new ArrayList<String>());
-            usuario.put("recetasPublicadas", new ArrayList<String>());
-            usuario.put("chats", new ArrayList<String>());
+            Usuario usuario = new Usuario(uid, imageUrl != null ? imageUrl : "default_avatar_url", nombreUsuario, email, tipoInicioDeSesion, "Default", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 
-            firestoreDB.collection("usuarios").document(uid).get()
-                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot document = task.getResult();
-                                if (document.exists()) {
-                                    Log.d("Firestore", "El usuario ya existe en Firestore");
-                                } else {
-                                    firestoreDB.collection("usuarios").document(uid).set(usuario)
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void unused) {
-                                                    Log.d("Firestore", "Usuario agregado correctamente");
-                                                    startActivity(new Intent(NombreUsuarioActivity.this, CocinaActivity.class));
-                                                    finish();
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Log.w("Firestore", "Error al agregar al usuario", e);
-                                                }
-                                            });
-                                }
-                            } else {
-                                Log.d("Firestore", "Error al obtener el documento del usuario", task.getException());
-                            }
-                        }
+            firestoreDB.collection("usuarios").document(uid).set(usuario)
+                    .addOnSuccessListener(aVoid -> {
+                        Dialogo.showDialog(this, "Operación Satisfactoria", "Usuario registrado correctamente");
+                        startActivity(new Intent(NombreUsuarioActivity.this, CocinaActivity.class));
+                        finish();
+                    })
+                    .addOnFailureListener(e -> {
+                        Dialogo.showDialog(this, "Error", "Error al guardar el usuario");
+                        Log.e("NombreUsuarioActivity", "Error al guardar el usuario", e);
                     });
-        } else {
-            Log.w("Firestore", "Usuario no autenticado");
         }
     }
 }
