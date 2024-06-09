@@ -58,13 +58,13 @@ public class BuscarIngredientesActivity extends AppCompatActivity implements OnI
         // Inicializacion de los widgets
         initWidgets();
 
-        // Configuracion del RecyclerView
+        // Configura el RecyclerView
         setupRecyclerView();
 
         // Listener del boton de volver atras
         buttonAtras.setOnClickListener(v -> iniciarCesta(nombreFormateado));
 
-        // Configuracion del SearchView
+        // Configura el SearchView
         searchViewIngredientes.clearFocus();
         searchViewIngredientes.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -147,7 +147,8 @@ public class BuscarIngredientesActivity extends AppCompatActivity implements OnI
             }
         }
         if (!ingredienteEncontrado) {
-            ingredienteSeleccionado.setCantidad(1); // Asegurarse de que la cantidad inicial sea 1
+            // Establece que la cantidad sea 1 al añadir un ingrediente, en el caso de que lo añada por primera vez
+            ingredienteSeleccionado.setCantidad(1);
             ingredientesCompradosList.add(ingredienteSeleccionado);
         }
         adapterIngredienteBuscador.notifyDataSetChanged();

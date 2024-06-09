@@ -3,9 +3,12 @@ package com.example.top_culinary.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.firebase.firestore.IgnoreExtraProperties;
+
 import java.util.List;
 
-public class Usuario implements Parcelable{
+@IgnoreExtraProperties
+public class Usuario implements Parcelable {
     private String uid;
     private String urlImagenUsuario;
     private String display_name;
@@ -123,7 +126,6 @@ public class Usuario implements Parcelable{
         this.chats = chats;
     }
 
-    // Implementación de Parcelable
     @Override
     public int describeContents() {
         return 0;
@@ -156,7 +158,6 @@ public class Usuario implements Parcelable{
         }
     };
 
-    // Constructor privado para crear instancias a partir de un Parcel
     private Usuario(Parcel parcel) {
         uid = parcel.readString();
         urlImagenUsuario = parcel.readString();

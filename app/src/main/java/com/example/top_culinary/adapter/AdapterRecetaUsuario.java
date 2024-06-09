@@ -23,10 +23,7 @@ import com.example.top_culinary.recetas.DetallesRecetaUsuarioActivity;
 import java.util.List;
 
 public class AdapterRecetaUsuario extends RecyclerView.Adapter<AdapterRecetaUsuario.ItemViewHolder> {
-    // Inicializacion de las variables
     private List<Receta> recetaUsuarioList;
-
-    // Constructor
     public AdapterRecetaUsuario(List<Receta> recetaUsuarioList) {this.recetaUsuarioList = recetaUsuarioList;}
 
     public void setRecetaUsuarioList(List<Receta> recetaUsuarioList) {
@@ -55,9 +52,7 @@ public class AdapterRecetaUsuario extends RecyclerView.Adapter<AdapterRecetaUsua
     public int getItemCount() { return recetaUsuarioList.size(); }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        // Declaracion de las variables
         private DBHandler dbHandler;
-        // Declaracion de los widgets
         CardView cardViewReceta;
         LinearLayout linearLayoutReceta;
         LinearLayout linearLayoutDetalles;
@@ -66,15 +61,12 @@ public class AdapterRecetaUsuario extends RecyclerView.Adapter<AdapterRecetaUsua
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
-            // Inicializacion de la DB
             dbHandler = new DBHandler(itemView.getContext());
-            // Inicializacion de los widgets
             cardViewReceta = itemView.findViewById(R.id.cardReceta);
             linearLayoutReceta = itemView.findViewById(R.id.llReceta);
             linearLayoutDetalles = itemView.findViewById(R.id.llDetalles);
             imageViewReceta = itemView.findViewById(R.id.imgReceta);
             textViewNombre = itemView.findViewById(R.id.txvNombreReceta);
-            // Listener de los clicks
             itemView.setOnClickListener(this);
         }
 

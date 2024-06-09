@@ -40,30 +40,27 @@ public class RecetacionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recetacion);
-
-        // Inicializacion de la DB Local
+        // Inicializa la DB Local
         dbHandler = new DBHandler(this);
-
-        // Inicializar componentes
+        // Inicializa los widgets
         initWidgets();
-
-        // Obtención de datos de la receta
+        // Obtiene los datos de la receta
         Receta receta = obtenerReceta();
         if (receta == null) {
             mostrarDialogo("Error","No se han podido recuperar los detalles de la receta.");
             return;
         }
-
         pasos = obtenerPasos(receta);
         progresoSumar = 100.0 / pasos.size();
-
-        // Configurar la vista inicial del paso
+        // Actualiza la UI con el nuevo paso a realizar
         actualizarPaso(pasoActual);
-
-        // Configurar listeners
+        // Configurar los diferentes listeners
         setupListeners(receta);
     }
 
+    /**
+     * Inicializa los widgets
+     */
     private void initWidgets() {
         textViewPaso = findViewById(R.id.textViewPaso);
         textViewTiempoRestante = findViewById(R.id.textViewTiempoRestante);
@@ -72,11 +69,14 @@ public class RecetacionActivity extends AppCompatActivity {
         progressBarPasos = findViewById(R.id.progressBarPasos);
     }
 
+    /**
+     * Obtiene la receta a comenzar
+     * @return Receta
+     */
     private Receta obtenerReceta() {
         Intent intent = getIntent();
         String nombreReceta = intent.getStringExtra("nombreReceta");
         String nombreRecetaUsuario = intent.getStringExtra("nombreRecetaUsuario");
-
         if (nombreReceta != null) {
             return dbHandler.obtenerRecetaPorNombre(nombreReceta);
         } else if (nombreRecetaUsuario != null) {
@@ -86,10 +86,19 @@ public class RecetacionActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Obtiene los pasos de la receta
+     * @param receta receta a realizar
+     * @return Lista de Pasos a realizar
+     */
     private List<String> obtenerPasos(Receta receta) {
         return new ArrayList<>(receta.getPasos());
     }
 
+    /**
+     * Configura los diferentes listeners
+     * @param receta receta a realizar
+     */
     private void setupListeners(Receta receta) {
         buttonSiguiente.setOnClickListener(v -> manejarSiguientePaso(receta));
 
@@ -108,6 +117,10 @@ public class RecetacionActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Pasa a el siguiente paso de la receta
+     * @param receta receta a realizar
+     */
     private void manejarSiguientePaso(Receta receta) {
         if (pasoActual < pasos.size() - 1) {
             pasoActual++;
@@ -117,6 +130,10 @@ public class RecetacionActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Volver a los detalles de la receta
+     * @param receta receta a obtener detalles
+     */
     private void volverADetallesReceta(Receta receta) {
         Intent intent;
         String nombreReceta = getIntent().getStringExtra("nombreReceta");
@@ -134,6 +151,10 @@ public class RecetacionActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * Actualiza la UI con el nuevo paso a realizar
+     * @param pasoActual paso a realizar
+     */
     private void actualizarPaso(int pasoActual) {
         progresoActual = (int) (progresoSumar * (pasoActual + 1));
         progressBarPasos.setProgress(progresoActual);
@@ -149,6 +170,10 @@ public class RecetacionActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Configura el cronometro
+     * @param paso paso a realizar
+     */
     private void configurarCronometro(String paso) {
         textViewTiempoRestante.setVisibility(View.VISIBLE);
         buttonPlayPausa.setVisibility(View.VISIBLE);
@@ -160,11 +185,19 @@ public class RecetacionActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Oculta el cronometro
+     */
     private void ocultarCronometro() {
         textViewTiempoRestante.setVisibility(View.GONE);
         buttonPlayPausa.setVisibility(View.GONE);
     }
 
+    /**
+     * Extrae el tiempo de un paso
+     * @param paso paso a analizar
+     * @return tiempo en milisegundos
+     */
     private int extraerTiempoDePaso(String paso) {
         for (String parte : paso.split(" ")) {
             if (parte.matches("\\d+")) {
@@ -174,6 +207,10 @@ public class RecetacionActivity extends AppCompatActivity {
         return 0;
     }
 
+    /**
+     * Inicia el cronometro
+     * @param tiempoEnMilis tiempo en milisegundos
+     */
     private void iniciarContador(long tiempoEnMilis) {
         countDownTimer = new CountDownTimer(tiempoEnMilis, 1000) {
             @Override
@@ -189,6 +226,9 @@ public class RecetacionActivity extends AppCompatActivity {
         }.start();
     }
 
+    /**
+     * Pausa el cronometro
+     */
     private void pausarContador() {
         if (countDownTimer != null) {
             countDownTimer.cancel();
@@ -196,6 +236,9 @@ public class RecetacionActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Reanuda el cronometro
+     */
     private void reanudarContador() {
         if (enPausa) {
             iniciarContador(tiempoRestante);
@@ -203,6 +246,11 @@ public class RecetacionActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Formatea el tiempo en un formato legible
+     * @param millis tiempo en milisegundos
+     * @return tiempo formateado
+     */
     private String formatearTiempo(long millis) {
         long totalSegundos = millis / 1000;
         long horas = totalSegundos / 3600;
@@ -211,12 +259,22 @@ public class RecetacionActivity extends AppCompatActivity {
         return String.format("%02d:%02d:%02d", horas, minutos, segundos);
     }
 
+    /**
+     * Anima la barra de progreso
+     * @param valorFinal valor final
+     * @param duracion duracion en milisegundos
+     */
     private void animacionBarraDeProgreso(int valorFinal, int duracion) {
         ObjectAnimator animation = ObjectAnimator.ofInt(progressBarPasos, "progress", progressBarPasos.getProgress(), valorFinal);
         animation.setDuration(duracion);
         animation.start();
     }
 
+    /**
+     * Muestra un dialogo
+     * @param titulo titulo
+     * @param contenido contenido
+     */
     private void mostrarDialogo(String titulo, String contenido) {
         Dialogo.showDialog(this,titulo,contenido);
     }

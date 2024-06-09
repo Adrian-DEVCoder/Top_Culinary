@@ -22,7 +22,6 @@ public class ModificacionNombreActivity extends AppCompatActivity {
     // Declaración de las variables
     private FirebaseFirestore firestoreDB;
     private String nombreFormateado;
-
     // Declaración de los widgets
     private EditText editTextNombreUsuario;
     private Button buttonConfirmar;

@@ -19,7 +19,6 @@ import com.example.top_culinary.model.Ingrediente;
 import java.util.List;
 
 public class AdapterIngredientesComprados extends RecyclerView.Adapter<AdapterIngredientesComprados.ItemViewHolder> {
-    // Declaracion de las variables
     private List<Ingrediente> ingredientesCompradosList;
     private CarritoActivity carritoActivity;
     private OnItemChangeListener onItemChangeListener;
@@ -58,7 +57,7 @@ public class AdapterIngredientesComprados extends RecyclerView.Adapter<AdapterIn
                 onItemChangeListener.onItemChange();
             }
         });
-        // Listener del boton de incrementar la cantidad
+
         holder.buttonIncrementar.setOnClickListener(v -> {
             int index = holder.getAdapterPosition();
             if (index != RecyclerView.NO_POSITION) {
@@ -71,7 +70,6 @@ public class AdapterIngredientesComprados extends RecyclerView.Adapter<AdapterIn
             }
         });
 
-        // Listener del boton de decrementar la cantidad
         holder.buttonDecrementar.setOnClickListener(v -> {
             int index = holder.getAdapterPosition();
             if (index != RecyclerView.NO_POSITION) {
@@ -93,7 +91,6 @@ public class AdapterIngredientesComprados extends RecyclerView.Adapter<AdapterIn
     }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
-        // Declaracion de los widgets
         LinearLayout linearLayoutItem;
         ImageView imageViewItem;
         TextView textViewNombre;
@@ -102,10 +99,8 @@ public class AdapterIngredientesComprados extends RecyclerView.Adapter<AdapterIn
         ImageButton buttonDecrementar;
         TextView textViewCantidad;
         ImageButton buttonIncrementar;
-
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
-            // Inicializacion de los widgets
             linearLayoutItem = itemView.findViewById(R.id.item_layout);
             imageViewItem = itemView.findViewById(R.id.imagen_item);
             textViewNombre = itemView.findViewById(R.id.nombre_item);

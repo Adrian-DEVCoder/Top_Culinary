@@ -71,12 +71,10 @@ public class AdapterMensajes extends RecyclerView.Adapter<AdapterMensajes.ViewHo
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvContent;
-
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvContent = itemView.findViewById(R.id.text_message_body);
         }
-
         public void bind(Mensaje mensaje) {
             tvContent.setText(mensaje.getContent());
         }

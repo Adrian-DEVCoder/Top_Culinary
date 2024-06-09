@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BuscadorUsuariosActivity extends AppCompatActivity {
+    // Declaracion de las constantes
+    private static final String TAG = "BuscadorUsuariosActivity";
     // Declaracion de las variables
     private String nombreFormateado;
     // Declaracion de los widgets
@@ -39,23 +41,22 @@ public class BuscadorUsuariosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buscador_usuarios);
 
-        // Obtencion del nombre del usuario a traves del intent
+        // Obtiene el nombre de usuario del intent
         Intent intent = getIntent();
         nombreFormateado = intent.getStringExtra("nombreFormateado");
-
-        // Inicializacion de los widgets
+        // Inicializa los widgets
         initWidgets();
-
-        // Configurar el SearchView
+        // Configura el SearchView/Buscador
         configurarSearchView();
-
-        // Configurar RecyclerView
+        // Configura el RecyclerView
         configurarRecyclerView();
-
-        // Configurar botón de volver
+        // Configura el botón de volver
         configurarBotonVolver();
     }
 
+    /**
+     * Inicializa los widgets
+     */
     private void initWidgets() {
         buttonVolver = findViewById(R.id.imageButtonVolver);
         searchViewBuscador = findViewById(R.id.searchViewBuscadorUsuarios);
@@ -64,7 +65,11 @@ public class BuscadorUsuariosActivity extends AppCompatActivity {
         progressBarCarga.setVisibility(View.GONE);
     }
 
+    /**
+     * Configura el SearchView/Buscador
+     */
     private void configurarSearchView() {
+        // Listener de las busquedas realizadas por el usuario
         searchViewBuscador.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -73,23 +78,33 @@ public class BuscadorUsuariosActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                // Actualiza el RecyclerView en Tiempo Real
                 buscarUsuarios(newText);
                 return false;
             }
         });
     }
 
+    /**
+     * Configura el Recycler View
+     */
     private void configurarRecyclerView() {
         recyclerViewResultados.setLayoutManager(new LinearLayoutManager(this));
         adapterBuscadorUsuarios = new AdapterBuscadorUsuarios(new ArrayList<>(), this);
         recyclerViewResultados.setAdapter(adapterBuscadorUsuarios);
     }
 
+    /**
+     * Configura el Boton de Volver
+     */
     private void configurarBotonVolver() {
         buttonVolver.setOnClickListener(v -> iniciarChat(nombreFormateado));
     }
 
-    // Inicia la actividad del chat
+    /**
+     * Inicia la actividad del chat
+     * @param nombreFormateado nombre del usuario que esta haciendo uso de la app
+     */
     private void iniciarChat(String nombreFormateado) {
         Intent intent = new Intent(this, ChatActivity.class);
         intent.putExtra("nombreFormateado", nombreFormateado);
@@ -97,10 +112,13 @@ public class BuscadorUsuariosActivity extends AppCompatActivity {
         finish();
     }
 
-    // Busca usuarios en Firebase y muestra las coincidencias en un recycler
+    /**
+     * Busca los usuarios en la base de datos de Firebase y los mostramos a los usuarios
+     * @param query
+     */
     private void buscarUsuarios(String query) {
-        progressBarCarga.setVisibility(View.VISIBLE);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        progressBarCarga.setVisibility(View.VISIBLE);
         db.collection("usuarios")
                 .whereGreaterThanOrEqualTo("display_name", query)
                 .whereLessThanOrEqualTo("display_name", query + "\uf8ff")
@@ -109,6 +127,7 @@ public class BuscadorUsuariosActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         List<Usuario> usuarios = queryDocumentSnapshots.toObjects(Usuario.class);
+                        Log.d(TAG, "Usuarios encontrados: " + usuarios.size());
                         adapterBuscadorUsuarios.actualizarUsuarios(usuarios, nombreFormateado);
                         progressBarCarga.setVisibility(View.GONE);
                     }
@@ -116,7 +135,7 @@ public class BuscadorUsuariosActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.e("Firebase Error", "Error al buscar usuarios", e);
+                        Log.e(TAG, "Error al buscar usuarios", e);
                         progressBarCarga.setVisibility(View.GONE);
                     }
                 });

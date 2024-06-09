@@ -9,7 +9,7 @@ public class Ingrediente implements Parcelable {
     private String imagen;
     private String nombre;
     private String precio;
-    private int cantidad; // Propiedad para almacenar la cantidad
+    private int cantidad;
 
     public Ingrediente() {
     }

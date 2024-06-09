@@ -32,40 +32,46 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MensajesActivity extends AppCompatActivity {
+    // Declaracion de las variables
     private FirebaseFirestore firebaseFirestore;
-    private AdapterMensajes adapterMensajes;
-    private ImageView imageViewPerfil;
-    private String uidUsuarioRecibidor;
-    private String uidUsuarioEnviador;
-    private RecyclerView recyclerViewMensajes;
-    private EditText editTextMensaje;
-    private ImageButton buttonEnviarMensaje;
     private List<Mensaje> mensajes = new ArrayList<>();
     private String chatId;
     private String otherUserId;
+    private String nombreUsuario;
+    private String urlImagenUsuario;
+    private String uidUsuarioRecibidor;
+    private String uidUsuarioEnviador;
+    // Declaracion de los widgets
+    private AdapterMensajes adapterMensajes;
+    private ImageView imageViewPerfil;
+    private RecyclerView recyclerViewMensajes;
+    private EditText editTextMensaje;
+    private ImageButton buttonEnviarMensaje;
     private TextView textViewNombreUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mensajes);
-
+        // Inicializacion de las variables
         firebaseFirestore = FirebaseFirestore.getInstance();
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         uidUsuarioEnviador = currentUser != null ? currentUser.getUid() : null;
         uidUsuarioRecibidor = getIntent().getStringExtra("uidUsuarioActividad");
-
+        nombreUsuario = getIntent().getStringExtra("nombreUsuario");
+        urlImagenUsuario = getIntent().getStringExtra("urlImagenUsuario");
+        // Inicializacion de los widgets
         recyclerViewMensajes = findViewById(R.id.recyclerViewMensajes);
         imageViewPerfil = findViewById(R.id.user_profile_image);
         textViewNombreUsuario = findViewById(R.id.user_name);
         recyclerViewMensajes.setLayoutManager(new LinearLayoutManager(this));
-
+        // Inicializacion del adapter
         adapterMensajes = new AdapterMensajes(mensajes);
         recyclerViewMensajes.setAdapter(adapterMensajes);
-
+        // Inicializacion de los widgets
         editTextMensaje = findViewById(R.id.editTextMensaje);
         buttonEnviarMensaje = findViewById(R.id.buttonEnviarMensaje);
-
+        // Obtener el chatId, en el caso de que no exista crearemos un chatid que se utilizara para el chat
         Intent intent = getIntent();
         if (intent.getStringExtra("chatId") != null) {
             chatId = intent.getStringExtra("chatId");
@@ -73,18 +79,29 @@ public class MensajesActivity extends AppCompatActivity {
         } else {
             chatId = construirChatId(uidUsuarioEnviador, uidUsuarioRecibidor);
         }
-
+        // Cargar datos del usuario receptor
+        if (nombreUsuario != null && urlImagenUsuario != null) {
+            textViewNombreUsuario.setText(nombreUsuario);
+            if (!urlImagenUsuario.isEmpty()) {
+                Glide.with(this).load(urlImagenUsuario).into(imageViewPerfil);
+            } else {
+                imageViewPerfil.setImageResource(R.drawable.avatar);
+            }
+        } else if (otherUserId != null) {
+            cargarDatosUsuario(otherUserId);
+        } else {
+            cargarDatosUsuario(uidUsuarioRecibidor);
+        }
+        // Comprueba si el chat existe, en caso de que si cargamos los mensajes disponibles, en caso contrario crearemos un nuevo char entre ambos usuarios
         chatExiste(exists -> {
             if (exists) {
-                if(otherUserId != null) {
-                    cargarDatosUsuario(otherUserId);
-                }
                 cargarMensajes();
             } else {
                 crearNuevoChat();
             }
         });
 
+        // Listener del boton de enviar mensajes
         buttonEnviarMensaje.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,6 +114,9 @@ public class MensajesActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Carga los mensajes del chat en el recyclerView
+     */
     private void cargarMensajes() {
         if (chatId == null) return;
 
@@ -126,21 +146,22 @@ public class MensajesActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Carga los datos del usuario en el recyclerView
+     * @param uid id del usuario
+     */
     private void cargarDatosUsuario(String uid) {
         firebaseFirestore.collection("usuarios").document(uid).get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null) {
                         DocumentSnapshot document = task.getResult();
                         Usuario usuario = document.toObject(Usuario.class);
-
                         if (usuario != null) {
                             textViewNombreUsuario.setText(usuario.getDisplay_name());
-
-                            // Cargar la imagen de perfil usando Glide
                             if (usuario.getUrlImagenUsuario() != null && !usuario.getUrlImagenUsuario().isEmpty()) {
                                 Glide.with(this).load(usuario.getUrlImagenUsuario()).into(imageViewPerfil);
                             } else {
-                                imageViewPerfil.setImageResource(R.drawable.avatar); // Imagen por defecto
+                                imageViewPerfil.setImageResource(R.drawable.avatar);
                             }
                         }
                     } else {
@@ -149,6 +170,12 @@ public class MensajesActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Construye el chatId a partir de los ids de los usuarios
+     * @param idUsuario1 id del primer usuario
+     * @param idUsuario2 id del segundo usuario
+     * @return chatId
+     */
     private String construirChatId(String idUsuario1, String idUsuario2) {
         if (idUsuario1 != null && idUsuario2 != null) {
             return idUsuario1.compareTo(idUsuario2) < 0 ? idUsuario1 + "_" + idUsuario2 : idUsuario2 + "_" + idUsuario1;
@@ -157,15 +184,17 @@ public class MensajesActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Envia un nuevo mensaje
+     * @param contenido contenido del mensaje
+     */
     private void enviarNuevoMensaje(String contenido) {
         if (uidUsuarioEnviador == null) {
             Log.e("Mensajes", "Error: uidUsuarioEnviador es null");
             return;
         }
-
         Mensaje mensaje = new Mensaje(contenido, uidUsuarioEnviador, System.currentTimeMillis());
-        Log.d("Mensaje","Timestamp del Mensaje enviado: " + System.currentTimeMillis());
-
+        Log.d("Mensaje", "Timestamp del Mensaje enviado: " + System.currentTimeMillis());
         firebaseFirestore.collection("chats").document(chatId).collection("mensajes").add(mensaje)
                 .addOnSuccessListener(documentReference -> {
                     Log.d("Mensajes", "Mensaje enviado exitosamente.");
@@ -177,6 +206,10 @@ public class MensajesActivity extends AppCompatActivity {
                 .addOnFailureListener(e -> Log.e("Mensajes", "Error al enviar mensaje", e));
     }
 
+    /**
+     * Comprueba si el chat existe
+     * @param callback callback que se ejecuta cuando el chat existe o no
+     */
     private void chatExiste(CheckChatExistsCallback callback) {
         DocumentReference docRef = firebaseFirestore.document("chats/" + chatId);
         docRef.get().addOnCompleteListener(task -> {
@@ -188,22 +221,25 @@ public class MensajesActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Interfaz para comprobar si el chat existe
+     */
     private interface CheckChatExistsCallback {
         void onCallback(boolean exists);
     }
 
+    /**
+     * Crea un nuevo chat entre los dos usuarios
+     */
     private void crearNuevoChat() {
         if (uidUsuarioEnviador == null || uidUsuarioRecibidor == null) {
             Log.e("Mensajes", "Error: uidUsuarioEnviador o uidUsuarioRecibidor es null");
             return;
         }
-
         List<String> participantIds = Arrays.asList(uidUsuarioEnviador, uidUsuarioRecibidor);
-
         Chat chat = new Chat();
         chat.setParticipantIds(participantIds);
         chat.setTimestamp(System.currentTimeMillis());
-
         firebaseFirestore.collection("chats").document(chatId).set(chat)
                 .addOnSuccessListener(aVoid -> {
                     Log.d("Mensajes", "Chat creado exitosamente");

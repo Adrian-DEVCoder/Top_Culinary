@@ -61,13 +61,12 @@ public class PerfilActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
-
-        // Obtención del usuario actualmente en la sesión
+        // Obtencion del usuario actualmente en la sesión
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = auth.getCurrentUser();
         uidUsuarioSesion = currentUser != null ? currentUser.getUid() : null;
 
-        // Obtención del nombre del usuario del intent
+        // Obtiene el nombre del usuario del intent
         if (getIntent().getParcelableExtra("usuario") != null) {
             usuario = getIntent().getParcelableExtra("usuario");
             nombreFormateado = usuario.getDisplay_name();
@@ -78,8 +77,7 @@ public class PerfilActivity extends AppCompatActivity {
                 return;
             }
         }
-
-        // Inicialización de los widgets
+        // Inicializacion de los widgets
         textViewNomUsuario = findViewById(R.id.textViewNomUsuario);
         textViewNumSeguidores = findViewById(R.id.textViewNumSeguidores);
         textViewNumSeguidos = findViewById(R.id.textViewNumSeguidos);
@@ -94,7 +92,6 @@ public class PerfilActivity extends AppCompatActivity {
         buttonEnviarMensaje = findViewById(R.id.imageButtonEnviarMensaje);
         recyclerViewRecetas = findViewById(R.id.recyclerViewRecetas);
         imageViewPerfil = findViewById(R.id.imageViewAvatar);
-
         // Obtención del uid del usuario actual
         obtenerUidActividad(nombreFormateado).addOnCompleteListener(new OnCompleteListener<String>() {
             @Override
@@ -119,27 +116,24 @@ public class PerfilActivity extends AppCompatActivity {
                                         Log.w("PerfilActivity", "Listen failed.", e);
                                         return;
                                     }
-
                                     if (snapshot != null && snapshot.exists()) {
                                         usuario = snapshot.toObject(Usuario.class);
                                         textViewNomUsuario.setText(nombreFormateado);
                                         List<String> seguidores = usuario.getSeguidores();
                                         List<String> seguidos = usuario.getSeguidos();
                                         List<String> recetasPublicadas = usuario.getRecetasPublicadas();
-
                                         textViewNumSeguidores.setText(seguidores != null ? String.valueOf(seguidores.size()) : "0");
                                         textViewNumSeguidos.setText(seguidos != null ? String.valueOf(seguidos.size()) : "0");
                                         textViewNumRecetas.setText(recetasPublicadas != null ? String.valueOf(recetasPublicadas.size()) : "0");
-
                                         String urlImagenUsuario = usuario.getUrlImagenUsuario();
                                         if (urlImagenUsuario != null && !urlImagenUsuario.isEmpty()) {
                                             Glide.with(PerfilActivity.this)
                                                     .load(urlImagenUsuario)
-                                                    .placeholder(R.drawable.avatar) // Imagen de carga
-                                                    .error(R.drawable.avatar) // Imagen de error
+                                                    .placeholder(R.drawable.avatar)
+                                                    .error(R.drawable.avatar)
                                                     .into(imageViewPerfil);
                                         } else {
-                                            imageViewPerfil.setImageResource(R.drawable.avatar); // Imagen por defecto
+                                            imageViewPerfil.setImageResource(R.drawable.avatar);
                                         }
                                     }
                                 }
@@ -155,7 +149,7 @@ public class PerfilActivity extends AppCompatActivity {
         buttonCocina.setOnClickListener(v -> iniciarCocina(nombreFormateado));
         buttonForo.setOnClickListener(v -> iniciarForo(nombreFormateado));
         buttonSeguir.setOnClickListener(v -> seguirUsuario());
-        buttonEnviarMensaje.setOnClickListener(v -> iniciarEnviarMensajes(uidUsuarioActividad));
+        buttonEnviarMensaje.setOnClickListener(v -> iniciarEnviarMensajes(usuario));
     }
 
     @Override
@@ -254,9 +248,11 @@ public class PerfilActivity extends AppCompatActivity {
                 });
     }
 
-    private void iniciarEnviarMensajes(String uidUsuarioActividad) {
+    private void iniciarEnviarMensajes(Usuario usuario) {
         Intent intent = new Intent(this, MensajesActivity.class);
-        intent.putExtra("uidUsuarioActividad", uidUsuarioActividad);
+        intent.putExtra("uidUsuarioActividad", usuario.getUid());
+        intent.putExtra("nombreUsuario", usuario.getDisplay_name());
+        intent.putExtra("urlImagenUsuario", usuario.getUrlImagenUsuario());
         startActivity(intent);
         finish();
     }

@@ -49,13 +49,13 @@ public class CarritoActivity extends AppCompatActivity {
             ingredientesComprados = new ArrayList<>();
         }
 
-        // Inicializacion de los widgets
+        // Inicializa los widgets
         initWidgets();
 
-        // Configuracion del RecyclerView
+        // Configura el RecyclerView
         setupRecyclerView();
 
-        // Actualizacion del precio total
+        // Actualiza el precio total
         actualizarPrecioTotal();
 
         // Listener del boton de volver atras

@@ -29,34 +29,37 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class NombreUsuarioActivity extends AppCompatActivity {
+    // Declaracion de las constantes
     private static final int PICK_IMAGE_REQUEST = 1;
+    // Declaracion de las variables
     private StorageReference storageReference;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore firestoreDB;
+    private Uri imageUri;
+    private String urlImagenUsuario;
+    private String inicioDeSesion;
+    // Declaracion de los widgets
     private ImageView imageViewPerfil;
     private ImageButton buttonSeleccionarImagen;
     private ImageButton buttonSiguiente;
-    private Uri imageUri;
-    private String urlImagenUsuario;
     private EditText editTextNombre;
-    private String inicioDeSesion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nombre_usuario);
+        // Inicializacion de las variables
         inicioDeSesion = getIntent().getStringExtra("inicioDeSesion");
         firestoreDB = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference("perfil_imagenes");
         firebaseAuth = FirebaseAuth.getInstance();
-
+        // Inicializacion de los widgets
         imageViewPerfil = findViewById(R.id.imageViewPerfil);
         buttonSeleccionarImagen = findViewById(R.id.buttonSeleccionarImagen);
         buttonSiguiente = findViewById(R.id.imageButtonSiguiente);
         editTextNombre = findViewById(R.id.editTextNombreUsuario);
-
+        // Listener para los diferentes botones
         buttonSeleccionarImagen.setOnClickListener(v -> mostrarFileChooser());
-
         buttonSiguiente.setOnClickListener(v -> {
             String nombreUsuario = editTextNombre.getText().toString().trim();
             if (nombreUsuario.isEmpty()) {
@@ -71,6 +74,9 @@ public class NombreUsuarioActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Metodo para mostrar el FileChooser para seleccionar una imagen
+     */
     private void mostrarFileChooser() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -92,6 +98,10 @@ public class NombreUsuarioActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Metodo para subir la imagen de perfil al Storage
+     * @param nombreUsuario Nombre del usuario
+     */
     private void subirImagenPerfil(String nombreUsuario) {
         if (imageUri != null) {
             StorageReference fileReference = storageReference.child(firebaseAuth.getCurrentUser().getUid() + ".jpg");
@@ -107,6 +117,11 @@ public class NombreUsuarioActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Verifica si el nombre de usuario ya existe en Firestore
+     * @param nombreUsuario Nombre del usuario
+     * @param imageUrl URL de la imagen de perfil
+     */
     private void verificarNombreUsuario(String nombreUsuario, @Nullable String imageUrl) {
         firestoreDB.collection("usuarios")
                 .whereEqualTo("display_name", nombreUsuario)
@@ -125,6 +140,11 @@ public class NombreUsuarioActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Agrega el usuario a Firestore
+     * @param nombreUsuario Nombre del usuario
+     * @param imageUrl
+     */
     private void agregarUsuarioFirestore(String nombreUsuario, @Nullable String imageUrl) {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {

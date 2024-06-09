@@ -24,7 +24,6 @@ import com.example.top_culinary.model.Ingrediente;
 import java.util.List;
 
 public class AdapterIngredienteBuscador extends RecyclerView.Adapter<AdapterIngredienteBuscador.ItemViewHolder> {
-    // Inicializacion de las variables
     private List<Ingrediente> ingredientesBuscadorList;
     private OnItemSelectListener onItemSelectListener;
 
@@ -57,14 +56,12 @@ public class AdapterIngredienteBuscador extends RecyclerView.Adapter<AdapterIngr
                 .load(urlImagen)
                 .into(holder.imageViewIngredienteBuscador);
         holder.textViewIngredienteBuscador.setText(ingrediente.getNombre());
-        // Agregando OnClickListener para cerrar el teclado
         holder.itemView.setOnClickListener(v -> {
             InputMethodManager imm = (InputMethodManager) holder.itemView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             if (imm!= null) {
                 imm.hideSoftInputFromWindow(holder.itemView.getWindowToken(), 0);
             }
         });
-        // Agregando OnClickListener a los botones de compra de los ingredientes y ocultamos el teclado
         holder.buttonAnadirCarrito.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,9 +81,7 @@ public class AdapterIngredienteBuscador extends RecyclerView.Adapter<AdapterIngr
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
         recyclerView.setOnTouchListener((v, event) -> {
-            // Comprueba si el evento es el inicio de una interacción táctil
             if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
-                // Oculta el teclado
                 InputMethodManager imm = (InputMethodManager) recyclerView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 if (imm!= null) {
                     imm.hideSoftInputFromWindow(recyclerView.getWindowToken(), 0);
@@ -103,9 +98,7 @@ public class AdapterIngredienteBuscador extends RecyclerView.Adapter<AdapterIngr
     }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
-        // Declaracion de las variables
         private DBHandler dbHandler;
-        // Declaracion de los widgets
         CardView cardViewIngredienteBuscador;
         ImageView imageViewIngredienteBuscador;
         TextView textViewIngredienteBuscador;
@@ -113,9 +106,7 @@ public class AdapterIngredienteBuscador extends RecyclerView.Adapter<AdapterIngr
 
         public ItemViewHolder (@NonNull View itemView) {
             super(itemView);
-            // Inicializacion de las variables
             dbHandler = new DBHandler(itemView.getContext());
-            // Inicializacion de los widgets
             cardViewIngredienteBuscador = itemView.findViewById(R.id.cardViewIngredienteBuscador);
             imageViewIngredienteBuscador = itemView.findViewById(R.id.imageViewIngredienteBuscador);
             textViewIngredienteBuscador = itemView.findViewById(R.id.textViewNombreIngredienteBuscador);

@@ -148,12 +148,20 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL(queryRecetasUsuario);
     }
 
+    /**
+     * Elimina la receta de la tabla RecetasUsuario
+     * @param nombre Nombre de la receta
+     */
     public void eliminarRecetaDeUsuario(String nombre) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(NOMBRE_TABLA_USUARIO,TITULO_USUARIO_COL + "= ?", new String[]{nombre});
         db.close();
     }
 
+    /**
+     * Crea la tabla para los ingredientes
+     * @param db Base de datos
+     */
     private void creacionTablaIngredientes(SQLiteDatabase db) {
         String queryIngredientes = "CREATE TABLE IF NOT EXISTS " + NOMBRE_TABLA_INGREDIENTES + "("
                 + ID_INGREDIENTES_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -164,6 +172,10 @@ public class DBHandler extends SQLiteOpenHelper {
         insertarIngredientesGeneral(db);
     }
 
+    /**
+     * Inserta los ingredientes mediante los datos obtenidos a traves del archivo JSON
+     * @param db Base de datos
+     */
     private void insertarIngredientesGeneral(SQLiteDatabase db) {
         try {
             String jsonString = leerJSONDesdeAsset("ingredientes.json");
@@ -181,6 +193,12 @@ public class DBHandler extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Obtiene el contenido del archivo JSON
+     * @param nombreArchivo Nombre del archivo
+     * @return Contenido del archivo
+     * @throws IOException Si ocurre un error al leer el archivo
+     */
     private String leerJSONDesdeAsset(String nombreArchivo) throws IOException {
         InputStream inputStream = context.getAssets().open(nombreArchivo);
         int tamanio = inputStream.available();
@@ -190,6 +208,12 @@ public class DBHandler extends SQLiteOpenHelper {
         return new String(buffer, StandardCharsets.UTF_8);
     }
 
+    /**
+     * Convierte un JSONArray a un String
+     * @param jsonArray JSONArray a convertir
+     * @return String con el contenido del JSONArray
+     * @throws JSONException Si ocurre un error al convertir el JSONArray
+     */
     private String convertirJSONArrayAString(JSONArray jsonArray) throws JSONException {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < jsonArray.length(); i++) {
@@ -198,6 +222,10 @@ public class DBHandler extends SQLiteOpenHelper {
         return stringBuilder.toString();
     }
 
+    /**
+     * Obtiene los ingredientes de la base de datos
+     * @return Lista de ingredientes
+     */
     @SuppressLint("Range")
     public List<Ingrediente> obtenerIngredientes() {
         List<Ingrediente> ingredientes = new ArrayList<>();
@@ -219,6 +247,11 @@ public class DBHandler extends SQLiteOpenHelper {
         return ingredientes;
     }
 
+    /**
+     * Obtiene el ingrediente por nombre
+     * @param nombreIngrediente Nombre del ingrediente
+     * @return Ingrediente
+     */
     @SuppressLint("Range")
     public Ingrediente obtenerIngredientePorNombre(String nombreIngrediente) {
         Ingrediente ingrediente = new Ingrediente();
@@ -236,6 +269,10 @@ public class DBHandler extends SQLiteOpenHelper {
         return ingrediente;
     }
 
+    /**
+     * Obtiene las recetas de la base de datos
+     * @return Lista de recetas
+     */
     @SuppressLint("Range")
     public List<Receta> obtenerRecetas() {
         List<Receta> recetas = new ArrayList<>();
@@ -258,6 +295,10 @@ public class DBHandler extends SQLiteOpenHelper {
         return recetas;
     }
 
+    /**
+     * Obtiene las recetas del usuario de la base de datos
+     * @return Lista de recetas
+     */
     @SuppressLint("Range")
     public List<Receta> obtenerRecetasUsuario() {
         List<Receta> recetasUsuario = new ArrayList<>();
@@ -278,6 +319,11 @@ public class DBHandler extends SQLiteOpenHelper {
         return recetasUsuario;
     }
 
+    /**
+     * Obtiene la receta por nombre
+     * @param nomReceta Nombre de la receta
+     * @return Receta
+     */
     @SuppressLint("Range")
     public Receta obtenerRecetaPorNombre(String nomReceta) {
         Receta receta = new Receta();
@@ -307,6 +353,11 @@ public class DBHandler extends SQLiteOpenHelper {
         return receta;
     }
 
+    /**
+     * Obtiene la receta del usuario por nombre
+     * @param nombreReceta Nombre de la receta
+     * @return Receta
+     */
     @SuppressLint("Range")
     public Receta obtenerRecetaUsuarioPorNombre(String nombreReceta) {
         Receta receta = new Receta();
@@ -325,6 +376,13 @@ public class DBHandler extends SQLiteOpenHelper {
         return receta;
     }
 
+    /**
+     * Inserta una receta en la tabla Recetas
+     * @param imagen Imagen
+     * @param titulo Titulo
+     * @param ingredientes Ingredientes
+     * @param pasos Pasos
+     */
     public void insertarRecetaUsuario(String imagen, String titulo, String ingredientes, String pasos) {
         try (SQLiteDatabase db = this.getWritableDatabase()) {
             ContentValues contentValues = new ContentValues();
@@ -339,6 +397,10 @@ public class DBHandler extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Elimina una receta del usuario, metodo secundario
+     * @param titulo Titulo
+     */
     private void eliminarRecetaUsuario(String titulo) {
         try (SQLiteDatabase db = this.getWritableDatabase()) {
             String queryEliminacion = "DELETE FROM " + NOMBRE_TABLA_USUARIO + " WHERE " + TITULO_USUARIO_COL + " =?";

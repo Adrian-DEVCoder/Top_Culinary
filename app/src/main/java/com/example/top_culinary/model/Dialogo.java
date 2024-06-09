@@ -22,7 +22,6 @@ public class Dialogo {
 
         dialogButton.setOnClickListener(v -> dialog.dismiss());
 
-        // Set the dialog to have a uniform width
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         layoutParams.copyFrom(dialog.getWindow().getAttributes());
         layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;

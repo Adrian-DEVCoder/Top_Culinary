@@ -58,7 +58,6 @@ public class AdapterReceta extends RecyclerView.Adapter<AdapterReceta.ItemViewHo
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private DBHandler dbHandler;
-
         CardView cardViewReceta;
         LinearLayout linearLayoutReceta;
         LinearLayout linearLayoutDetalles;

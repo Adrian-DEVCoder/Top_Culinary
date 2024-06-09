@@ -42,13 +42,13 @@ public class CestaActivity extends AppCompatActivity implements OnItemSelectList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cesta);
 
-        // Inicializacion de los widgets
+        // Inicializa los widgets
         initWidgets();
 
-        // Obtenemos la lista de ingredientes
+        // Obtiene la lista de ingredientes
         ingredienteList = obtenerIngredientes();
 
-        // Obtenemos el nombre del intent
+        // Obtiene el nombre del intent
         Intent intent = getIntent();
         String nombreFormateado = intent.getStringExtra("nombreFormateado");
         ingredientesComprados = intent.getParcelableArrayListExtra("ingredientesComprados");
@@ -56,7 +56,7 @@ public class CestaActivity extends AppCompatActivity implements OnItemSelectList
             ingredientesComprados = new ArrayList<>();
         }
 
-        // Configuracion del RecyclerView
+        // Configura el RecyclerView
         setupRecyclerView();
 
         // Listener de los botones de la actividad
@@ -80,7 +80,6 @@ public class CestaActivity extends AppCompatActivity implements OnItemSelectList
     }
 
     private void setupRecyclerView() {
-        // Crea un GridLayoutManager con 2 columnas
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         recyclerViewIngredientes.setLayoutManager(layoutManager);
         adapterIngrediente = new AdapterIngrediente(ingredienteList, this);
@@ -88,7 +87,7 @@ public class CestaActivity extends AppCompatActivity implements OnItemSelectList
     }
 
     private List<Ingrediente> obtenerIngredientes() {
-        // Obtener ingredientes de la base de datos o cualquier otra fuente de datos
+        // Obtiene los ingredientes de la base de datos local
         DBHandler dbHandler = new DBHandler(this);
         return dbHandler.obtenerIngredientes();
     }
@@ -173,7 +172,8 @@ public class CestaActivity extends AppCompatActivity implements OnItemSelectList
             }
         }
         if (!ingredienteEncontrado) {
-            ingredienteSeleccionado.setCantidad(1); // Asegurarse de que la cantidad inicial sea 1
+            // Establece que la cantidad sea 1 la primera vez que se añade el ingrediente
+            ingredienteSeleccionado.setCantidad(1);
             ingredientesComprados.add(ingredienteSeleccionado);
         }
         adapterIngrediente.notifyDataSetChanged();

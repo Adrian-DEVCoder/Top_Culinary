@@ -42,14 +42,11 @@ public class AdapterChatsUsuario extends RecyclerView.Adapter<AdapterChatsUsuari
         Chat chat = chats.get(position);
         holder.nombreUsuario.setText(chat.getNombreUsuario());
         holder.ultimoMensaje.setText(chat.getUltimoMensaje());
-
-        // Cargar la imagen de perfil usando Glide
         if (chat.getAvatarUrl() != null && !chat.getAvatarUrl().isEmpty()) {
             Glide.with(context).load(chat.getAvatarUrl()).into(holder.avatar);
         } else {
             holder.avatar.setImageResource(R.drawable.avatar);
         }
-
         holder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(chat));
     }
 
@@ -66,7 +63,6 @@ public class AdapterChatsUsuario extends RecyclerView.Adapter<AdapterChatsUsuari
     class ChatViewHolder extends RecyclerView.ViewHolder {
         TextView nombreUsuario, ultimoMensaje;
         ImageView avatar;
-
         public ChatViewHolder(View itemView) {
             super(itemView);
             nombreUsuario = itemView.findViewById(R.id.textViewNombreUsuario);

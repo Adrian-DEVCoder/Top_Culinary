@@ -3,7 +3,7 @@ package com.example.top_culinary.model;
 import java.util.List;
 
 public class Chat {
-    private String id; // Nuevo campo ID
+    private String id;
     private String nombreUsuario;
     private String ultimoMensaje;
     private String avatarUrl;

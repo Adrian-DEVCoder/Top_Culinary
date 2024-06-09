@@ -40,23 +40,26 @@ public class DetallesRecetaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles_receta);
 
-        // Inicializar la base de datos y los widgets
+        // Inicializa la base de datos y los widgets
         dbHandler = new DBHandler(this);
         initWidgets();
 
-        // Obtener el nombre de la receta del intent
+        // Obtiene el nombre de la receta del intent
         Intent intent = getIntent();
         String nombreReceta = intent.getStringExtra("nombreReceta");
         String nombreFormateado = intent.getStringExtra("nombreFormateado");
 
-        // Cargar los datos de la receta
+        // Carga los datos de la receta
         Receta receta = dbHandler.obtenerRecetaPorNombre(nombreReceta);
         cargarDatosReceta(receta);
 
-        // Configurar los listeners
+        // Configura los diferentes listeners
         setupListeners(nombreFormateado, receta);
     }
 
+    /**
+     * Inicializa los widgets
+     */
     private void initWidgets() {
         imageButtonAtras = findViewById(R.id.imageButtonBack);
         imageViewReceta = findViewById(R.id.imageViewReceta);
@@ -68,21 +71,28 @@ public class DetallesRecetaActivity extends AppCompatActivity {
         buttonComenzarReceta = findViewById(R.id.buttonComenzarReceta);
     }
 
+    /**
+     * Carga los datos de la receta
+     * @param receta la receta a cargar
+     */
     private void cargarDatosReceta(Receta receta) {
         if (receta != null) {
             Glide.with(this)
                     .load(receta.getImagen())
                     .into(imageViewReceta);
-
             textViewTitulo.setText(receta.getTitulo());
             textViewDescripcion.setText(receta.getDescripcion());
-
             textViewListaIngredientes.setText(construirLista(receta.getIngredientes()));
             textViewListaEquipamiento.setText(construirLista(receta.getEquipamiento()));
             textViewListaPasos.setText(construirListaPasos(receta.getPasos()));
         }
     }
 
+    /**
+     * Construye una lista de ingredientes
+     * @param items la lista de ingredientes
+     * @return la lista de ingredientes formateada
+     */
     private String construirLista(List<String> items) {
         StringBuilder stb = new StringBuilder();
         for (String item : items) {
@@ -91,6 +101,11 @@ public class DetallesRecetaActivity extends AppCompatActivity {
         return stb.toString();
     }
 
+    /**
+     * Construye una lista de pasos
+     * @param pasos la lista de pasos
+     * @return la lista de pasos formateada
+     */
     private String construirListaPasos(List<String> pasos) {
         StringBuilder stb = new StringBuilder();
         for (int i = 0; i < pasos.size(); i++) {
@@ -99,12 +114,21 @@ public class DetallesRecetaActivity extends AppCompatActivity {
         return stb.toString();
     }
 
+    /**
+     * Configura los diferentes listeners
+     * @param nombreFormateado el nombre del usuario actual
+     * @param receta la receta a cargar
+     */
     private void setupListeners(String nombreFormateado, Receta receta) {
         imageButtonAtras.setOnClickListener(v -> volverAtras(nombreFormateado));
         buttonComenzarReceta.setOnClickListener(v -> comenzarReceta(receta.getTitulo()));
         animarBotonComenzar();
     }
 
+    /**
+     * Volver atrás
+     * @param nombreFormateado el nombre del usuario actual
+     */
     private void volverAtras(String nombreFormateado) {
         Intent intent = new Intent(DetallesRecetaActivity.this, CocinaActivity.class);
         intent.putExtra("nombreFormateado", nombreFormateado);
@@ -112,6 +136,10 @@ public class DetallesRecetaActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * Comienza la receta
+     * @param nombreReceta el nombre de la receta
+     */
     private void comenzarReceta(String nombreReceta) {
         Intent intent = new Intent(DetallesRecetaActivity.this, RecetacionActivity.class);
         intent.putExtra("nombreReceta", nombreReceta);
@@ -119,6 +147,9 @@ public class DetallesRecetaActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * Anima el botón de Comenzar
+     */
     private void animarBotonComenzar() {
         Animation pulseAnimation = AnimationUtils.loadAnimation(this, R.anim.pulse_animation);
         buttonComenzarReceta.startAnimation(pulseAnimation);

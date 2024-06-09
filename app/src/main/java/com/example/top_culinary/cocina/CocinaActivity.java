@@ -50,24 +50,26 @@ public class CocinaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cocina);
-
-        // Inicializacion de la BD Local y Online
+        // Inicializa la BD Local y Online
         dbHandler = new DBHandler(this);
         firestoreDB = FirebaseFirestore.getInstance();
 
-        // Inicializacion de los widgets
+        // Inicializa los widgets
         initWidgets();
 
-        // Configurar RecyclerView
+        // Configura el RecyclerView
         setupRecyclerView();
 
-        // Configurar Firestore y obtener datos de usuario
+        // Configura Firestore y obtiene los datos de usuario
         setupFirestore();
 
-        // Configurar listeners
+        // Configura los diferentes listeners
         setupListeners();
     }
 
+    /**
+     * Inicializa los widgets
+     */
     private void initWidgets() {
         textViewHola = findViewById(R.id.txvHola);
         textViewNSaludo = findViewById(R.id.txvNombreUsuario);
@@ -80,6 +82,9 @@ public class CocinaActivity extends AppCompatActivity {
         buttonPerfil = findViewById(R.id.imgBPerfil);
     }
 
+    /**
+     * Configura el RecyclerView
+     */
     private void setupRecyclerView() {
         recyclerViewRecetas.setLayoutManager(new LinearLayoutManager(this));
         recetaList = dbHandler.obtenerRecetas();
@@ -87,19 +92,21 @@ public class CocinaActivity extends AppCompatActivity {
         recyclerViewRecetas.setAdapter(adapterReceta);
     }
 
+    /**
+     * Configura Firestore y obtiene los datos de usuario
+     */
     private void setupFirestore() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        String uid = currentUser.getUid(); // Obtenemos el uid del usuario actualmente autenticado
-        // Consulta para obtener el documento del usuario
+        String uid = currentUser.getUid(); // Obtenemos el uid del usuario actual
         firestoreDB.collection("usuarios").document(uid)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
-                            // Si el documento existe, extraemos el nombre de usuario
+                            // Si el documento existe, obtenemos el nombre de usuario
                             String nombreUsuario = document.getString("display_name");
-                            textViewNSaludo.setText(nombreUsuario); // Establecemos el nombre de usuario
+                            textViewNSaludo.setText(nombreUsuario); // Establece el nombre de usuario
                         } else {
                             Log.d("Firestore", "No se encontró el documento del usuario");
                         }
@@ -109,6 +116,9 @@ public class CocinaActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Configura los diferentes listeners
+     */
     private void setupListeners() {
         searchViewIngRec.clearFocus();
         searchViewIngRec.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

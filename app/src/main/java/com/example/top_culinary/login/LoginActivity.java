@@ -27,17 +27,17 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LoginActivity extends AppCompatActivity {
-    // Widgets
+    // Declaracion de las constantes
+    private static final int RC_SIGN_IN = 9001;
+    // Declaracion de las Variables
+    private FirebaseAuth firebaseAuth;
+    private GoogleSignInClient mGoogleSignInClient;
+    // Declaracion de los widgets
     private EditText editTextEmail;
     private EditText editTextContrasenia;
     private Button buttonIniciarSesion;
     private Button buttonRegistro;
     private ImageButton imageButtonGoogle;
-    // Variables
-    private FirebaseAuth firebaseAuth;
-    private GoogleSignInClient mGoogleSignInClient;
-    // Constantes
-    private static final int RC_SIGN_IN = 9001;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -21,7 +21,6 @@ import com.example.top_culinary.model.Ingrediente;
 import java.util.List;
 
 public class AdapterIngrediente extends RecyclerView.Adapter<AdapterIngrediente.ItemViewHolder> {
-    // Inicializamos las variables
     private List<Ingrediente> ingredientesList;
     private OnItemSelectListener onItemSelectListener;
 
@@ -50,7 +49,6 @@ public class AdapterIngrediente extends RecyclerView.Adapter<AdapterIngrediente.
                 .into(holder.imageViewIngrediente);
         holder.textViewNombreIngrediente.setText(ingrediente.getNombre());
         holder.textViewPrecioIngrediente.setText(ingrediente.getPrecio()+"€");
-        // Establece un onClickListener al boton de añadir al carrito para añadir el ingrediente seleccionado al carrito
         holder.buttonComprarIngrediente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,9 +65,7 @@ public class AdapterIngrediente extends RecyclerView.Adapter<AdapterIngrediente.
     }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder{
-        // Declaracion de las variables
         private DBHandler dbHandler;
-        // Declaracion de los widgets
         CardView cardViewIngrediente;
         LinearLayout linearLayoutIngrediente;
         ImageView imageViewIngrediente;
@@ -79,9 +75,7 @@ public class AdapterIngrediente extends RecyclerView.Adapter<AdapterIngrediente.
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
-            // Inicializacion de las variables
             dbHandler = new DBHandler(itemView.getContext());
-            // Inicializacion de los widgets
             cardViewIngrediente = itemView.findViewById(R.id.cardViewIngrediente);
             linearLayoutIngrediente = itemView.findViewById(R.id.linearLayoutIngrediente);
             imageViewIngrediente = itemView.findViewById(R.id.imageViewIngrediente);

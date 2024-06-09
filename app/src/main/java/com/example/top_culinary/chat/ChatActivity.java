@@ -30,9 +30,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChatActivity extends AppCompatActivity {
+    // Declaracion de las variables
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore firebaseFirestore;
     private List<Chat> chats = new ArrayList<>();
+    // Declaracion de los widgets
     private AdapterChatsUsuario adapterChatsUsuario;
     ImageButton buttonBuscarUsuarios;
     RecyclerView recyclerViewChats;
@@ -45,22 +47,24 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-
+        // Obtiene el nombre de usuario del intent
         Intent intent = getIntent();
         String nombreFormateado = intent.getStringExtra("nombreFormateado");
 
+        // Inicializa los widgets
         buttonBuscarUsuarios = findViewById(R.id.imageButtonBuscarUsuarios);
         recyclerViewChats = findViewById(R.id.recyclerViewChats);
         recyclerViewChats.setLayoutManager(new LinearLayoutManager(this));
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
+        // Cargamos los chats disponibles que dispone nuestro usuario
         cargarChats();
 
         buttonAniadirRecetas = findViewById(R.id.imgBRecetas);
         buttonCesta = findViewById(R.id.imgBCesta);
         buttonCocina = findViewById(R.id.imgBCocina);
         buttonPerfil = findViewById(R.id.imgBPerfil);
-
+        // Establecemos los listeners a todos los botones de la actividad
         buttonBuscarUsuarios.setOnClickListener(v -> iniciarBuscarUsuarios(nombreFormateado));
         buttonAniadirRecetas.setOnClickListener(v -> iniciarAniadirRecetas(nombreFormateado));
         buttonCesta.setOnClickListener(v -> iniciarCesta(nombreFormateado));
@@ -68,6 +72,9 @@ public class ChatActivity extends AppCompatActivity {
         buttonPerfil.setOnClickListener(v -> iniciarPerfil(nombreFormateado));
     }
 
+    /**
+     * Carga los chats disponibles para el usuario actual
+     */
     private void cargarChats() {
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
         if (currentUser == null) {
@@ -99,7 +106,9 @@ public class ChatActivity extends AppCompatActivity {
                             userDocTask.addOnSuccessListener(userDocument -> {
                                 if (userDocument.exists()) {
                                     String otherUserName = userDocument.getString("display_name");
+                                    String otherUserAvatarUrl = userDocument.getString("urlImagenUsuario");
                                     chat.setNombreUsuario(otherUserName);
+                                    chat.setAvatarUrl(otherUserAvatarUrl);
                                     chats.add(chat);
                                     Log.d("ChatActivity", "Chat añadido: " + chat.getNombreUsuario());
                                 }
@@ -122,12 +131,16 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Actualiza la interfaz de usuario con los chats disponibles
+     */
     private void updateUI() {
         if (adapterChatsUsuario == null) {
             adapterChatsUsuario = new AdapterChatsUsuario(ChatActivity.this, chats, chat -> {
                 Intent intent = new Intent(ChatActivity.this, MensajesActivity.class);
                 intent.putExtra("chatId", chat.getId());
                 intent.putExtra("otherUserId", getOtherUserId(chat.getParticipantIds(), firebaseAuth.getCurrentUser().getUid()));
+                intent.putExtra("otherUserAvatarUrl", chat.getAvatarUrl());
                 startActivity(intent);
             });
             recyclerViewChats.setAdapter(adapterChatsUsuario);
@@ -136,6 +149,12 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Obtiene el id del usuario que no es el actual
+     * @param participantIds participantes del chat
+     * @param currentUserId id del usuario actual
+     * @return id del usuario que no es el actual
+     */
     private String getOtherUserId(List<String> participantIds, String currentUserId) {
         for (String id : participantIds) {
             if (!id.equals(currentUserId)) {
@@ -145,6 +164,10 @@ public class ChatActivity extends AppCompatActivity {
         return null;
     }
 
+    /**
+     * Inicia la actividad de busqueda de usuarios
+     * @param nombreFormateado nombre del usuario actual
+     */
     private void iniciarBuscarUsuarios(String nombreFormateado) {
         Intent intent = new Intent(this, BuscadorUsuariosActivity.class);
         intent.putExtra("nombreFormateado", nombreFormateado);
@@ -153,6 +176,10 @@ public class ChatActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * Inicia la actividad de aniadir recetas
+     * @param nombreFormateado nombre del usuario actual
+     */
     private void iniciarAniadirRecetas(String nombreFormateado) {
         Intent intent = new Intent(this, AniadirRecetasActivity.class);
         intent.putExtra("nombreFormateado", nombreFormateado);
@@ -161,6 +188,10 @@ public class ChatActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * Inicia la actividad de la cesta
+     * @param nombreFormateado nombre del usuario actual
+     */
     private void iniciarCesta(String nombreFormateado) {
         Intent intent = new Intent(this, CestaActivity.class);
         intent.putExtra("nombreFormateado", nombreFormateado);
@@ -169,6 +200,10 @@ public class ChatActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * Inicia la actividad de la cocina
+     * @param nombreFormateado nombre del usuario actual
+     */
     private void iniciarCocina(String nombreFormateado) {
         Intent intent = new Intent(this, CocinaActivity.class);
         intent.putExtra("nombreFormateado", nombreFormateado);
@@ -177,6 +212,10 @@ public class ChatActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * Inicia la actividad del perfil
+     * @param nombreFormateado nombre del usuario actual
+     */
     private void iniciarPerfil(String nombreFormateado) {
         Intent intent = new Intent(this, PerfilActivity.class);
         intent.putExtra("nombreFormateado", nombreFormateado);
